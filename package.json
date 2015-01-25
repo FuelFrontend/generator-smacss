@@ -3,7 +3,11 @@
   "version": "0.0.1",
   "description": "Perfectionist Frontend Generator",
   "author": "",
-  "license": "ISC",
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
   "keywords": [
     "yeoman-generator",
     "scaffold",
@@ -18,7 +22,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "yeoman-generator": "^0.17.3"
+    "yeoman-generator": "^0.17.3",
+    "chalk": "~0.4.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
   },
   "repository": {
     "type": "git",
