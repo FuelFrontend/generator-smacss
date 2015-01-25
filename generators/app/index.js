@@ -1,5 +1,6 @@
 'use strict';
 var yeoman = require('yeoman-generator'),
+		fs = require('fs'),
 		util = require('util'),
 		path = require('path'),
 		yosay = require('yosay'),
@@ -7,7 +8,8 @@ var yeoman = require('yeoman-generator'),
 
 var smacssGenerator = yeoman.generators.Base.extend({
 
-	// Structure
+	// STRUCTURE
+	// constructor
 	// initializing
 	// prompting
 	// configuring
@@ -17,16 +19,50 @@ var smacssGenerator = yeoman.generators.Base.extend({
 	// install
 	// end
 
-	init: function () {
-		// Welcome Message
-		this.log(yosay('Yo! Welcome to SMACSS'));
-		console.log(chalk.magenta.bold('You\'re using the perfectionist generator for frontend.'));
-		console.log(chalk.gray('================================================================'));
-		console.log(chalk.gray('Answer (3) simple questions to kick start your project'));
+	constructor: function () {
+		// note: arguments and options should be defined in the constructor.
+	    yeoman.generators.Base.apply(this, arguments);
+
+	    this.option('skip-welcome-message', {
+	      desc: 'Skips the welcome message',
+	      type: Boolean
+	    });
+
+	    this.option('skip-install', {
+	      desc: 'Skips the installation of dependencies',
+	      type: Boolean
+	    });
+
+	    this.option('skip-install-message', {
+	      desc: 'Skips the message after the installation of dependencies',
+	      type: Boolean
+	    });
+
+		// This makes `appname` a required argument.
+		// this.argument('appname', { type: String, required: true });
+		// And you can then access it later on this way; e.g. CamelCased
+		// this.appname = this._.camelize(this.appname);
+
+	    // This method adds support for a `--coffee` flag
+	    this.option('coffee');
+	    // And you can then access it later on this way; e.g.
+	    this.scriptSuffix = (this.options.coffee ? ".coffee": ".js");
+	},
+
+	initializing: function () {
+		this.pkg = require('../../package.json');
 	},
 
 	prompting: function () {
 	    var done = this.async();
+
+	    if (!this.options['skip-welcome-message']) {
+	      // Welcome Message
+				this.log(yosay('Yo! Welcome to SMACSS'));
+				console.log(chalk.magenta.bold('You\'re using the perfectionist generator for frontend.'));
+				console.log(chalk.gray('================================================================'));
+				console.log(chalk.gray('Answer (3) simple questions to kick start your project'));
+	    }
 
 	    var prompts = [{
 	      name: 'appName',
@@ -98,21 +134,6 @@ var smacssGenerator = yeoman.generators.Base.extend({
 
 	      done();
 	    }.bind(this));
-	},
-
-	constructor: function () {
-		// note: arguments and options should be defined in the constructor.
-	    yeoman.generators.Base.apply(this, arguments);
-
-		// This makes `appname` a required argument.
-		// this.argument('appname', { type: String, required: true });
-		// And you can then access it later on this way; e.g. CamelCased
-		// this.appname = this._.camelize(this.appname);
-
-	    // This method adds support for a `--coffee` flag
-	    this.option('coffee');
-	    // And you can then access it later on this way; e.g.
-	    this.scriptSuffix = (this.options.coffee ? ".coffee": ".js");
 	},
 
 	app: function() {
