@@ -9,6 +9,7 @@ var yeoman = require('yeoman-generator'),
 var smacssGenerator = yeoman.generators.Base.extend({
 
 	// STRUCTURE
+
 	// constructor
 	// initializing
 	// prompting
