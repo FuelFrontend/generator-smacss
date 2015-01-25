@@ -1,6 +1,6 @@
-# Perfectionist Generator for Frontend Projects
+# Generator for Frontend Projects
 
-Yeoman generator that scaffolds out a front-end web app using different technologies
+Perfectionist yeoman generator that scaffolds out different types of front-end apps
 
 # Features
 
@@ -10,12 +10,12 @@ Yeoman generator that scaffolds out a front-end web app using different technolo
 
 # Getting Started
 
-Install dependencies: npm install --global yo bower gulp
-Install the generator: npm install --global generator-smacss
-Run yo smacss to scaffold your webapp
-Run gulp serve to preview and watch for changes
-Run bower install --save <package> to install frontend dependencies
-Run gulp to build your webapp for production
+- Install dependencies: `npm install --global yo bower gulp`
+- Install the generator: `npm install --global generator-smacss`
+- Run `yo smacss` to scaffold your webapp
+- Run `gulp serve` to preview and watch for changes
+- Run `bower install --save <package>` to install frontend dependencies
+- Run `gulp` to build your webapp for production
 
 # Docs
 
@@ -23,5 +23,5 @@ To be updated soon...
 
 # Options
 
-* --skip-install Skips the automatic execution of bower and npm after scaffolding has finished.
-* --test-framework=<framework> Defaults to mocha. Can be switched for another supported testing framework like jasmine.
+- `--skip-install` Skips the automatic execution of bower and npm after scaffolding has finished.
+- `--test-framework=<framework>` Defaults to `mocha`. Can be switched for another supported testing framework like `jasmine`.
