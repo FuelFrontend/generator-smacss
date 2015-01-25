@@ -12,8 +12,8 @@
     "smacss",
     "web-generator"
   ],
-  "homepage": "https://github.com/yeoman/generator-backbone",
-  "bugs": "https://github.com/yeoman/generator-backbone/issues",
+  "homepage": "https://github.com/FuelFrontend/generator-smacss",
+  "bugs": "https://github.com/FuelFrontend/generator-smacss/issues",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
