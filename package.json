@@ -2,7 +2,11 @@
   "name": "generator-smacss",
   "version": "0.0.1",
   "description": "Perfectionist Frontend Generator",
-  "author": "",
+  "author": {
+      "name": "",
+      "email": "",
+      "url": ""
+  },
   "licenses": [
     {
       "type": "MIT"
@@ -21,9 +25,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+      "node": ">=0.10.0"
+  },
   "dependencies": {
     "yeoman-generator": "^0.17.3",
-    "chalk": "~0.4.0"
+    "chalk": "~0.4.0",
+    "yosay": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "*"

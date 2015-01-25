@@ -1,22 +1,26 @@
 'use strict';
-var generators = require('yeoman-generator'),
+var yeoman = require('yeoman-generator'),
+		util = require('util'),
+		path = require('path'),
+		yosay = require('yosay'),
 		chalk = require('chalk');
 
-var MyBase = generators.Base.extend({
+var smacssGenerator = yeoman.generators.Base.extend({
 
-	// TODO
-	// [X] initializing
-	// [ ] prompting
-	// [ ] configuring
-	// [ ] default
-	// [ ] writing
-	// [ ] conflicts
-	// [ ] install
-	// [ ] end
+	// Structure
+	// initializing
+	// prompting
+	// configuring
+	// default
+	// writing
+	// conflicts
+	// install
+	// end
 
 	init: function () {
-		console.log(this.yeoman);
-		console.log(chalk.magenta.bold('You\'re using the perfect frontend generator. Welcome to SMACSS!'));
+		// Welcome Message
+		this.log(yosay('Yo! Welcome to SMACSS'));
+		console.log(chalk.magenta.bold('You\'re using the perfectionist generator for frontend.'));
 		console.log(chalk.gray('================================================================'));
 		console.log(chalk.gray('Answer (3) simple questions to kick start your project'));
 	},
@@ -25,11 +29,11 @@ var MyBase = generators.Base.extend({
 	    var done = this.async();
 
 	    var prompts = [{
-	      name: 'appname',
+	      name: 'appName',
 	      message: 'What would you like to name your app/site?',
 	      default: 'New Project'
 	    },{
-				name: 'apptype',
+				name: 'appType',
 				message: 'Kind of app/site you are trying to build?',
 				type: 'list',
 				choices:[{
@@ -51,7 +55,7 @@ var MyBase = generators.Base.extend({
 		    }],
 	      default: 1
 	    },{
-				name: 'appfeatures',
+				name: 'appFeatures',
 				message: 'How about some additional features',
 				type: 'checkbox',
 				choices:[{
@@ -70,14 +74,27 @@ var MyBase = generators.Base.extend({
 	    }];
 
 	    this.prompt(prompts, function (props) {
-	    	var appName = props.appname;
-	    	var appType = props.apptype;
-	    	var appFeatures = props.appfeatures;
+	    	this.appName = props.appName;
+	    	this.appType = props.appType;
+	    	this.appFeatures = props.appFeatures;
+	    	this.response = props.response;
+        this.taskrunner = props.taskrunner;
+        this.csspreprocessor = props.csspreprocessor;
 
-	    	this.log("=============================== Creating project with following details  ===============================")
-	    	this.log('App Name: ' + appName);
-	    	this.log('App Type: ' + appType);
-	    	this.log('App Features: ' + appFeatures);
+	    	this.log(chalk.gray('================================================================'));
+	    	this.log(chalk.gray('Creating the project for you, please wait...'));
+
+	    	/*
+	    	var hasFeature = function (feat) {
+              return props.features.indexOf(feat) !== -1;
+        };
+
+        this.includeRespondJS = hasFeature('includeRespondJS');
+        this.includePlaceholderJS = hasFeature('includePlaceholderJS');
+        this.includeBackgroundSizeJS = hasFeature('includeBackgroundSizeJS');
+        this.includeSelectivizrJS = hasFeature('includeSelectivizrJS');
+        this.includeModernizr = hasFeature('includeModernizr');
+        */
 
 	      done();
 	    }.bind(this));
@@ -85,7 +102,7 @@ var MyBase = generators.Base.extend({
 
 	constructor: function () {
 		// note: arguments and options should be defined in the constructor.
-	    generators.Base.apply(this, arguments);
+	    yeoman.generators.Base.apply(this, arguments);
 
 		// This makes `appname` a required argument.
 		// this.argument('appname', { type: String, required: true });
@@ -98,36 +115,55 @@ var MyBase = generators.Base.extend({
 	    this.scriptSuffix = (this.options.coffee ? ".coffee": ".js");
 	},
 
+	app: function() {
+		this.mkdir(this.appName);
+		this.mkdir(this.appName + '/app');
+    this.mkdir(this.appName + '/app/css');
+    this.mkdir(this.appName + '/app/js');
+    this.mkdir(this.appName + '/app/fonts');
+    this.mkdir(this.appName + '/app/img');
+    this.log(chalk.green('Your project is created, cd to your project to-do more!'));
+	},
+
 	helper: function () {
-  	console.log('Need some Help?');
+  	//console.log('Need some Help?');
 	},
 
 	errorHanding: function () {
-    this.log('Something has gone wrong!');
+    //this.log('Something has gone wrong!');
 	},
 
 	install: function () {
-		generator.installDependencies();
+		//generator.installDependencies();
     //this.spawnCommand('composer', ['install']);
   },
 
   paths: function () {
-    var destinationRoot = this.destinationRoot();
+    //var destinationRoot = this.destinationRoot();
     //this.log(destinationRoot);
     // returns '~/projects'
 
     // this.destinationPath('index.js');
     // returns '~/projects/index.js'
+  },
+
+  projectfiles: function() {
+    // this.copy('editorconfig', '.editorconfig');
+    // this.copy('jshintrc', '.jshintrc');
   }
 });
 
-module.exports = MyBase.extend({
-  exec: function () {
-  	// Welcome Message and intialiazer
-    this.init();
-    this.paths();
+module.exports = smacssGenerator;
 
-    // Ask the User for Project Configuration
-    this.prompting();
-  }
-});
+
+// module.exports = smacssGenerator.extend({
+//   exec: function () {
+//   	// Welcome Message and intialiazer
+//     this.init();
+//     this.paths();
+//     this.app();
+
+//     // Ask the User for Project Configuration
+//     this.prompting();
+//   }
+// });
