@@ -4,22 +4,32 @@ Perfectionist yeoman generator that scaffolds out different types of front-end a
 
 # Features
 
-- Create projects in simple steps
-- Uses SMACSS approach
-- Build in components to speed up your development
+- Create all type of projects in fairly simple steps
+- Uses SMACSS approach (BEM, OOCSS, ITCSS to be followed soon)
+- Build in components, naming convention, directory structure to speed up your development
 
 # Getting Started
 
+This generator is build using Yeomen, Gulp & Bower. Please install those on your machine
 - Install dependencies: `npm install --global yo bower gulp`
+
+Install the generator globally to use it kick start your web projects
 - Install the generator: `npm install --global generator-smacss`
+
+Ready to create your project?
 - Run `yo smacss` to scaffold your webapp
-- Run `gulp serve` to preview and watch for changes
-- Run `bower install --save <package>` to install frontend dependencies
-- Run `gulp` to build your webapp for production
+- Follow (3) simple questions in terminal
+
+The generator will try to install the node modules for you, Make sure you have admin rights on your machine. You can also manually install using below command
+
+- Run `sudo npm install` followed by your password
+
+Showtime!
+- Run `gulp` to run the server, You are all done.
 
 # Docs
 
-To be updated soon...
+To be updated soon... stay tuned
 
 # Options
 

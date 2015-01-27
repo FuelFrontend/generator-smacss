@@ -51,7 +51,7 @@ var smacssGenerator = yeoman.generators.Base.extend({
 	},
 
 	initializing: function () {
-		this.pkg = require('../../package.json');
+		this.pkg = require('../package.json');
 	},
 
 	prompting: function () {
@@ -111,40 +111,61 @@ var smacssGenerator = yeoman.generators.Base.extend({
 	    }];
 
 	    this.prompt(prompts, function (props) {
-    	this.appName = props.appName;
-    	this.appType = props.appType;
-    	this.appFeatures = props.appFeatures;
-    	this.response = props.response;
-        this.taskrunner = props.taskrunner;
-        this.csspreprocessor = props.csspreprocessor;
+	    	this.appName = props.appName;
+	    	this.appType = props.appType;
+	    	this.appFeatures = props.appFeatures;
+	    	this.response = props.response;
+	        this.taskrunner = props.taskrunner;
+	        this.csspreprocessor = props.csspreprocessor;
 
-    	this.log(chalk.gray('================================================================'));
-    	this.log(chalk.gray('Creating the project for you, please wait...'));
+	    	this.log(chalk.gray('================================================================'));
+	    	this.log(chalk.gray('Creating the project for you, please wait...'));
 
-    	/*
-    	var hasFeature = function (feat) {
-          return props.features.indexOf(feat) !== -1;
-        };
+	    	/*
+	    	var hasFeature = function (feat) {
+	          return props.features.indexOf(feat) !== -1;
+	        };
 
-        this.includeRespondJS = hasFeature('includeRespondJS');
-        this.includePlaceholderJS = hasFeature('includePlaceholderJS');
-        this.includeBackgroundSizeJS = hasFeature('includeBackgroundSizeJS');
-        this.includeSelectivizrJS = hasFeature('includeSelectivizrJS');
-        this.includeModernizr = hasFeature('includeModernizr');
-        */
+	        this.includeRespondJS = hasFeature('includeRespondJS');
+	        this.includePlaceholderJS = hasFeature('includePlaceholderJS');
+	        this.includeBackgroundSizeJS = hasFeature('includeBackgroundSizeJS');
+	        this.includeSelectivizrJS = hasFeature('includeSelectivizrJS');
+	        this.includeModernizr = hasFeature('includeModernizr');
+	        */
 
-	    done();
+		    done();
 	    }.bind(this));
 	},
 
-	app: function() {
-		this.mkdir(this.appName);
+	scaffoldFolders: function() {
 		this.mkdir(this.appName + '/app');
 		this.mkdir(this.appName + '/app/css');
+		this.mkdir(this.appName + '/app/scss');
 		this.mkdir(this.appName + '/app/js');
 		this.mkdir(this.appName + '/app/fonts');
-		this.mkdir(this.appName + '/app/img');
+		this.mkdir(this.appName + '/app/images');
+		this.mkdir(this.appName + '/app/section');
+		this.mkdir(this.appName + '/build');
 		this.log(chalk.green('Your project is created, cd to your project to-do more!'));
+	},
+
+	copyMainFiles: function() {
+		var context = {
+			site_name: this.appName
+		};
+
+		this.template("_package.json", this.appName + "/package.json", context);
+		this.copy("_gulpfile.js", this.appName + "/gulpfile.js");
+
+		// HOMEPAGE
+		this.template("_index.html", this.appName + "/app/index.html", context);
+
+		// TODO: Add this after integrating gulp-partial
+		// this.template("_header.html", this.appName + "/app/header.html", context);
+		// this.copy("_footer.html", this.appName + "/app/footer.html");
+
+		// CSS
+		this.copy("_main.css", this.appName + "/app/css/main.css");
 	},
 
 	helper: function () {
@@ -156,8 +177,9 @@ var smacssGenerator = yeoman.generators.Base.extend({
 	},
 
 	install: function () {
-		//generator.installDependencies();
-		//this.spawnCommand('composer', ['install']);
+		this.installDependencies({
+			skipInstall: this.options['skip-install']
+		});
   	},
 
 	paths: function () {
