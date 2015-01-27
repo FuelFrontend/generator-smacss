@@ -55,15 +55,15 @@ var smacssGenerator = yeoman.generators.Base.extend({
         if (!this.options['skip-welcome-message']) {
             // Welcome Message
             this.log(yosay('Yo! Welcome to SMACSS'));
-            console.log(chalk.magenta.bold('You\'re using the perfectionist generator for frontend.'));
-            console.log(chalk.gray('================================================================'));
-            console.log(chalk.gray('Answer (3) simple questions to kick start your project'));
+            this.log(chalk.magenta.bold('You\'re using the perfectionist generator for frontend.'));
+            this.log(chalk.gray('================================================================'));
+            this.log(chalk.gray('Answer (3) simple questions to kick start your project'));
         }
 
         var prompts = [{
             name: 'appName',
             message: 'What would you like to name your app/site?',
-            default: 'New Project'
+            default: 'smacssProject' // TODO: Replace with current directory [TBD]
         },{
             name: 'appType',
             message: 'Kind of app/site you are trying to build?',
@@ -77,12 +77,8 @@ var smacssGenerator = yeoman.generators.Base.extend({
                 value: 'includeAngularApp',
                 checked: false
             },{
-                name: 'Ember App',
-                value: 'includeEmberApp',
-                checked: false
-            },{
-                name: 'Mobile App',
-                value: 'includeMobileApp',
+                name: 'Hybrid App',
+                value: 'includeHybridApp',
                 checked: false
             }],
             default: 1
@@ -91,12 +87,12 @@ var smacssGenerator = yeoman.generators.Base.extend({
             message: 'How about some additional features',
             type: 'checkbox',
             choices:[{
-                name: 'Modernizr',
-                value: 'includeModernizr',
-                checked: false
-            },{
                 name: 'jQuery',
                 value: 'includeQuery',
+                checked: false
+            },{
+                name: 'Modernizr',
+                value: 'includeModernizr',
                 checked: false
             },{
                 name: 'Respond',
@@ -116,11 +112,11 @@ var smacssGenerator = yeoman.generators.Base.extend({
             this.log(chalk.gray('================================================================'));
             this.log(chalk.gray('Creating the project for you, please wait...'));
 
+            // TODO: Handle project creation based on user selection
             /*
             var hasFeature = function (feat) {
               return props.features.indexOf(feat) !== -1;
             };
-
             this.includeRespondJS = hasFeature('includeRespondJS');
             this.includePlaceholderJS = hasFeature('includePlaceholderJS');
             this.includeBackgroundSizeJS = hasFeature('includeBackgroundSizeJS');
@@ -145,6 +141,7 @@ var smacssGenerator = yeoman.generators.Base.extend({
     },
 
     copyMainFiles: function() {
+        // Underscore templating context to replace placeholders
         var context = {
             site_name: this.appName
         };
@@ -152,10 +149,9 @@ var smacssGenerator = yeoman.generators.Base.extend({
         this.template("_package.json", this.appName + "/package.json", context);
         this.copy("_gulpfile.js", this.appName + "/gulpfile.js");
 
-        // HOMEPAGE
+        // HTML
         this.template("_index.html", this.appName + "/app/index.html", context);
-
-        // TODO: Add this after integrating gulp-partial
+        // TODO: Add below code after integrating gulp-partial
         // this.template("_header.html", this.appName + "/app/header.html", context);
         // this.copy("_footer.html", this.appName + "/app/footer.html");
 
@@ -165,15 +161,18 @@ var smacssGenerator = yeoman.generators.Base.extend({
         this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
         this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
         this.copy("scss/_module.scss", this.appName + "/app/scss/module.scss");
-        this.copy("scss/_page.scss", this.appName + "/app/scss/page.scss");
+        this.copy("scss/_page_landing.scss", this.appName + "/app/scss/page-landing.scss");
+
+        // JS
+        // TODO: Add JS Structure
     },
 
     helper: function () {
-        //console.log('Need some Help?');
+        //this.log('App Helper functions and methods');
     },
 
     errorHanding: function () {
-        //this.log('Something has gone wrong!');
+        //this.log('Something has gone wrong! Handle errors in this section');
     },
 
     install: function () {
@@ -183,15 +182,11 @@ var smacssGenerator = yeoman.generators.Base.extend({
     },
 
     paths: function () {
-        //var destinationRoot = this.destinationRoot();
-        //this.log(destinationRoot);
-        // returns '~/projects'
-
-        // this.destinationPath('index.js');
-        // returns '~/projects/index.js'
+        //this.log('Path Handling');
     },
 
     projectfiles: function() {
+        // TODO: Handle project file copying here
         // this.copy('editorconfig', '.editorconfig');
         // this.copy('jshintrc', '.jshintrc');
     }
