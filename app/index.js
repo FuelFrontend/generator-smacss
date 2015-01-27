@@ -161,6 +161,11 @@ var smacssGenerator = yeoman.generators.Base.extend({
 
         // CSS
         this.copy("_main.css", this.appName + "/app/css/main.css");
+        this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
+        this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
+        this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
+        this.copy("scss/_module.scss", this.appName + "/app/scss/module.scss");
+        this.copy("scss/_page.scss", this.appName + "/app/scss/page.scss");
     },
 
     helper: function () {
