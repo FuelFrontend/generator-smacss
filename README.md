@@ -18,7 +18,7 @@ Install the generator globally to use it kick start your web projects
 
 Ready to create your project?
 - Run `yo smacss` to scaffold your webapp
-- Follow (3) simple questions in terminal
+- Answer (3) simple questions in terminal
 
 The generator will try to install the node modules for you, Make sure you have admin rights on your machine. You can also manually install using below command
 
