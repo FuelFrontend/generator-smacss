@@ -137,7 +137,6 @@ var smacssGenerator = yeoman.generators.Base.extend({
         this.mkdir(this.appName + '/app/images');
         this.mkdir(this.appName + '/app/section');
         this.mkdir(this.appName + '/build');
-        this.log(chalk.green('Your project is created, cd to your project to-do more!'));
     },
 
     copyMainFiles: function() {
@@ -156,7 +155,7 @@ var smacssGenerator = yeoman.generators.Base.extend({
         // this.copy("_footer.html", this.appName + "/app/footer.html");
 
         // CSS
-        this.copy("_main.css", this.appName + "/app/css/main.css");
+        this.copy("_master.css", this.appName + "/app/css/master.css");
         this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
         this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
         this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
@@ -165,6 +164,8 @@ var smacssGenerator = yeoman.generators.Base.extend({
 
         // JS
         // TODO: Add JS Structure
+
+        this.log(chalk.green('Your project is created, cd to your project to-do more!'));
     },
 
     helper: function () {
