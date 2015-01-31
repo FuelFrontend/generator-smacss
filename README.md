@@ -1,5 +1,7 @@
 # Generator for Frontend Projects
 
+[![Join the chat at https://gitter.im/FuelFrontend/generator-smacss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FuelFrontend/generator-smacss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Perfectionist yeoman generator that scaffolds out different types of front-end apps
 
 # Features
