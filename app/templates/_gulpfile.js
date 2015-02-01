@@ -1,7 +1,8 @@
 var gulp = require('gulp'),
 	sass = require('gulp-sass'),
 	concat = require('gulp-concat'),
-	browserSync = require('browser-sync');
+	browserSync = require('browser-sync'),
+    fileinclude = require('gulp-file-include');
 
 gulp.task('sass', function () {
     gulp.src(['app/scss/master.scss'])
@@ -17,6 +18,15 @@ gulp.task('browser-sync', function() {
             baseDir: "./app"
         }
     });
+});
+
+gulp.task('fileinclude', function() {
+  gulp.src(['index.html'])
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('default', ['sass', 'browser-sync'], function () {

@@ -160,6 +160,9 @@ var smacssGenerator = yeoman.generators.Base.extend({
         this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
         this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
         this.copy("scss/_module.scss", this.appName + "/app/scss/module.scss");
+        this.copy("scss/_reset.scss", this.appName + "/app/scss/reset.scss");
+        this.copy("scss/_variables.scss", this.appName + "/app/scss/variables.scss");
+        this.copy("scss/_mixins.scss", this.appName + "/app/scss/mixins.scss");
         this.copy("scss/_page_landing.scss", this.appName + "/app/scss/page-landing.scss");
 
         // JS
