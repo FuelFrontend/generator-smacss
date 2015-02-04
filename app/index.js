@@ -23,7 +23,6 @@ var smacssGenerator = yeoman.generators.Base.extend({
     constructor: function () {
         // note: arguments and options should be defined in the constructor.
         yeoman.generators.Base.apply(this, arguments);
-
         this.option('skip-welcome-message', {
             desc: 'Skips the welcome message',
             type: Boolean
@@ -133,9 +132,10 @@ var smacssGenerator = yeoman.generators.Base.extend({
         this.mkdir(this.appName + '/app/css');
         this.mkdir(this.appName + '/app/scss');
         this.mkdir(this.appName + '/app/js');
-        this.mkdir(this.appName + '/app/fonts');
         this.mkdir(this.appName + '/app/images');
-        this.mkdir(this.appName + '/app/section');
+        this.mkdir(this.appName + '/app/fonts');
+        this.mkdir(this.appName + '/app/partials');
+        this.mkdir(this.appName + '/app/bower_components');
         this.mkdir(this.appName + '/build');
     },
 
@@ -145,8 +145,11 @@ var smacssGenerator = yeoman.generators.Base.extend({
             site_name: this.appName
         };
 
-        this.template("_package.json", this.appName + "/package.json", context);
+        // COPY DOT/PACKAGE FILES
+        this.template("_bowerrc", this.appName + "/.bowerrc", context);
         this.copy("_gulpfile.js", this.appName + "/gulpfile.js");
+        this.template("_package.json", this.appName + "/package.json", context);
+        this.template("_bower.json", this.appName + "/bower.json", context);
 
         // HTML
         this.template("_index.html", this.appName + "/app/index.html", context);
