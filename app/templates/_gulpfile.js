@@ -1,6 +1,7 @@
 'use strict';
 /*-----------------------------------------------------------
-GULP: DEPENDENCIES DEFINTION
+ GULP: DEPENDENCIES
+ Define the variables of your dependencies in this section
 -----------------------------------------------------------*/
 var gulp = require('gulp'),
     del = require('del'),
@@ -19,7 +20,8 @@ var gulp = require('gulp'),
 var plugins = gulploadPlugins();
 
 /*-----------------------------------------------------------
-GULP: CONFIGURATION
+ GULP: APP CONFIGURATION
+ Source, Build folder and other application configuration
 -----------------------------------------------------------*/
 // Source Path
 var src = {
@@ -73,37 +75,33 @@ var opts = {
 
 // Chalk config
 var error = chalk.red.bold,
-    warning = chalk.yellow.bold,
-    update = chalk.blue,
+    warning = chalk.black.bold.bgYellow,
+    update = chalk.yellow.underline,
     success = chalk.green;
 
 /*-----------------------------------------------------------
-GULP: TASKS
+ GULP : APP TASKS
+ Necessary gulp tasks required to run your application like
+ magic. Feel free to add more tasks in this area
 -----------------------------------------------------------*/
-/*-----------------------------------------------------------
-GULP: TASKS :: List all gulp tasks
------------------------------------------------------------*/
-
-gulp.task('help', plugins.taskListing);
-
-/*-----------------------------------------------------------
-GULP: TASKS :: Start server and live reload
------------------------------------------------------------*/
+/*===========================================================
+ GULP : APP TASKS :: Start server and live reload
+===========================================================*/
 
 gulp.task('server', function () {
 
-    console.log(update('\n --------- Server started at http://localhost:'+ serverConfiguration.port +' ------------------------ \n'));
+    console.log(update('\n--------- Server started at http://localhost:'+ serverConfiguration.port +' ------------------------\n'));
     return gulp.src('build')
         .pipe(plugins.webserver(serverConfiguration));
 });
 
-/**================================================
-GULP: TASKS :: HTML -- minify html to build
-===================================================*/
+/*===========================================================
+ GULP : APP TASKS :: HTML -- Minify html to build
+===========================================================*/
 
 gulp.task('html', function () {
 
-    console.log(update('\n --------- Running HTML tasks ------------------------------------------ \n '));
+    console.log(update('\n--------- Running HTML tasks ------------------------------------------\n'));
     return gulp.src([src.root + '/*.html', src.root + '/**/*.html'])
         .pipe(gulpIf(production, plugins.minifyHtml(opts)))
         .pipe(plugins.fileInclude({
@@ -114,18 +112,18 @@ gulp.task('html', function () {
         .pipe(gulp.dest(build.root));
 });
 
-/**================================================
-GULP: TASKS :: CSS & SASS -- minify, concat
-===================================================*/
+/*===========================================================
+ GULP : APP TASKS :: CSS & SASS -- minify, concat
+===========================================================*/
 
 var callback = function (err) {
-    console.log(error('\n SASS file has error clear it to see changes, check the log below ------------- \n'));
+    console.log(error('\n--------- SASS file has error clear it to see changes, check the log below -------------\n'));
     console.log(error(err));
 };
 
 gulp.task('sass', function () {
 
-    console.log(update('\n --------- Running SASS tasks -------------------------------------------'));
+    console.log(update('\n--------- Running SASS tasks -------------------------------------------'));
     return gulp.src(['app/scss/master.scss'])
         .pipe(plugins.sass({ onError: callback }))
         .pipe(plugins.size())
@@ -134,7 +132,7 @@ gulp.task('sass', function () {
 
 gulp.task('fonts', function () {
 
-    console.log(update('\n --------- Running Fonts tasks --------------------------------------------'));
+    console.log(update('\n--------- Running Fonts tasks --------------------------------------------\n'));
     return gulp.src([src.fonts + '/*.*', src.fonts + '/**/*.*'])
         .pipe(plugins.size())
         .pipe(gulp.dest(build.fonts));
@@ -142,7 +140,7 @@ gulp.task('fonts', function () {
 
 gulp.task('css', ['sass', 'fonts'], function () {
 
-    console.log(update('\n --------- Running CSS tasks --------------------------------------------'));
+    console.log(update('\n--------- Running CSS tasks --------------------------------------------\n'));
     return gulp.src([src.css + '/**/*.css'])
         .pipe(gulpIf(production, plugins.minifyCss()))
         .pipe(plugins.concat('master.css'))
@@ -150,13 +148,13 @@ gulp.task('css', ['sass', 'fonts'], function () {
         .pipe(gulp.dest(build.css));
 });
 
-/**================================================
-GULP: TASKS :: Script -- js hint & uglify & concat
-===================================================*/
+/*===========================================================
+ GULP: APP TASKS :: Script -- js hint, uglify & concat
+===========================================================*/
 
 gulp.task('scripts', function () {
 
-    console.log(update('\n --------- Running SCRIPT tasks -----------------------------------------'));
+    console.log(update('\n--------- Running SCRIPT tasks -----------------------------------------\n'));
     return gulp.src([src.js + '/*.js', src.js + '/**/*.js'])
         .pipe(plugins.jshint('.jshintrc'))
         .pipe(plugins.jshint.reporter(jshintStylish))
@@ -166,13 +164,13 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest(build.js));
 });
 
-/**================================================
-        Concat - all bower packages
-===================================================*/
+/*===========================================================
+ GULP: APP TASKS :: Concat - all bower packages
+===========================================================*/
 
 gulp.task('concat-bower', function () {
 
-    console.log(update('\n --------- Bower Concat ------------------------------------------------->>> \n'));
+    console.log(update('\n--------- Bower Concat -------------------------------------------------\n'));
     var jsFilter   = plugins.filter('**/*.js'),
         cssFilter  = plugins.filter('**/*.css'),
         fontsFilter = plugins.filter(['**/fonts/**.*']);
@@ -202,27 +200,26 @@ gulp.task('concat-bower', function () {
         .pipe(fontsFilter.restore());
 });
 
-
-/**================================================
-            Images minification
-===================================================*/
+/*===========================================================
+ GULP: APP TASKS :: Images minification
+===========================================================*/
 
 gulp.task('img-min', function () {
 
-    console.log(update('\n --------- Image Minification -------------------------------------------- \n'));
+    console.log(update('\n--------- Image Minification --------------------------------------------\n'));
     return gulp.src([src.images + '/*.*', src.images + '/**/*.*'])
         .pipe(plugins.imagemin())
         .pipe(plugins.size())
         .pipe(gulp.dest(build.images));
 });
 
-/**===============================================
-        Watch -- all files
-=================================================*/
+/*===========================================================
+ GULP: APP TASKS :: Watch -- all files
+===========================================================*/
 
 gulp.task('watch', function () {
 
-    console.log(update('\n --------- Watching All Files ------------------------------------------- \n'));
+    console.log(update('\n--------- Watching All Files -------------------------------------------\n'));
     var HTML  = gulp.watch(['app/*.html', 'app/**/*.html'], ['html']),
         JS      = gulp.watch(['app/*.js', 'app/js/**/*.js'], ['scripts']),
         CSS     = gulp.watch(['app/*.css', 'app/css/**/*.css'], ['css']),
@@ -238,7 +235,7 @@ gulp.task('watch', function () {
                 runSequence('html', 'scripts', 'css', 'watch');
             }, 500);
         }
-        console.log(change('\n -- File ' + event.path + ' was ' + event.type + ' -->>>'));
+        console.log(change('\n--------- File ' + event.path + ' was ' + event.type + ' ------------------------\n'));
     };
 
     //on change print file name and event type
@@ -251,21 +248,9 @@ gulp.task('watch', function () {
     BOWER.once('update', log);
 });
 
-/**================================================
-        Clean - remove files and folder in build
-===================================================*/
-
-gulp.task('clean', function () {
-    console.log(update('\n --------- Clean:Build Folder ------------------------------------------>>> \n'));
-
-    del('build/', function (err) {
-    console.log(update('All are files deleted from the build folder'));
-    });
-});
-
-/**================================================
-        Browser sync to sync with browser
-==================================================*/
+/*==========================================================
+ GULP: APP TASKS :: Browser sync to sync with browser
+===========================================================*/
 
 gulp.task('browser-sync', function () {
     browserSync.init([build.root + '*/*.*', build.root + '**/*.*'],
@@ -274,40 +259,59 @@ gulp.task('browser-sync', function () {
     });
 });
 
-/**================================================
-        Zip all build files with date
-==================================================*/
-
-gulp.task('zip', function () {
-    var date = new Date().toDateString();
-
-    console.log(update('\n --------- Zipping Build Files ------------------------------------------>>> \n'));
-    return gulp.src([build.root + '/**/*'])
-        .pipe(plugins.zip('<%= site_name %> - ' + date + '.zip'))
-        .pipe(plugins.size())
-        .pipe(gulp.dest('./zip/'));
-});
-
-/**===============================================
-        Gulp build Tasks - dev, production
-=================================================*/
+/*-----------------------------------------------------------
+ GULP : ENVIRONMENT
+ Set your environment here, as of now it's development and
+ production. You can also include testing and staging
+-----------------------------------------------------------*/
+/*==========================================================
+ GULP: ENVIRONMENT :: Gulp build Tasks - dev, production
+===========================================================*/
 
 gulp.task('build', function () {
 
-    console.log(update('\n --------- Build Development Mode  -------------------------------------->>> \n'));
+    console.log(update('\n--------- Build Development Mode  --------------------------------------\n'));
     runSequence('html', 'scripts', 'css',  'img-min', 'concat-bower', 'server', 'watch');
 });
 
 gulp.task('prod', function () {
 
-    console.log(update('\n --------- Build Production Mode  --------------------------------------->>> \n'));
+    console.log(update('\n--------- Build Production Mode  ---------------------------------------\n'));
     production = true;
     runSequence('html', 'scripts', 'css', 'img-min', 'concat-bower', 'server', 'watch');
 });
 
-
-/**==============================================
-        Gulp Default Tasks -- build
-=================================================*/
+/*==========================================================
+ GULP: ENVIRONMENT :: Gulp Default Tasks -- build
+===========================================================*/
 
 gulp.task('default', ['build']);
+
+
+/*-----------------------------------------------------------
+ GULP : HELPERS
+ Quick tasks to make your life easier!
+-----------------------------------------------------------*/
+
+// GULP: HELPERS :: List all gulp tasks
+gulp.task('help', plugins.taskListing);
+
+// GULP: HELPERS :: Clean - remove files and folder in build
+gulp.task('clean', function () {
+    console.log(update('\n--------- Clean:Build Folder ------------------------------------------\n'));
+
+    del('build/', function (err) {
+    console.log(update('All are files deleted from the build folder'));
+    });
+});
+
+// GULP: HELPERS :: Zip all build files with date
+gulp.task('zip', function () {
+    var date = new Date().toDateString();
+
+    console.log(update('\n--------- Zipping Build Files ------------------------------------------\n'));
+    return gulp.src([build.root + '/**/*'])
+        .pipe(plugins.zip('<%= site_name %> - ' + date + '.zip'))
+        .pipe(plugins.size())
+        .pipe(gulp.dest('./zip/'));
+});

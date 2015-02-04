@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "Perfectionist Frontend Generator",
   "author": {
-      "name": "",
-      "email": "",
-      "url": ""
+      "name": "Logesh Paul",
+      "email": "logeshpaul@gmail.com",
+      "url": "https://github.com/logeshpaul"
   },
   "licenses": [
     {
@@ -25,7 +25,7 @@
   "bugs": "https://github.com/FuelFrontend/generator-smacss/issues",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:FuelFrontend/generator-smacss.git"
   },
   "scripts": {
     "test": "mocha --reporter spec"
@@ -34,9 +34,6 @@
       "node": ">=0.10.0",
       "npm": ">=1.3"
   },
-  "files": [
-    "app"
-  ],
   "dependencies": {
     "yeoman-generator": "^0.17.3",
     "chalk": "~0.4.0",
