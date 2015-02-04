@@ -145,19 +145,21 @@ var smacssGenerator = yeoman.generators.Base.extend({
             site_name: this.appName
         };
 
-        // COPY DOT/PACKAGE FILES
+        // DOT FILE / PROJECT FILES
+        // TODO:: Move to projectfiles function
         this.template("_bowerrc", this.appName + "/.bowerrc", context);
-        this.copy("_gulpfile.js", this.appName + "/gulpfile.js");
+        this.template("_jshintrc", this.appName + "/.jshintrc", context);
+        this.template("_gulpfile.js", this.appName + "/gulpfile.js", context);
         this.template("_package.json", this.appName + "/package.json", context);
         this.template("_bower.json", this.appName + "/bower.json", context);
 
         // HTML
         this.template("_index.html", this.appName + "/app/index.html", context);
-        // TODO: Add below code after integrating gulp-partial
-        // this.template("_header.html", this.appName + "/app/header.html", context);
-        // this.copy("_footer.html", this.appName + "/app/footer.html");
+        this.template("partials/_header.html", this.appName + "/app/partials/_header.html", context);
+        this.template("partials/_footer.html", this.appName + "/app/partials/_footer.html", context);
 
         // CSS
+        // TODO: Create seperate folder for module and pages
         this.copy("_master.css", this.appName + "/app/css/master.css");
         this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
         this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
@@ -170,8 +172,7 @@ var smacssGenerator = yeoman.generators.Base.extend({
 
         // JS
         // TODO: Add JS Structure
-
-        this.log(chalk.green('Your project is created, cd to your project to-do more!'));
+        this.copy("js/application.js", this.appName + "/app/js/application.js");
     },
 
     helper: function () {
@@ -183,9 +184,14 @@ var smacssGenerator = yeoman.generators.Base.extend({
     },
 
     install: function () {
+        this.log(chalk.green('Your project is created, cd to your project to-do more!'));
+
+        // TODO:: Change directory and install bower and npm
+        /*
         this.installDependencies({
             skipInstall: this.options['skip-install']
         });
+        */
     },
 
     paths: function () {
