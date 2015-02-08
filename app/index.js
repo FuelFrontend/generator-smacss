@@ -145,7 +145,6 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
     this.mkdir(this.appName + '/app/images');
     this.mkdir(this.appName + '/app/fonts');
     this.mkdir(this.appName + '/app/partials');
-    this.mkdir(this.appName + '/app/bower_components');
     this.mkdir(this.appName + '/build');
 };
 
@@ -203,7 +202,6 @@ smacssGenerator.prototype.dependencyInstallation = function dependencyInstallati
         bower.dependencies.angular = "~1.3.12";
     }
 
-    this.template("_bowerrc", this.appName + "/.bowerrc", context);
     this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
 }
 

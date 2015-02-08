@@ -165,42 +165,6 @@ gulp.task('scripts', function () {
 });
 
 /*===========================================================
- GULP: APP TASKS :: Concat - all bower packages
-===========================================================*/
-
-gulp.task('concat-bower', function () {
-
-    console.log(update('\n--------- Bower Concat -------------------------------------------------\n'));
-    var jsFilter   = plugins.filter('**/*.js'),
-        cssFilter  = plugins.filter('**/*.css'),
-        fontsFilter = plugins.filter(['**/fonts/**.*']);
-
-    //for js files
-    return gulp.src(bowerFiles(bowerConfiguration), { base : './bower_components'})
-        .pipe(jsFilter)
-        .pipe(plugins.concat('bower.js'))
-        .pipe(gulpIf(production, plugins.uglify()))
-        .pipe(plugins.size())
-        .pipe(gulp.dest(build.js))
-        .pipe(jsFilter.restore())
-
-        //for css files
-        .pipe(cssFilter)
-        .pipe(plugins.concat('bower.css'))
-        .pipe(gulpIf(production, plugins.uglify()))
-        .pipe(plugins.size())
-        .pipe(gulp.dest(build.css))
-        .pipe(cssFilter.restore())
-
-        //for font files
-        .pipe(fontsFilter)
-        .pipe(plugins.size())
-        .pipe(plugins.rename({dirname: ''}))
-        .pipe(gulp.dest(build.fonts))
-        .pipe(fontsFilter.restore());
-});
-
-/*===========================================================
  GULP: APP TASKS :: Images minification
 ===========================================================*/
 
@@ -271,14 +235,14 @@ gulp.task('browser-sync', function () {
 gulp.task('build', function () {
 
     console.log(update('\n--------- Build Development Mode  --------------------------------------\n'));
-    runSequence('html', 'scripts', 'css',  'img-min', 'concat-bower', 'server', 'watch');
+    runSequence('html', 'scripts', 'css',  'img-min', 'server', 'watch');
 });
 
 gulp.task('prod', function () {
 
     console.log(update('\n--------- Build Production Mode  ---------------------------------------\n'));
     production = true;
-    runSequence('html', 'scripts', 'css', 'img-min', 'concat-bower', 'server', 'watch');
+    runSequence('html', 'scripts', 'css', 'img-min', 'server', 'watch');
 });
 
 /*==========================================================
