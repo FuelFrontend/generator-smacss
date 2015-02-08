@@ -229,13 +229,13 @@ gulp.task('watch', function () {
         BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['concat-bower']);
 
     var log = function (event) {
-        if (event.type == 'deleted') {
+        if (event.type === 'deleted') {
             runSequence('clean');
             setTimeout(function () {
                 runSequence('html', 'scripts', 'css', 'watch');
             }, 500);
         }
-        console.log(change('\n--------- File ' + event.path + ' was ' + event.type + ' ------------------------\n'));
+        console.log(update('\n--------- File ' + event.path + ' was ' + event.type + ' ------------------------\n'));
     };
 
     //on change print file name and event type
