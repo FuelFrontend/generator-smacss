@@ -1,6 +1,6 @@
 {
   "name": "generator-smacss",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Perfectionist Frontend Generator",
   "author": {
     "name": "Logesh Paul",
@@ -21,7 +21,6 @@
     "smacss",
     "web-generator"
   ],
-  "main": "generators/app/index.js",
   "homepage": "https://github.com/FuelFrontend/generator-smacss",
   "bugs": "https://github.com/FuelFrontend/generator-smacss/issues",
   "repository": {
