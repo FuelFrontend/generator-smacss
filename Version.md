@@ -1,6 +1,6 @@
 Version
 
-v0.1.5
+v0.1.6
 - Changed application file to object prototype pattern
 - Prompts separated to handle different projects
 - Bower file creating and dependency injection
