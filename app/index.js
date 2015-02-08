@@ -52,7 +52,6 @@ smacssGenerator.prototype.initializing = function initializing() {
 };
 
 smacssGenerator.prototype.prompting = function prompting() {
-    var done = this.async();
 
     if (!this.options['skip-welcome-message']) {
         // Welcome Message
@@ -62,25 +61,44 @@ smacssGenerator.prototype.prompting = function prompting() {
         this.log(chalk.gray('Answer (3) simple questions to kick start your project'));
     }
 
+};
+
+smacssGenerator.prototype.askAppType = function askAppType() {
+    var done = this.async();
+
     var prompts = [{
         name: 'appName',
         message: 'What would you like to name your app/site?',
         default: 'smacssProject' // TODO: Replace with current directory [TBD]
-    },{
+        },{
         name: 'appType',
         message: 'Kind of app/site you are trying to build?',
         type: 'list',
         choices:[{
             name: 'Static HTML',
-            value: 'includeStaticApp',
+            value: 'typeStaticApp',
             checked: false
         },{
             name: 'Angular App',
-            value: 'includeAngularApp',
+            value: 'typeAngularApp',
             checked: false
         }],
         default: 1
-    },{
+    }];
+    this.prompt(prompts, function (answers) {
+        var type = answers.type;
+
+        this.appName = answers.appName;
+        this.appType = answers.appType;
+
+        done();
+    }.bind(this));
+};
+
+smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
+    var done = this.async();
+
+    var prompts = [{
         name: 'appFeatures',
         message: 'How about some additional features',
         type: 'checkbox',
@@ -94,29 +112,26 @@ smacssGenerator.prototype.prompting = function prompting() {
             checked: false
         }]
     }];
-
     this.prompt(prompts, function (answers) {
-        this.appName = answers.appName;
-        this.appType = answers.appType;
-        this.appFeatures = answers.appFeatures;
-        this.response = answers.response;
-        this.taskrunner = answers.taskrunner;
-        this.csspreprocessor = answers.csspreprocessor;
+        var features = answers.features;
+
+        //console.log(features);
+
+        //this.appFeatureJquery = answers.appFeatures;
+
+        // function hasFeature(feat) {
+        //     return features && features.indexOf(feat) !== -1;
+        // }
+
+        // this.includeSass = hasFeature('includeSass');
+        // this.includeBootstrap = hasFeature('includeBootstrap');
+        // this.includeModernizr = hasFeature('includeModernizr');
+
+        // this.includeLibSass = answers.libsass;
+        // this.includeRubySass = !answers.libsass;
 
         this.log(chalk.gray('================================================================'));
         this.log(chalk.gray('Creating the project for you, please wait...'));
-
-        // TODO: Handle project creation based on user selection
-        /*
-        var hasFeature = function (feat) {
-          return answers.features.indexOf(feat) !== -1;
-        };
-        this.includeRespondJS = hasFeature('includeRespondJS');
-        this.includePlaceholderJS = hasFeature('includePlaceholderJS');
-        this.includeBackgroundSizeJS = hasFeature('includeBackgroundSizeJS');
-        this.includeSelectivizrJS = hasFeature('includeSelectivizrJS');
-        this.includeModernizr = hasFeature('includeModernizr');
-        */
 
         done();
     }.bind(this));
@@ -137,16 +152,15 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
 smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     // Underscore templating context to replace placeholders
     var context = {
-        site_name: this.appName
+        site_name: this.appName,
     };
 
     // DOT FILE / PROJECT FILES
     // TODO:: Move to projectfiles function
-    this.template("_bowerrc", this.appName + "/.bowerrc", context);
     this.template("_jshintrc", this.appName + "/.jshintrc", context);
     this.template("_gulpfile.js", this.appName + "/gulpfile.js", context);
     this.template("_package.json", this.appName + "/package.json", context);
-    this.template("_bower.json", this.appName + "/bower.json", context);
+    //this.template("_bower.json", this.appName + "/bower.json", context);
 
     // HTML
     this.template("_index.html", this.appName + "/app/index.html", context);
@@ -168,7 +182,30 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     // JS
     // TODO: Add JS Structure
     this.copy("js/application.js", this.appName + "/app/js/application.js");
+    if(this.appType === 'typeAngularApp') {
+        this.copy("angular/_angular.js", this.appName + "/app/js/lib/angular.js");
+    }
 };
+
+smacssGenerator.prototype.dependencyInstallation = function dependencyInstallation() {
+    // Underscore templating context to replace placeholders
+    var context = {
+        site_name: this.appName,
+    };
+
+    var bower = {
+        name: this.appName,
+        private: true,
+        dependencies: {}
+    };
+
+    if (this.appType === 'typeAngularApp') {
+        bower.dependencies.angular = "~1.3.12";
+    }
+
+    this.template("_bowerrc", this.appName + "/.bowerrc", context);
+    this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
+}
 
 smacssGenerator.prototype.helper = function helper() {
     //this.log('App Helper functions and methods');
@@ -179,6 +216,7 @@ smacssGenerator.prototype.errorHanding = function errorHanding() {
 };
 
 smacssGenerator.prototype.install = function install() {
+    this.log(chalk.green('================================================================'));
     this.log(chalk.green('Your project is created, cd to your project to-do more!'));
 
     // TODO:: Change directory and install bower and npm
