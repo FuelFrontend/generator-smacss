@@ -17,8 +17,10 @@ Perfectionist generator that scaffolds out different types of Front-end applicat
 
 # Getting Started
 
+**Installation**
+
 - You need to have [NodeJS](http://nodejs.org/) & [Yeoman](http://yeoman.io/) `npm install -g yo` installed.
-- Install the generator: `npm install --global generator-smacss`
+- Install the generator `npm install --global generator-smacss`
 
 **Ready to create your project?**
 
@@ -26,6 +28,8 @@ Perfectionist generator that scaffolds out different types of Front-end applicat
 - Answer (3) simple questions in terminal
 - Change directory to your project folder `cd project-name`
 - Run `sudo bower install & npm install` followed by your machine password
+
+**Run your project**
 
 At this stage your project is setup and dependencies are installed, Now it's showtime!
 
