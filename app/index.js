@@ -69,7 +69,7 @@ smacssGenerator.prototype.askAppType = function askAppType() {
     var prompts = [{
         name: 'appName',
         message: 'What would you like to name your app/site?',
-        default: 'smacssProject' // TODO: Replace with current directory [TBD]
+        default: process.cwd().split(path.sep).pop()
         },{
         name: 'appType',
         message: 'Kind of app/site you are trying to build?',
