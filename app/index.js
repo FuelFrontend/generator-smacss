@@ -69,7 +69,7 @@ smacssGenerator.prototype.askAppType = function askAppType() {
     var prompts = [{
         name: 'appName',
         message: 'What would you like to name your app/site?',
-        default: 'smacssProject' // TODO: Replace with current directory [TBD]
+        default: process.cwd().split(path.sep).pop()
         },{
         name: 'appType',
         message: 'Kind of app/site you are trying to build?',
@@ -215,23 +215,21 @@ smacssGenerator.prototype.errorHanding = function errorHanding() {
 
 smacssGenerator.prototype.install = function install() {
     this.log(chalk.green('================================================================'));
-    this.log(chalk.green('Your project is created, cd to your project to-do more!'));
+    this.log(chalk.green('Your project is created and now installation will start automatically!'));
 
-    // TODO:: Change directory and install bower and npm
-    /*
-    this.log('Current directory: ' + process.cwd());
-    console.log('Starting directory: ' + process.cwd());
-    try {
-      process.chdir(process.cwd() + this.appName);
-      console.log('Current directory: ' + process.cwd());
-    }
-    catch (err) {
-      console.log('chdir: ' + err);
-    }
+    //Change directory and install bower and npm
+    var curr_dir = process.cwd();
+    process.chdir(curr_dir+"/"+ this.appName);
     this.installDependencies({
         skipInstall: this.options['skip-install']
     });
-    */
+    this.log(chalk.green('================================================================'));
+    this.log(chalk.green('List of Installed packages through npm!'));
+    var exec = require('child_process').exec;
+    var child;
+    child = exec('npm ls', function (error, stdout, stderr) {
+     console.log(stdout);
+    });
 };
 
 smacssGenerator.prototype.paths = function paths() {
