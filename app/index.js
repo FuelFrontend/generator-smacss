@@ -1,12 +1,4 @@
-'use strict';
-var yeoman = require('yeoman-generator'),
-    fs = require('fs'),
-    util = require('util'),
-    path = require('path'),
-    yosay = require('yosay'),
-    chalk = require('chalk');
-
-// STRUCTURE
+// JS STRUCTURE
 
 // constructor
 // initializing
@@ -17,6 +9,14 @@ var yeoman = require('yeoman-generator'),
 // conflicts
 // install
 // end
+
+'use strict';
+var yeoman = require('yeoman-generator'),
+    fs = require('fs'),
+    util = require('util'),
+    path = require('path'),
+    yosay = require('yosay'),
+    chalk = require('chalk');
 
 var smacssGenerator = yeoman.generators.Base.extend({
 
@@ -47,7 +47,6 @@ var smacssGenerator = yeoman.generators.Base.extend({
 });
 
 smacssGenerator.prototype.initializing = function initializing() {
-
     this.pkg = require('../package.json');
 };
 
@@ -131,7 +130,7 @@ smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
         // this.includeRubySass = !answers.libsass;
 
         this.log(chalk.gray('================================================================'));
-        this.log(chalk.gray('Creating the project for you, please wait...'));
+        this.log(chalk.gray('Creating the project structure'));
 
         done();
     }.bind(this));
@@ -169,14 +168,15 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     // CSS
     // TODO: Create seperate folder for module and pages
     this.copy("_master.css", this.appName + "/app/css/master.css");
+
     this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
     this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
     this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
-    this.copy("scss/_module.scss", this.appName + "/app/scss/module.scss");
     this.copy("scss/_reset.scss", this.appName + "/app/scss/reset.scss");
     this.copy("scss/_variables.scss", this.appName + "/app/scss/variables.scss");
     this.copy("scss/_mixins.scss", this.appName + "/app/scss/mixins.scss");
-    this.copy("scss/_page_landing.scss", this.appName + "/app/scss/page-landing.scss");
+    this.copy("scss/_module.scss", this.appName + "/app/scss/modules/module.scss");
+    this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
 
     // JS
     // TODO: Add JS Structure
@@ -214,8 +214,8 @@ smacssGenerator.prototype.errorHanding = function errorHanding() {
 };
 
 smacssGenerator.prototype.install = function install() {
-    this.log(chalk.green('================================================================'));
-    this.log(chalk.green('Your project is created and now installation will start automatically!'));
+    this.log(chalk.gray('================================================================'));
+    this.log(chalk.gray('Your project strcuture created!'));
 
     //Change directory and install bower and npm
     var curr_dir = process.cwd();
@@ -223,13 +223,13 @@ smacssGenerator.prototype.install = function install() {
     this.installDependencies({
         skipInstall: this.options['skip-install']
     });
-    this.log(chalk.green('================================================================'));
-    this.log(chalk.green('List of Installed packages through npm!'));
+    this.log(chalk.gray('================================================================'));
+    this.log(chalk.gray('Installing Dependencies, please wait...'));
     var exec = require('child_process').exec;
-    var child;
-    child = exec('npm ls', function (error, stdout, stderr) {
-     console.log(stdout);
-    });
+    // var child;
+    // child = exec('gulp', function (error, stdout, stderr) {
+    //     console.log(stdout);
+    // });
 };
 
 smacssGenerator.prototype.paths = function paths() {

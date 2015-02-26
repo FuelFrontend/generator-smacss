@@ -24,7 +24,6 @@ MASTER: IMPORTING STYLESHEETS
 @import "mixins";
 
 @import "layout";
-@import "module";
 
-// PAGES
-@import "page-landing";
+@import "modules/module";
+@import "pages/page-landing";
