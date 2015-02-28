@@ -15,6 +15,12 @@ Perfectionist generator that scaffolds out different types of Front-end applicat
 - **Performance Matters**  - Minify HTML, CSS, & JS. Optimize Images.
 - **Quick Commands** - Generate Build, Clean up, Zip project and more.
 
+# App Types
+
+- **Simple Web App** — Sometimes you just need a gulp server(localhost), scss compiler & browser-sync(live reload). Well that's exactly what this app is for.
+- **Full Pack Web App** - Thinking of creating a solid frontend base with proper structure, well optimization; choose this applicaton type which comes with power features.
+- **Angular App** - Work In Progress
+
 # Getting Started
 
 **Installation**

@@ -1,5 +1,17 @@
 # Version
 
+**v0.1.8**
+- Automatically install dependencies
+- Travis CI configuration
+- #7 SCSS directory structure update
+- Updated installation steps and format
+- Modified app types (simple web app, full pack web app)
+- Template structure change (root and sub folders for apps)
+
+
+**v0.1.7**
+- NPM plugin documentation fix
+
 **v0.1.6**
 - Changed application file to object prototype pattern
 - Prompts separated to handle different projects

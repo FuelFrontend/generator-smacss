@@ -1,15 +1,3 @@
-// JS STRUCTURE
-
-// constructor
-// initializing
-// prompting
-// configuring
-// default
-// writing
-// conflicts
-// install
-// end
-
 'use strict';
 var yeoman = require('yeoman-generator'),
     fs = require('fs'),
@@ -19,10 +7,16 @@ var yeoman = require('yeoman-generator'),
     chalk = require('chalk');
 
 var smacssGenerator = yeoman.generators.Base.extend({
-
     constructor: function () {
         // note: arguments and options should be defined in the constructor.
         yeoman.generators.Base.apply(this, arguments);
+
+        this.option('app-suffix', {
+            desc: 'Allow a custom suffix to be added to the module name',
+            type: String,
+            required: 'false'
+        });
+        this.env.options['app-suffix'] = this.options['app-suffix'];
 
         this.option('skip-welcome-message', {
             desc: 'Skips the welcome message',
@@ -50,16 +44,13 @@ smacssGenerator.prototype.initializing = function initializing() {
     this.pkg = require('../package.json');
 };
 
-smacssGenerator.prototype.prompting = function prompting() {
-
+smacssGenerator.prototype.welcome = function welcome() {
     if (!this.options['skip-welcome-message']) {
-        // Welcome Message
         this.log(yosay('Yo! Welcome to SMACSS'));
         this.log(chalk.magenta.bold('You\'re using the perfectionist generator for frontend.'));
         this.log(chalk.gray('================================================================'));
-        this.log(chalk.gray('Answer (3) simple questions to kick start your project'));
+        this.log(chalk.gray('Answer simple questions to kick start your project'));
     }
-
 };
 
 smacssGenerator.prototype.askAppType = function askAppType() {
@@ -74,8 +65,12 @@ smacssGenerator.prototype.askAppType = function askAppType() {
         message: 'Kind of app/site you are trying to build?',
         type: 'list',
         choices:[{
-            name: 'Static HTML',
-            value: 'typeStaticApp',
+            name: 'Simple Web App',
+            value: 'typeSimpleWebApp',
+            checked: false
+        },{
+            name: 'Full Pack Web App',
+            value: 'typeFullPackWebApp',
             checked: false
         },{
             name: 'Angular App',
@@ -96,7 +91,6 @@ smacssGenerator.prototype.askAppType = function askAppType() {
 
 smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
     var done = this.async();
-
     var prompts = [{
         name: 'appFeatures',
         message: 'How about some additional features',
@@ -113,6 +107,8 @@ smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
     }];
     this.prompt(prompts, function (answers) {
         var features = answers.features;
+
+        //var hasMod = function (mod) { return props.modules.indexOf(mod) !== -1; };
 
         //console.log(features);
 
@@ -137,38 +133,45 @@ smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
 };
 
 smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
+    // Common Scaffolding for all projets
     this.mkdir(this.appName + '/app');
     this.mkdir(this.appName + '/app/css');
     this.mkdir(this.appName + '/app/scss');
     this.mkdir(this.appName + '/app/js');
     this.mkdir(this.appName + '/app/images');
     this.mkdir(this.appName + '/app/fonts');
-    this.mkdir(this.appName + '/app/partials');
-    this.mkdir(this.appName + '/build');
+
+    if(this.appType == 'typeFullPackWebApp' || this.appType == 'typeAngularApp') {
+        this.mkdir(this.appName + '/app/partials');
+        this.mkdir(this.appName + '/build');
+    }
 };
 
 smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     // Underscore templating context to replace placeholders
-    var context = {
+    smacssGenerator.context = {
         site_name: this.appName,
     };
 
-    // DOT FILE / PROJECT FILES
-    // TODO:: Move to projectfiles function
-    this.template("_jshintrc", this.appName + "/.jshintrc", context);
-    this.template("_gulpfile.js", this.appName + "/gulpfile.js", context);
-    this.template("_package.json", this.appName + "/package.json", context);
-    //this.template("_bower.json", this.appName + "/bower.json", context);
-
     // HTML
-    this.template("_index.html", this.appName + "/app/index.html", context);
-    this.template("partials/_header.html", this.appName + "/app/partials/_header.html", context);
-    this.template("partials/_footer.html", this.appName + "/app/partials/_footer.html", context);
+    if(this.appType == 'typeSimpleWebApp') {
+        this.template("simple-web-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
+    }
+    else {
+        this.template("_index.html", this.appName + "/app/index.html", smacssGenerator.context);
+    }
+
+    // Partial File Include
+    if(this.appType == 'typeFullPackWebApp' || this.appType == 'typeAngularApp') {
+        this.template("partials/_header.html", this.appName + "/app/partials/_header.html", smacssGenerator.context);
+        this.template("partials/_footer.html", this.appName + "/app/partials/_footer.html", smacssGenerator.context);
+    }
 
     // CSS
-    // TODO: Create seperate folder for module and pages
     this.copy("_master.css", this.appName + "/app/css/master.css");
 
+    // SMACSS - SCSS Structure
+    // TODO: Update structure based on ticket #7
     this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
     this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
     this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
@@ -186,11 +189,23 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     }
 };
 
-smacssGenerator.prototype.dependencyInstallation = function dependencyInstallation() {
-    // Underscore templating context to replace placeholders
-    var context = {
-        site_name: this.appName,
-    };
+smacssGenerator.prototype.projectfiles = function projectfiles() {
+    if(this.appType == 'typeSimpleWebApp') {
+        this.template("simple-web-app/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
+        this.template("simple-web-app/_package.json", this.appName + "/package.json", smacssGenerator.context);
+    }
+    else {
+        this.template("_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
+        this.template("_package.json", this.appName + "/package.json", smacssGenerator.context);
+    }
+    
+    // Root Files
+    this.template("root/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
+    this.copy("root/_gitignore", this.appName + "/.gitignore");
+    this.copy("root/_gitattributes", this.appName + "/.gitattributes");
+};
+
+smacssGenerator.prototype.injectDependencies = function injectDependencies() {
 
     var bower = {
         name: this.appName,
@@ -205,6 +220,42 @@ smacssGenerator.prototype.dependencyInstallation = function dependencyInstallati
     this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
 }
 
+smacssGenerator.prototype.install = function install() {
+
+    this.log(chalk.gray('================================================================'));
+    this.log(chalk.gray('Your project strcuture created!'));
+
+    if (this.options['skip-install']) {
+        this.log(
+          'After running `npm install & bower install` in your project folder' +
+          '\ntype in the below command to trigger your server:' +
+          '\n' +
+          '\n' + chalk.yellow.bold('gulp')
+        );
+    } 
+    else {
+        //Change directory and install bower and npm
+        var currentDirectory = process.cwd();
+        this.appPath = currentDirectory+"/"+ this.appName;
+
+        process.chdir(this.appPath);
+
+        this.log(chalk.gray('================================================================'));
+        this.log(chalk.gray('Installing Dependencies, please wait...'));
+        console.log(this.appPath);
+
+        this.spawnCommand('npm', ['install'], { cwd: this.appPath});
+
+        // TODO: Change working directory, Run gulp after dependency installation
+        /*var exec = require('child_process').exec;
+        var child;
+        child = exec('gulp', function (error, stdout, stderr) {
+            console.log(stdout);
+        });*/
+        
+    }
+};
+
 smacssGenerator.prototype.helper = function helper() {
     //this.log('App Helper functions and methods');
 };
@@ -213,33 +264,8 @@ smacssGenerator.prototype.errorHanding = function errorHanding() {
     //this.log('Something has gone wrong! Handle errors in this section');
 };
 
-smacssGenerator.prototype.install = function install() {
-    this.log(chalk.gray('================================================================'));
-    this.log(chalk.gray('Your project strcuture created!'));
-
-    //Change directory and install bower and npm
-    var curr_dir = process.cwd();
-    process.chdir(curr_dir+"/"+ this.appName);
-    this.installDependencies({
-        skipInstall: this.options['skip-install']
-    });
-    this.log(chalk.gray('================================================================'));
-    this.log(chalk.gray('Installing Dependencies, please wait...'));
-    var exec = require('child_process').exec;
-    // var child;
-    // child = exec('gulp', function (error, stdout, stderr) {
-    //     console.log(stdout);
-    // });
-};
-
 smacssGenerator.prototype.paths = function paths() {
     //this.log('Path Handling');
-};
-
-smacssGenerator.prototype.projectfiles = function projectfiles() {
-    // TODO: Handle project file copying here
-    // this.copy('editorconfig', '.editorconfig');
-    // this.copy('jshintrc', '.jshintrc');
 };
 
 module.exports = smacssGenerator;

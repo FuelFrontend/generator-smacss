@@ -1,8 +1,0 @@
-{
-  "name": "<%= site_name %>",
-  "description": "",
-  "dependencies": {
-    "jquery": "~2.1.1",
-    "fontawesome": "~4.2.0"
-  }
-}
