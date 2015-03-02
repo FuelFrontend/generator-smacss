@@ -12,16 +12,15 @@ Categorizing:
 5. Theme - Look and feel of subcomponent based on theme [example: dark, light] [prefix: theme-]
 6. Pages   - Page specific styles. [prefix: page-]
 ----------------------------------------------------------------------- */
-body {
-    background: #009688;
-}
 
 /*-------------------------------------------------
 MASTER: IMPORTING STYLESHEETS
 -------------------------------------------------*/
+
 @import "reset";
 @import "variables";
 @import "mixins";
+@import "base";
 
 @import "layout";
 

@@ -1,12 +1,12 @@
 /*-------------------------------------------------
 SMACSS: BASE
 -------------------------------------------------*/
-html, body, form {
-    margin: 0; padding: 0;
+body {
+    background: #22272a;
+    color: #ced9e0;
+    font-family: $font-OpenSans;
 }
-input[type=text] {
-    border: 1px solid #999;
-}
+
 a {
     color: #039;
 }

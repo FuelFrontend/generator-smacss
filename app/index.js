@@ -198,7 +198,7 @@ smacssGenerator.prototype.projectfiles = function projectfiles() {
         this.template("_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
         this.template("_package.json", this.appName + "/package.json", smacssGenerator.context);
     }
-    
+
     // Root Files
     this.template("root/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
     this.copy("root/_gitignore", this.appName + "/.gitignore");
@@ -232,7 +232,7 @@ smacssGenerator.prototype.install = function install() {
           '\n' +
           '\n' + chalk.yellow.bold('gulp')
         );
-    } 
+    }
     else {
         //Change directory and install bower and npm
         var currentDirectory = process.cwd();
@@ -252,7 +252,6 @@ smacssGenerator.prototype.install = function install() {
         child = exec('gulp', function (error, stdout, stderr) {
             console.log(stdout);
         });*/
-        
     }
 };
 
