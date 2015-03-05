@@ -8,7 +8,6 @@
 - Modified app types (simple web app, full pack web app)
 - Template structure change (root and sub folders for apps)
 
-
 **v0.1.7**
 - NPM plugin documentation fix
 
