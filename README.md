@@ -1,7 +1,6 @@
 # Generator for Frontend Projects
 
 [![Join the chat at https://gitter.im/FuelFrontend/generator-smacss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FuelFrontend/generator-smacss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Code Climate](https://codeclimate.com/github/FuelFrontend/generator-smacss/badges/gpa.svg)](https://codeclimate.com/github/FuelFrontend/generator-smacss)
 
 Perfectionist generator that scaffolds out different types of Front-end application [Work In Progress]
@@ -28,16 +27,19 @@ Perfectionist generator that scaffolds out different types of Front-end applicat
 - You need to have [NodeJS](http://nodejs.org/) & [Yeoman](http://yeoman.io/) `npm install -g yo` installed.
 - Install the generator `npm install --global generator-smacss`
 
-**Ready to create your project?**
+**Ready to create your project**
 
 - Run `yo smacss` to scaffold your webapp
-- Answer (3) simple questions in terminal
-- Change directory to your project folder `cd project-name`
-- Run `sudo bower install & npm install` followed by your machine password
+- Answer simple questions in terminal
+- Generator will automatically try to install dependencies in your project folder.
+- You got your installation successfull, run the server following the instruction in next section.
+- If you don't have admin rights it may fail; In such cases
+  	- a) cd to your project folder
+  	- b) Run `sudo bower install & npm install` followed by your machine password
 
 **Run your project**
 
-At this stage your project is setup and dependencies are installed, Now it's showtime!
+At this stage your project is setup and dependencies are installed, It's showtime!
 
 - Run `gulp` to run the server, You are all done.
 
@@ -47,5 +49,6 @@ To be updated soon... stay tuned
 
 # Options
 
+- `--skip-welcome-message` Skips the welcome message and take you to question.
 - `--skip-install` Skips the automatic execution of bower and npm after scaffolding has finished.
 

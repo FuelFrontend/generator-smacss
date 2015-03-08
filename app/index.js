@@ -98,7 +98,7 @@ smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
         choices:[{
             name: ' jQuery',
             value: 'includeQuery',
-            checked: false
+            checked: true
         },{
             name: ' Modernizr',
             value: 'includeModernizr',
@@ -106,24 +106,14 @@ smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
         }]
     }];
     this.prompt(prompts, function (answers) {
-        var features = answers.features;
+        var appFeatures = answers.appFeatures;
 
-        //var hasMod = function (mod) { return props.modules.indexOf(mod) !== -1; };
+        var hasFeature = function (feat) {
+            return appFeatures.indexOf(feat) !== -1;
+        };
 
-        //console.log(features);
-
-        //this.appFeatureJquery = answers.appFeatures;
-
-        // function hasFeature(feat) {
-        //     return features && features.indexOf(feat) !== -1;
-        // }
-
-        // this.includeSass = hasFeature('includeSass');
-        // this.includeBootstrap = hasFeature('includeBootstrap');
-        // this.includeModernizr = hasFeature('includeModernizr');
-
-        // this.includeLibSass = answers.libsass;
-        // this.includeRubySass = !answers.libsass;
+        this.includeQuery = hasFeature('includeQuery');
+        this.includeModernizr = hasFeature('includeModernizr');
 
         this.log(chalk.gray('================================================================'));
         this.log(chalk.gray('Creating the project structure'));
@@ -183,7 +173,9 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
 
     // JS
     // TODO: Add JS Structure
-    this.copy("js/application.js", this.appName + "/app/js/application.js");
+    this.copy("js/_application.js", this.appName + "/app/js/application.js");
+
+    // TODO: remove this once bower is fixed.
     if(this.appType === 'typeAngularApp') {
         this.copy("angular/_angular.js", this.appName + "/app/js/lib/angular.js");
     }
@@ -217,20 +209,27 @@ smacssGenerator.prototype.injectDependencies = function injectDependencies() {
         bower.dependencies.angular = "~1.3.12";
     }
 
+    if (this.includeQuery) {
+        bower.dependencies.jquery = '~1.11.1';
+    }
+
+    if (this.includeModernizr) {
+        bower.dependencies.modernizr = '~2.8.1';
+    }
+
+    this.copy('root/_bowerrc', this.appName + '/.bowerrc');
     this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
 }
 
 smacssGenerator.prototype.install = function install() {
 
-    this.log(chalk.gray('================================================================'));
-    this.log(chalk.gray('Your project strcuture created!'));
-
     if (this.options['skip-install']) {
+        this.log(chalk.gray('================================================================'));
         this.log(
-          'After running `npm install & bower install` in your project folder' +
-          '\ntype in the below command to trigger your server:' +
-          '\n' +
-          '\n' + chalk.yellow.bold('gulp')
+          'Next Steps:' +
+          '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
+          '\n2) Install dependencies by typing '+ chalk.yellow.bold('npm install & bower install') +
+          '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
         );
     }
     else {
