@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html ng-app="<%= site_name %>">
+<head>
+	<meta charset="utf-8">
+	<title><%= site_name %></title>
+	<link rel="stylesheet" href="css/master.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <!-- TODO: Remove gulp partials, as angular supports partials in default -->
+    @@include('./partials/_header.html')
+
+    <!-- Section -->
+	<section>
+        <h2>It's nice to meet you :)</h2>
+        <p>Your good name?</p>
+        <p><input type="text" ng-model="name" /></p>
+
+        <p ng-hide="!name">Welcome {{ name }}, You look great today!</p>
+    </section>
+
+    @@include('./partials/_footer.html')
+
+    <script src="js/application.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>

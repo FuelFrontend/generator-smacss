@@ -147,6 +147,9 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     if(this.appType == 'typeSimpleWebApp') {
         this.template("simple-web-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
     }
+    else if(this.appType == 'typeAngularApp') {
+        this.template("angular-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
+    }
     else {
         this.template("_index.html", this.appName + "/app/index.html", smacssGenerator.context);
     }

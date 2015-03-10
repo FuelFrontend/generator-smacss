@@ -16,7 +16,7 @@ var gulp = require('gulp'),
     fileInclude = require('gulp-file-include'),
     mainBowerFiles = require('main-bower-files'),
     sourcemaps = require('gulp-sourcemaps'),
-    filter = require('gulp-filter')
+    filter = require('gulp-filter'),
     gulploadPlugins = require('gulp-load-plugins');
 
 var plugins = gulploadPlugins();
@@ -238,13 +238,13 @@ gulp.task('bower', function() { 
         .pipe(sourcemaps.init())
         .pipe(concat('bower.js'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./app/js/lib'))
+        .pipe(gulp.dest(build.js))
         .pipe(jsFilter.restore())
         .pipe(filterByExtension('css'))
         .pipe(sourcemaps.init())
         .pipe(concat('bower.css'))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./app/scss/lib'));
+        .pipe(gulp.dest(build.css));
 });
 
 /*==========================================================
