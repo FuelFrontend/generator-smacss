@@ -16,8 +16,8 @@ var gulp = require('gulp'),
     fileInclude = require('gulp-file-include'),
     mainBowerFiles = require('main-bower-files'),
     sourcemaps = require('gulp-sourcemaps'),
-    filter = require('gulp-filter');
-    gulploadPlugins = require('gulp-load-plugins')
+    filter = require('gulp-filter')
+    gulploadPlugins = require('gulp-load-plugins');
 
 var plugins = gulploadPlugins();
 
