@@ -10,14 +10,22 @@ var gulp = require('gulp'),
     gulpIf = require('gulp-if'),
     sass = require('gulp-sass'),
     concat = require('gulp-concat'),
-    bowerFiles = require('main-bower-files'),
 	browserSync = require('browser-sync'),
     runSequence = require('run-sequence'),
     jshintStylish = require('jshint-stylish'),
     fileInclude = require('gulp-file-include'),
-    gulploadPlugins = require('gulp-load-plugins');
+    mainBowerFiles = require('main-bower-files'),
+    sourcemaps = require('gulp-sourcemaps'),
+    filter = require('gulp-filter');
+    gulploadPlugins = require('gulp-load-plugins')
 
 var plugins = gulploadPlugins();
+
+var filterByExtension = function(extension){
+    return filter(function(file){
+        return file.path.match(new RegExp('.' + extension + '$'));
+    });
+};
 
 /*-----------------------------------------------------------
  GULP: APP CONFIGURATION
@@ -213,6 +221,33 @@ gulp.task('watch', function () {
 });
 
 /*==========================================================
+ GULP: APP TASKS :: Bower file include
+===========================================================*/
+gulp.task('bower', function() { 
+    var mainFiles = mainBowerFiles();
+
+    if(!mainFiles.length){
+        // No main files found. Skipping....
+        return;
+    }
+
+    var jsFilter = filterByExtension('js');
+
+    return gulp.src(mainFiles)
+        .pipe(jsFilter)
+        .pipe(sourcemaps.init())
+        .pipe(concat('bower.js'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('./app/js/lib'))
+        .pipe(jsFilter.restore())
+        .pipe(filterByExtension('css'))
+        .pipe(sourcemaps.init())
+        .pipe(concat('bower.css'))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('./app/scss/lib'));
+});
+
+/*==========================================================
  GULP: APP TASKS :: Browser sync to sync with browser
 ===========================================================*/
 
@@ -235,7 +270,7 @@ gulp.task('browser-sync', function () {
 gulp.task('build', function () {
 
     console.log(update('\n--------- Build Development Mode  --------------------------------------\n'));
-    runSequence('html', 'scripts', 'css',  'img-min', 'server', 'watch');
+    runSequence('html', 'scripts', 'css',  'bower', 'server', 'watch');
 });
 
 gulp.task('prod', function () {

@@ -176,9 +176,9 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     this.copy("js/_application.js", this.appName + "/app/js/application.js");
 
     // TODO: remove this once bower is fixed.
-    if(this.appType === 'typeAngularApp') {
-        this.copy("angular/_angular.js", this.appName + "/app/js/lib/angular.js");
-    }
+    // if(this.appType === 'typeAngularApp') {
+    //     this.copy("angular/_angular.js", this.appName + "/app/js/lib/angular.js");
+    // }
 };
 
 smacssGenerator.prototype.projectfiles = function projectfiles() {
