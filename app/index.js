@@ -115,14 +115,57 @@ smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
         this.includeQuery = hasFeature('includeQuery');
         this.includeModernizr = hasFeature('includeModernizr');
 
-        this.log(chalk.gray('================================================================'));
-        this.log(chalk.gray('Creating the project structure'));
-
         done();
     }.bind(this));
 };
 
+smacssGenerator.prototype.askAngularModules = function askAngularModules() {
+
+    if(this.appType === 'typeAngularApp') {
+        var done = this.async();
+        var prompts = [{
+            name: 'angularModules',
+            message: 'How about including some angular modules',
+            type: 'checkbox',
+            choices:[{
+                name: ' Angular Route',
+                value: 'includeRouteModule',
+                checked: true
+            },{
+                name: ' Angular Resource',
+                value: 'includeResourceModule',
+                checked: false
+            },{
+                name: ' Angular Sanitize',
+                value: 'includeSanitizeModule',
+                checked: false
+            },{
+                name: ' Angular Animate',
+                value: 'includeAnimateModule',
+                checked: false
+            }]
+        }];
+        this.prompt(prompts, function (answers) {
+            var angularModules = answers.angularModules;
+
+            var hasFeature = function (feat) {
+                return angularModules.indexOf(feat) !== -1;
+            };
+
+            this.includeRouteModule = hasFeature('includeRouteModule');
+            this.includeResourceModule = hasFeature('includeResourceModule');
+            this.includeSanitizeModule = hasFeature('includeSanitizeModule');
+            this.includeAnimateModule = hasFeature('includeAnimateModule');
+
+            done();
+        }.bind(this));
+    }
+};
+
 smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
+    this.log(chalk.gray('================================================================'));
+    this.log(chalk.gray('Creating the project structure'));
+
     // Common Scaffolding for all projets
     this.mkdir(this.appName + '/app');
     this.mkdir(this.appName + '/app/css');
@@ -208,17 +251,20 @@ smacssGenerator.prototype.injectDependencies = function injectDependencies() {
         dependencies: {}
     };
 
-    if (this.appType === 'typeAngularApp') {
-        bower.dependencies.angular = "~1.3.12";
-    }
-
+    // App Dependencies
     if (this.includeQuery) {
-        bower.dependencies.jquery = '~1.11.1';
+        bower.dependencies.jquery = '*';
+    }
+    if (this.includeModernizr) {
+        bower.dependencies.modernizr = '*';
     }
 
-    if (this.includeModernizr) {
-        bower.dependencies.modernizr = '~2.8.1';
+    // Angular Dependencies
+    if (this.appType === 'typeAngularApp') {
+        bower.dependencies.angular = "*";
     }
+    // TODO: Include angular modules
+    // Angular Modules
 
     this.copy('root/_bowerrc', this.appName + '/.bowerrc');
     this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
