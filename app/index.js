@@ -131,7 +131,7 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
     this.mkdir(this.appName + '/app/images');
     this.mkdir(this.appName + '/app/fonts');
 
-    if(this.appType == 'typeFullPackWebApp' || this.appType == 'typeAngularApp') {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
         this.mkdir(this.appName + '/app/partials');
         this.mkdir(this.appName + '/build');
     }
@@ -144,10 +144,10 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     };
 
     // HTML
-    if(this.appType == 'typeSimpleWebApp') {
+    if(this.appType === 'typeSimpleWebApp') {
         this.template("simple-web-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
     }
-    else if(this.appType == 'typeAngularApp') {
+    else if(this.appType === 'typeAngularApp') {
         this.template("angular-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
     }
     else {
@@ -155,7 +155,7 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     }
 
     // Partial File Include
-    if(this.appType == 'typeFullPackWebApp' || this.appType == 'typeAngularApp') {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
         this.template("partials/_header.html", this.appName + "/app/partials/_header.html", smacssGenerator.context);
         this.template("partials/_footer.html", this.appName + "/app/partials/_footer.html", smacssGenerator.context);
     }
@@ -222,7 +222,7 @@ smacssGenerator.prototype.injectDependencies = function injectDependencies() {
 
     this.copy('root/_bowerrc', this.appName + '/.bowerrc');
     this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
-}
+};
 
 smacssGenerator.prototype.install = function install() {
 
