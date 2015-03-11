@@ -3,7 +3,7 @@
 [![Join the chat at https://gitter.im/FuelFrontend/generator-smacss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FuelFrontend/generator-smacss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Code Climate](https://codeclimate.com/github/FuelFrontend/generator-smacss/badges/gpa.svg)](https://codeclimate.com/github/FuelFrontend/generator-smacss)
 
-Perfectionist generator that scaffolds out different types of Front-end application [Work In Progress]
+[Work In Progress] Perfectionist generator that scaffolds out different types of Front-end application
 
 # Features
 
@@ -20,28 +20,117 @@ Perfectionist generator that scaffolds out different types of Front-end applicat
 - **Full Pack Web App** - Thinking of creating a solid frontend base with proper structure, well optimization; choose this applicaton type which comes with power features.
 - **Angular App** - Work In Progress
 
+# Directory Structure
+
+Your directory structure will look like this
+
+**Simple Web App**
+
+``````````
+├── app
+│   ├── images
+│   ├── fonts
+│   ├── js
+│   │   └── lib
+│   │   │   └── third-party-files.js
+│   │   └── application.js
+│   ├── css
+│   │   └── master.css
+│   ├── scss
+│   │   └── modules
+│   │   │   └── module-name.scss
+│   │   └── pages
+│   │   │   └── page-landing.scss
+│   │   └── base.scss
+│   │   └── layout.css
+│   │   └── mixins.css
+│   │   └── master.css
+│   │   └── reset.css
+│   │   └── variables.css
+│   └── index.html
+├── node_modules
+├── .bowerrc
+├── .gitignore
+├── bower.json
+├── gulpfile.js
+└── package.json
+``````````
+
+**Full Pack Web App**
+
+``````````
+├── app
+│   ├── bower_components
+│   │   ├── jquery
+│   │   └── modernizr
+│   ├── images
+│   ├── js
+│   │   └── lib
+│   │   │   └── third-party-files.js
+│   │   └── application.js
+│   ├── css
+│   │   └── master.css
+│   ├── partials
+│   │   └── header.html
+│   │   └── footer.html
+│   ├── scss
+│   │   └── modules
+│   │   │   └── module-name.scss
+│   │   └── pages
+│   │   │   └── page-landing.scss
+│   │   └── base.scss
+│   │   └── layout.css
+│   │   └── mixins.css
+│   │   └── reset.css
+│   │   └── variables.css
+│   └── index.html
+├── build
+│   └── build-files
+├── zip
+│   └── compressed-files
+├── node_modules
+├── .bowerrc
+├── .gitignore
+├── bower.json
+├── gulpfile.js
+└── package.json
+``````````
+
+**Angular App**
+
+_WIP_
+
+
 # Getting Started
 
 **Installation**
 
-- You need to have [NodeJS](http://nodejs.org/) & [Yeoman](http://yeoman.io/) `npm install -g yo` installed.
-- Install the generator `npm install --global generator-smacss`
+You need to have [NodeJS](http://nodejs.org/) & [Yeoman](http://yeoman.io/) installed on your machine
+```````
+npm install -g yo
+````````
 
-**Ready to create your project**
+Install smacss generator
+```````
+npm install --global generator-smacss
+```````
 
-- Run `yo smacss` to scaffold your webapp
+**Creating project**
+
+- Run `yo smacss`
 - Answer simple questions in terminal
 - Generator will automatically try to install dependencies in your project folder.
-- You got your installation successfull, run the server following the instruction in next section.
-- If you don't have admin rights it may fail; In such cases
+
+- You got your installation successfull 'You are lucky', run the server following the instruction in next section.
+- In case you got any error you may not have admin rights
   	- a) cd to your project folder
-  	- b) Run `sudo bower install & npm install` followed by your machine password
+  	- b) Run `sudo bower install & npm install` followed by your machine password in Mac/Linux environment; Windows user try running as administrator
 
 **Run your project**
 
 At this stage your project is setup and dependencies are installed, It's showtime!
 
-- Run `gulp` to run the server, You are all done.
+- Run `gulp` to run the server, and you are good to start your development.
 
 # Docs
 
