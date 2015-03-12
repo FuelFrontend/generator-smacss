@@ -49,11 +49,10 @@ Your directory structure will look like this
 │   │   └── variables.css
 │   └── index.html
 ├── node_modules
-├── .bowerrc
-├── .gitignore
-├── bower.json
 ├── gulpfile.js
-└── package.json
+├── package.json
+├── .gitattributes
+└── .gitignore
 ``````````
 
 **Full Pack Web App**
@@ -89,11 +88,12 @@ Your directory structure will look like this
 ├── zip
 │   └── compressed-files
 ├── node_modules
-├── .bowerrc
-├── .gitignore
-├── bower.json
+├── package.json
 ├── gulpfile.js
-└── package.json
+├── bower.json
+├── .bowerrc
+├── .gitattributes
+└── .gitignore
 ``````````
 
 **Angular App**

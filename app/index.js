@@ -90,37 +90,38 @@ smacssGenerator.prototype.askAppType = function askAppType() {
 };
 
 smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
-    var done = this.async();
-    var prompts = [{
-        name: 'appFeatures',
-        message: 'How about some additional features',
-        type: 'checkbox',
-        choices:[{
-            name: ' jQuery',
-            value: 'includeQuery',
-            checked: true
-        },{
-            name: ' Modernizr',
-            value: 'includeModernizr',
-            checked: false
-        }]
-    }];
-    this.prompt(prompts, function (answers) {
-        var appFeatures = answers.appFeatures;
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+        var done = this.async();
+        var prompts = [{
+            name: 'appFeatures',
+            message: 'How about some additional features',
+            type: 'checkbox',
+            choices:[{
+                name: ' jQuery',
+                value: 'includeQuery',
+                checked: true
+            },{
+                name: ' Modernizr',
+                value: 'includeModernizr',
+                checked: false
+            }]
+        }];
+        this.prompt(prompts, function (answers) {
+            var appFeatures = answers.appFeatures;
 
-        var hasFeature = function (feat) {
-            return appFeatures.indexOf(feat) !== -1;
-        };
+            var hasFeature = function (feat) {
+                return appFeatures.indexOf(feat) !== -1;
+            };
 
-        this.includeQuery = hasFeature('includeQuery');
-        this.includeModernizr = hasFeature('includeModernizr');
+            this.includeQuery = hasFeature('includeQuery');
+            this.includeModernizr = hasFeature('includeModernizr');
 
-        done();
-    }.bind(this));
+            done();
+        }.bind(this));
+    }
 };
 
 smacssGenerator.prototype.askAngularModules = function askAngularModules() {
-
     if(this.appType === 'typeAngularApp') {
         var done = this.async();
         var prompts = [{
@@ -235,10 +236,10 @@ smacssGenerator.prototype.projectfiles = function projectfiles() {
     else {
         this.template("_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
         this.template("_package.json", this.appName + "/package.json", smacssGenerator.context);
+        this.template("root/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
     }
 
     // Root Files
-    this.template("root/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
     this.copy("root/_gitignore", this.appName + "/.gitignore");
     this.copy("root/_gitattributes", this.appName + "/.gitattributes");
     this.copy("root/_robots.txt", this.appName + "/robots.txt");
@@ -246,42 +247,54 @@ smacssGenerator.prototype.projectfiles = function projectfiles() {
 };
 
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+        var bower = {
+            name: this.appName,
+            private: true,
+            dependencies: {}
+        };
 
-    var bower = {
-        name: this.appName,
-        private: true,
-        dependencies: {}
-    };
+        // App Dependencies
+        if (this.includeQuery) {
+            bower.dependencies.jquery = '*';
+        }
+        if (this.includeModernizr) {
+            bower.dependencies.modernizr = '*';
+        }
 
-    // App Dependencies
-    if (this.includeQuery) {
-        bower.dependencies.jquery = '*';
+        // Angular Dependencies
+        if (this.appType === 'typeAngularApp') {
+            bower.dependencies.angular = "*";
+        }
+        // TODO: Include angular modules
+        // Angular Modules
+
+        this.copy('root/_bowerrc', this.appName + '/.bowerrc');
+        this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
     }
-    if (this.includeModernizr) {
-        bower.dependencies.modernizr = '*';
-    }
-
-    // Angular Dependencies
-    if (this.appType === 'typeAngularApp') {
-        bower.dependencies.angular = "*";
-    }
-    // TODO: Include angular modules
-    // Angular Modules
-
-    this.copy('root/_bowerrc', this.appName + '/.bowerrc');
-    this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
 };
 
 smacssGenerator.prototype.install = function install() {
 
     if (this.options['skip-install']) {
         this.log(chalk.gray('================================================================'));
-        this.log(
-          'Next Steps:' +
-          '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
-          '\n2) Install dependencies by typing '+ chalk.yellow.bold('npm install & bower install') +
-          '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
-        );
+
+        if(this.appType === 'typeSimpleWebApp') {
+            this.log(
+              'Next Steps:' +
+              '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
+              '\n2) Install dependencies by typing '+ chalk.yellow.bold('npm install') +
+              '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
+            )
+        }
+        else if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+            this.log(
+              'Next Steps:' +
+              '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
+              '\n2) Install dependencies by typing '+ chalk.yellow.bold('npm install & bower install') +
+              '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
+            );
+        }
     }
     else {
         //Change directory and install bower and npm
