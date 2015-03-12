@@ -241,6 +241,8 @@ smacssGenerator.prototype.projectfiles = function projectfiles() {
     this.template("root/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
     this.copy("root/_gitignore", this.appName + "/.gitignore");
     this.copy("root/_gitattributes", this.appName + "/.gitattributes");
+    this.copy("root/_robots.txt", this.appName + "/robots.txt");
+    this.copy("root/_favicon.ico", this.appName + "/app/favicon.ico");
 };
 
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
