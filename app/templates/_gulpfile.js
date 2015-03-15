@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     gulpIf = require('gulp-if'),
     sass = require('gulp-sass'),
     concat = require('gulp-concat'),
-	browserSync = require('browser-sync'),
+    browserSync = require('browser-sync'),
     runSequence = require('run-sequence'),
     jshintStylish = require('jshint-stylish'),
     fileInclude = require('gulp-file-include'),
@@ -111,11 +111,11 @@ gulp.task('html', function () {
 
     console.log(update('\n--------- Running HTML tasks ------------------------------------------\n'));
     return gulp.src([src.root + '/*.html', src.root + '/**/*.html'])
-        .pipe(gulpIf(production, plugins.minifyHtml(opts)))
         .pipe(plugins.fileInclude({
             prefix: '@@',
             basepath: '@file'
         }))
+        .pipe(gulpIf(production, plugins.minifyHtml(opts)))
         .pipe(plugins.size())
         .pipe(gulp.dest(build.root));
 });
@@ -234,16 +234,21 @@ gulp.task('bower', function() { 
     var jsFilter = filterByExtension('js');
 
     return gulp.src(mainFiles)
+        //For JS files
         .pipe(jsFilter)
-        .pipe(sourcemaps.init())
+        .pipe(sourcemaps.init({loadMaps : true}))
         .pipe(concat('bower.js'))
-        .pipe(sourcemaps.write())
+        .pipe(gulpIf(production, plugins.uglify()))
+        .pipe(gulpIf(production, sourcemaps.write('./')))
         .pipe(gulp.dest(build.js))
         .pipe(jsFilter.restore())
+        
+         //For CSS files
         .pipe(filterByExtension('css'))
-        .pipe(sourcemaps.init())
+        .pipe(sourcemaps.init({loadMaps : true}))
         .pipe(concat('bower.css'))
-        .pipe(sourcemaps.write())
+        .pipe(gulpIf(production, plugins.uglify()))
+        .pipe(gulpIf(production, sourcemaps.write('./')))
         .pipe(gulp.dest(build.css));
 });
 
@@ -277,7 +282,7 @@ gulp.task('prod', function () {
 
     console.log(update('\n--------- Build Production Mode  ---------------------------------------\n'));
     production = true;
-    runSequence('html', 'scripts', 'css', 'img-min', 'server', 'watch');
+    runSequence('html', 'scripts', 'css', 'bower', 'img-min', 'server', 'watch');
 });
 
 /*==========================================================
