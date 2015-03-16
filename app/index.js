@@ -305,9 +305,12 @@ smacssGenerator.prototype.install = function install() {
 
         this.log(chalk.gray('================================================================'));
         this.log(chalk.gray('Installing Dependencies, please wait...'));
-        console.log(this.appPath);
+        //console.log(this.appPath);
 
-        this.spawnCommand('npm', ['install'], { cwd: this.appPath});
+        this.installDependencies();
+
+        //this.spawnCommand('npm', ['install'], { cwd: this.appPath});
+        //this.spawnCommand('gulp', { cwd: this.appPath});
 
         // TODO: Change working directory, Run gulp after dependency installation
         /*var exec = require('child_process').exec;
