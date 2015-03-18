@@ -141,3 +141,15 @@ To be updated soon... stay tuned
 - `--skip-welcome-message` Skips the welcome message and take you to question.
 - `--skip-install` Skips the automatic execution of bower and npm after scaffolding has finished.
 
+# Contributions
+
+Contribution would be of great help to create a solid generator for frontend projects
+
+* Fork the project
+* Make your feature addition or bug fix
+* Send pull request
+
+**Active Contributers**
+
+[![Logesh Paul](https://avatars3.githubusercontent.com/u/41541?v=3&s=72)](http:/www.github.com/logeshpaul) [![Gokulakrishnan](https://avatars0.githubusercontent.com/u/2944237?v=3&s=72)](https://github.com/gokulkrishh) [![Sugan Krishnan](https://avatars1.githubusercontent.com/u/680120?v=3&s=72)](https://github.com/rgksugan)
+
