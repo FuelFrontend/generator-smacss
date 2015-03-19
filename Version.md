@@ -1,5 +1,14 @@
 # Version
 
+**v0.1.9**
+- Bower integrated to handle dependencies for full pack and angular apps
+- Sourcemaps added to production mode for easier debugging
+- Angular index page updated to shows minor angular feature
+- Favicon and robots.txt added to all apps
+- Message rephrased for `--skip-install` option based on app type
+- Directory structure and contribution updated in readme file
+- Optimization: Codeclimate fixes #4 and a lot more cleanup
+
 **v0.1.8**
 - Automatically install dependencies
 - Travis CI configuration
