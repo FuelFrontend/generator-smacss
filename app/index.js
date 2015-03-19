@@ -82,7 +82,7 @@ smacssGenerator.prototype.askAppType = function askAppType() {
     this.prompt(prompts, function (answers) {
         var type = answers.type;
 
-        this.appName = answers.appName;
+        this.appName = this._.camelize(this._.slugify(this._.humanize(answers.appName)));
         this.appType = answers.appType;
 
         done();
@@ -147,16 +147,34 @@ smacssGenerator.prototype.askAngularModules = function askAngularModules() {
             }]
         }];
         this.prompt(prompts, function (answers) {
-            var angularModules = answers.angularModules;
 
-            var hasFeature = function (feat) {
-                return angularModules.indexOf(feat) !== -1;
+            var hasModule = function (mod) {
+                return answers.angularModules.indexOf(mod) !== -1;
             };
 
-            this.includeRouteModule = hasFeature('includeRouteModule');
-            this.includeResourceModule = hasFeature('includeResourceModule');
-            this.includeSanitizeModule = hasFeature('includeSanitizeModule');
-            this.includeAnimateModule = hasFeature('includeAnimateModule');
+            this.includeRouteModule = hasModule('includeRouteModule');
+            this.includeResourceModule = hasModule('includeResourceModule');
+            this.includeSanitizeModule = hasModule('includeSanitizeModule');
+            this.includeAnimateModule = hasModule('includeAnimateModule');
+
+            var angMods = [];
+
+            if (this.includeRouteModule) {
+              angMods.push("'ngRoute'");
+            }
+            if (this.includeResourceModule) {
+              angMods.push("'ngResource'");
+            }
+            if (this.includeSanitizeModule) {
+              angMods.push("'ngSanitize'");
+            }
+            if (this.includeAnimateModule) {
+              angMods.push("'ngAnimate'");
+            }
+
+            if (angMods.length) {
+              this.env.options.angularDeps = '\n    ' + angMods.join(',\n    ') + '\n  ';
+            }
 
             done();
         }.bind(this));
@@ -191,11 +209,11 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     if(this.appType === 'typeSimpleWebApp') {
         this.template("simple-web-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
     }
+    else if(this.appType === 'typeFullPackWebApp') {
+        this.template("full-pack-web-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
+    }
     else if(this.appType === 'typeAngularApp') {
         this.template("angular-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
-    }
-    else {
-        this.template("_index.html", this.appName + "/app/index.html", smacssGenerator.context);
     }
 
     // Partial File Include
@@ -221,11 +239,6 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     // JS
     // TODO: Add JS Structure
     this.copy("js/_application.js", this.appName + "/app/js/application.js");
-
-    // TODO: remove this once bower is fixed.
-    // if(this.appType === 'typeAngularApp') {
-    //     this.copy("angular/_angular.js", this.appName + "/app/js/lib/angular.js");
-    // }
 };
 
 smacssGenerator.prototype.projectfiles = function projectfiles() {
@@ -247,30 +260,21 @@ smacssGenerator.prototype.projectfiles = function projectfiles() {
 };
 
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
+    // Bower is supported only in full & angular app types
     if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
         var bower = {
             name: this.appName,
             private: true,
             dependencies: {}
         };
-
-        // App Dependencies
-        if (this.includeQuery) {
-            bower.dependencies.jquery = '*';
-        }
-        if (this.includeModernizr) {
-            bower.dependencies.modernizr = '*';
-        }
-
-        // Angular Dependencies
-        if (this.appType === 'typeAngularApp') {
-            bower.dependencies.angular = "*";
-        }
-        // TODO: Include angular modules
-        // Angular Modules
-
         this.copy('root/_bowerrc', this.appName + '/.bowerrc');
-        this.write(this.appName +'/bower.json', JSON.stringify(bower, null, 2));
+
+        if(this.appType === 'typeFullPackWebApp') {
+            this.template('root/_full_pack_bower.json', this.appName + '/bower.json');
+        }
+        else {
+            this.template('root/_angular_bower.json', this.appName + '/bower.json');
+        }
     }
 };
 
