@@ -4,7 +4,8 @@ var yeoman = require('yeoman-generator'),
     util = require('util'),
     path = require('path'),
     yosay = require('yosay'),
-    chalk = require('chalk');
+    chalk = require('chalk'),
+    shell = require('shelljs');
 
 var smacssGenerator = yeoman.generators.Base.extend({
     constructor: function () {
@@ -279,15 +280,35 @@ smacssGenerator.prototype.injectDependencies = function injectDependencies() {
 };
 
 smacssGenerator.prototype.install = function install() {
+    // Installation context object
+    var installContext = {};
+    installContext.appPath = process.cwd() + "/"+ this.appName;
 
+    // Assign context based on app types
+    if(this.appType === 'typeSimpleWebApp') {
+        installContext.helpCommand = 'npm install';
+        installContext.includeNpm = true;
+        installContext.includeBower = false;
+    }
+    else {
+        installContext.helpCommand = 'npm install & bower install';
+        installContext.includeNpm = true;
+        installContext.includeBower = true;
+    }
+
+    // activating app directory for installation
+    process.chdir(installContext.appPath);
+
+    // Skip Install
     if (this.options['skip-install']) {
         this.log(chalk.gray('================================================================'));
+        this.log(chalk.gray('Follow the instructions below'));
 
         if(this.appType === 'typeSimpleWebApp') {
             this.log(
               'Next Steps:' +
               '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
-              '\n2) Install dependencies by typing '+ chalk.yellow.bold('npm install') +
+              '\n2) Install dependencies by typing '+ chalk.yellow.bold(installContext.helpCommand) +
               '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
             )
         }
@@ -295,35 +316,32 @@ smacssGenerator.prototype.install = function install() {
             this.log(
               'Next Steps:' +
               '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
-              '\n2) Install dependencies by typing '+ chalk.yellow.bold('npm install & bower install') +
+              '\n2) Install dependencies by typing '+ chalk.yellow.bold(installContext.helpCommand) +
               '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
             );
         }
     }
     else {
-        //Change directory and install bower and npm
-        var currentDirectory = process.cwd();
-        this.appPath = currentDirectory+"/"+ this.appName;
-
-        process.chdir(this.appPath);
-
         this.log(chalk.gray('================================================================'));
         this.log(chalk.gray('Installing Dependencies, please wait...'));
-        //console.log(this.appPath);
 
-        if(this.appType === 'typeSimpleWebApp' ) {
-            this.spawnCommand('npm', ['install'], { cwd: this.appPath}); // installs node dependencies
-        }
-        else {
-            this.installDependencies(); // installs node & bower dependencies
-        }
+        this.on('end', function () {
+            this.installDependencies({
+                bower: installContext.includeBower,
+                npm: installContext.includeNpm,
+                callback: function () {
+                    this.emit('dependenciesInstalled');
+                }.bind(this)
+            });
+        });
 
-        // TODO: Change working directory, Run gulp after dependency installation
-        /*var exec = require('child_process').exec;
-        var child;
-        child = exec('gulp', function (error, stdout, stderr) {
-            console.log(stdout);
-        });*/
+        this.on('dependenciesInstalled', function() {
+            this.log(chalk.gray('================================================================'));
+            this.log(chalk.gray('Dependencies Installed, please wait we start the server...'));
+
+            shell.cd(installContext.appPath);
+            shell.exec('gulp'); // trigger the server using gulp command
+        });
     }
 };
 
