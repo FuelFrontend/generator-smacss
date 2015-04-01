@@ -138,7 +138,7 @@ Use terminal to create controller, service, directive etc.
 	
 - Run following commands to create.
 
-1. Controller
+1.Controller
 
 ```````
 	yo smacss:controller <name>
@@ -146,7 +146,7 @@ Use terminal to create controller, service, directive etc.
 
 creates a controller in app/js/controllers
 
-2. Service
+2.Service
 
 ```````
 	yo smacss:service <name>
@@ -154,7 +154,7 @@ creates a controller in app/js/controllers
 
 creates a service in app/js/services
 
-3. Directive
+3.Directive
 
 ```````
 	yo smacss:directive <name>
@@ -162,7 +162,7 @@ creates a service in app/js/services
 
 creates a directive in app/js/directives
 
-4. Filter
+4.Filter
 
 ```````
 	yo smacss:filter <name>
