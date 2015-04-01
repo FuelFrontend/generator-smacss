@@ -237,13 +237,16 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     this.copy("scss/_module.scss", this.appName + "/app/scss/modules/module.scss");
     this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
 
-    // JS
-    // TODO: Add JS Structure
-    this.copy("js/_application.js", this.appName + "/app/js/application.js");
+    if (this.appType === 'typeAngularApp') {
+        this.copy("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
+    }
+    else {
+        this.copy("js/_application.js", this.appName + "/app/js/application.js");
+    }
 };
 
 smacssGenerator.prototype.projectfiles = function projectfiles() {
-    if(this.appType == 'typeSimpleWebApp') {
+    if(this.appType === 'typeSimpleWebApp') {
         this.template("simple-web-app/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
         this.template("simple-web-app/_package.json", this.appName + "/package.json", smacssGenerator.context);
     }
