@@ -132,6 +132,44 @@ At this stage your project is setup and dependencies are installed, It's showtim
 
 - Run `gulp` to run the server, and you are good to start your development.
 
+**Angular application quick commands**
+
+Use terminal to create controller, service, directive etc. 
+	
+	- Run following commands to create
+
+	1. Controller
+
+	```````
+		yo smacss:controller <name>
+	```````
+
+	creates a controller file in app/js/controllers
+
+	2. Service
+
+	```````
+		yo smacss:service <name>
+	```````
+
+	creates a service file in app/js/services
+
+	3. Directive
+
+	```````
+		yo smacss:directive <name>
+	```````
+
+	creates a directive file in app/js/directives
+
+	4. Filter
+
+	```````
+		yo smacss:filter <name>
+	```````
+
+	creates a filter file in app/js/filters
+
 # Docs
 
 To be updated soon... stay tuned
