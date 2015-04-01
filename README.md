@@ -136,35 +136,37 @@ At this stage your project is setup and dependencies are installed, It's showtim
 
 Use terminal to create controller, service, directive etc. 
 	
-	1. Controller
+- Run following commands to create.
 
-	```````
-		yo smacss:controller <name>
-	```````
+1.Controller
 
-	creates a controller in app/js/controllers
+```````
+	yo smacss:controller <name>
+```````
 
-	1. Service
+creates a controller in app/js/controllers
 
-	```````
-		yo smacss:service <name>
-	```````
+2.Service
 
-	creates a service in app/js/services
+```````
+	yo smacss:service <name>
+```````
 
-	1. Directive
+creates a service in app/js/services
 
-	```````
-		yo smacss:directive <name>
-	```````
+3.Directive
 
-	creates a directive in app/js/directives
+```````
+	yo smacss:directive <name>
+```````
 
-	1. Filter
+creates a directive in app/js/directives
 
-	```````
-		yo smacss:filter <name>
-	```````
+4.Filter
+
+```````
+	yo smacss:filter <name>
+```````
 
 creates a filter in app/js/filters
 
