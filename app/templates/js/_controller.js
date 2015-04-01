@@ -15,6 +15,6 @@ app.controller('<%= classedName %>Ctrl', ['$scope', function ($scope) {
 }]);
 
 
-/*-----  End of Controller = <%= classedName %>  ------*/
+/*-----  End of Controller = <%= classedName %>Ctrl  ------*/
 
 

@@ -1,6 +1,8 @@
 'use strict';
 var util = require('util'),
-    ScriptBase = require('../script-base.js');
+  chalk = require('chalk');
+  
+var ScriptBase = require('../script-base.js');
 
 var Generator = module.exports = function Generator() {
     ScriptBase.apply(this, arguments);
