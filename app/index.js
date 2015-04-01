@@ -48,9 +48,9 @@ smacssGenerator.prototype.initializing = function initializing() {
 smacssGenerator.prototype.welcome = function welcome() {
     if (!this.options['skip-welcome-message']) {
         this.log(yosay('Yo! Welcome to SMACSS'));
-        this.log(chalk.magenta.bold('You\'re using the perfectionist generator for frontend.'));
-        this.log(chalk.gray('================================================================'));
-        this.log(chalk.gray('Answer simple questions to kick start your project'));
+        this.log(chalk.yellow('┌──────────────────────────────────────────────────────────────┐'));
+        this.log(chalk.yellow('| Answer simple questions to kick start your project           |'));
+        this.log(chalk.yellow('└──────────────────────────────────────────────────────────────┘'));
     }
 };
 
@@ -183,8 +183,8 @@ smacssGenerator.prototype.askAngularModules = function askAngularModules() {
 };
 
 smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
-    this.log(chalk.gray('================================================================'));
-    this.log(chalk.gray('Creating the project structure'));
+    this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
+    this.log(chalk.yellow('Creating the project structure'));
 
     // Common Scaffolding for all projets
     this.mkdir(this.appName + '/app');
@@ -304,7 +304,7 @@ smacssGenerator.prototype.install = function install() {
 
     // Skip Install
     if (this.options['skip-install']) {
-        this.log(chalk.gray('================================================================'));
+        this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
         this.log(chalk.gray('Follow the instructions below'));
 
         if(this.appType === 'typeSimpleWebApp') {
@@ -325,8 +325,9 @@ smacssGenerator.prototype.install = function install() {
         }
     }
     else {
-        this.log(chalk.gray('================================================================'));
-        this.log(chalk.gray('Installing Dependencies, please wait...'));
+        this.log(chalk.gray('Project structure created successfully!'));
+        this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
+        this.log(chalk.yellow('Installing Dependencies, please wait...'));
 
         this.on('end', function () {
             this.installDependencies({
@@ -339,8 +340,9 @@ smacssGenerator.prototype.install = function install() {
         });
 
         this.on('dependenciesInstalled', function() {
-            this.log(chalk.gray('================================================================'));
-            this.log(chalk.gray('Dependencies Installed, please wait we start the server...'));
+             this.log(chalk.gray('Dependencies installed successfully!'));
+            this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
+            this.log(chalk.yellow('Please wait while we start the server...'));
 
             shell.cd(installContext.appPath);
             shell.exec('gulp'); // trigger the server using gulp command
