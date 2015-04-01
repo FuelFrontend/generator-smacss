@@ -238,7 +238,7 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
 
     if (this.appType === 'typeAngularApp') {
-        this.copy("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
+        this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
     }
     else {
         this.copy("js/_application.js", this.appName + "/app/js/application.js");
