@@ -1,11 +1,10 @@
 'use strict';
 var util  = require('util'),
-  chalk = require('chalk');
+    chalk = require('chalk');
 
 var ScriptBase = require('../script-base.js');
 
-
-var Generator = module.exports = function Generator() {
+var smacssGenerator = module.exports = function smacssGenerator() {
   ScriptBase.apply(this, arguments);
 
   // if the controller name is suffixed with ctrl, remove the suffix
@@ -15,12 +14,11 @@ var Generator = module.exports = function Generator() {
   }
 };
 
-util.inherits(Generator, ScriptBase);
+util.inherits(smacssGenerator, ScriptBase);
 
-//Function to create controller
-Generator.prototype.createControllerFiles = function createControllerFiles() {
-  
-  this.log(chalk.yellow('Creating controller, please wait...... \n'));
+// Function to create controller
+smacssGenerator.prototype.createControllerFiles = function createControllerFiles() {
+  this.log(chalk.yellow('Creating controller, please wait...... \n\n'));
 
   this.generateSourceAndTest(
     '_controller', // controller template name

@@ -1,18 +1,18 @@
 'use strict';
 var util = require('util'),
-  chalk = require('chalk');
-  
+    chalk = require('chalk');
+
 var ScriptBase = require('../script-base.js');
 
-var Generator = module.exports = function Generator() {
+var smacssGenerator = module.exports = function smacssGenerator() {
     ScriptBase.apply(this, arguments);
 };
 
-util.inherits(Generator, ScriptBase);
+util.inherits(smacssGenerator, ScriptBase);
 
-Generator.prototype.createFilterFiles = function createFilterFiles() {
+smacssGenerator.prototype.createFilterFiles = function createFilterFiles() {
 
-	this.log(chalk.yellow('Creating filter, please wait...... \n'));
+  this.log(chalk.yellow('Creating filter, please wait...... \n'));
 
   this.generateSourceAndTest(
     '_filter',

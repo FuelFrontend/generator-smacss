@@ -1,18 +1,16 @@
 'use strict';
 var util = require('util'),
-  chalk = require('chalk');
+    chalk = require('chalk');
 
 var ScriptBase = require('../script-base.js');
 
-
-var Generator = module.exports = function Generator() {
+var smacssGenerator = module.exports = function smacssGenerator() {
   ScriptBase.apply(this, arguments);
 };
 
-util.inherits(Generator, ScriptBase);
+util.inherits(smacssGenerator, ScriptBase);
 
-Generator.prototype.createServiceFiles = function createServiceFiles() {
-	
+smacssGenerator.prototype.createServiceFiles = function createServiceFiles() {
 	this.log(chalk.yellow('Creating service, please wait...... \n'));
 
   this.generateSourceAndTest(
