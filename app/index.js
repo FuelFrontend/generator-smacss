@@ -286,6 +286,7 @@ smacssGenerator.prototype.install = function install() {
     // Installation context object
     var installContext = {};
     installContext.appPath = process.cwd() + "/"+ this.appName;
+    process.chdir(installContext.appPath); // activating app directory for installation
 
     // Assign context based on app types
     if(this.appType === 'typeSimpleWebApp') {
@@ -299,33 +300,24 @@ smacssGenerator.prototype.install = function install() {
         installContext.includeBower = true;
     }
 
-    // activating app directory for installation
-    process.chdir(installContext.appPath);
-
-    // Skip Install
     if (this.options['skip-install']) {
+        this.log(chalk.green('✔ Project structure created successfully!'));
         this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
-        this.log(chalk.gray('Follow the instructions below'));
+        this.log(chalk.yellow('Follow the instructions below'));
 
-        if(this.appType === 'typeSimpleWebApp') {
-            this.log(
+        var skipHelpMessage = function(appname, command) {
+            console.log(
               'Next Steps:' +
-              '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
-              '\n2) Install dependencies by typing '+ chalk.yellow.bold(installContext.helpCommand) +
+              '\n1) Now '+ chalk.yellow.bold('cd '+ appname +'') + ' into your project folder' +
+              '\n2) Install dependencies by typing '+ chalk.yellow.bold(command) +
               '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
             )
-        }
-        else if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
-            this.log(
-              'Next Steps:' +
-              '\n1) Now '+ chalk.yellow.bold('cd '+ this.appName +'') + ' into your project folder' +
-              '\n2) Install dependencies by typing '+ chalk.yellow.bold(installContext.helpCommand) +
-              '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
-            );
-        }
+        };
+
+        skipHelpMessage(this.appName, installContext.helpCommand);
     }
     else {
-        this.log(chalk.gray('Project structure created successfully!'));
+        this.log(chalk.green('✔ Project structure created successfully!'));
         this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
         this.log(chalk.yellow('Installing Dependencies, please wait...'));
 
@@ -340,7 +332,7 @@ smacssGenerator.prototype.install = function install() {
         });
 
         this.on('dependenciesInstalled', function() {
-             this.log(chalk.gray('Dependencies installed successfully!'));
+            this.log(chalk.green('✔ Dependencies installed successfully!'));
             this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
             this.log(chalk.yellow('Please wait while we start the server...'));
 
