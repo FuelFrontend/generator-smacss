@@ -1,4 +1,9 @@
-# Version
+# Release History
+
+**v0.2.0**
+- Two great and good to have features included
+- Completely automated dependency installation, trigger local server, open the app in browser
+- Angular app quick commands for creating - controller, directive, filter and services
 
 **v0.1.9**
 - Bower integrated to handle dependencies for full pack and angular apps
