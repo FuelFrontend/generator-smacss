@@ -50,6 +50,7 @@ smacssGenerator.prototype.welcome = function welcome() {
     if (!this.options['skip-welcome-message']) {
         this.log(yosay('Yo! Welcome to SMACSS'));
         this.log(
+          chalk.magenta("Your'e using the Perfectionist generator for Frontend\n") +
           chalk.yellow('┌──────────────────────────────────────────────────────────────┐ \n' +
                        '| Answer simple questions to kick start your project           | \n' +
                        '└──────────────────────────────────────────────────────────────┘ ')

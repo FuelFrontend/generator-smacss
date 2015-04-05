@@ -8,6 +8,11 @@
 
 [Work In Progress] Perfectionist generator that scaffolds out different types of Frontend application
 
+![Generator Smacss](https://raw.githubusercontent.com/FuelFrontend/generator-smacss/master/smacss-in-action.png "Generator Smacss")
+
+![Join the chat at https://gitter.im/FuelFrontend/generator-smacss]()
+
+
 # Features
 
 - **Different Projects; One Generator** - Create your type of project in fairly simple steps
