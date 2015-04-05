@@ -223,7 +223,7 @@ gulp.task('watch', function () {
 /*==========================================================
  GULP: APP TASKS :: Bower file include
 ===========================================================*/
-gulp.task('bower', function() { 
+gulp.task('bower', function() {
     var mainFiles = mainBowerFiles();
 
     if(!mainFiles.length){

@@ -1,8 +1,6 @@
-
 /*================================================================
-=>                   Service = <%= cameledName %>
+Service = <%= cameledName %>
 ==================================================================*/
-/*global app*/
 
 app.service('<%= cameledName %>', ['$rootScope', '$q', '$http',  function ($rootScope, $q, $http) {
 
@@ -46,6 +44,5 @@ app.service('<%= cameledName %>', ['$rootScope', '$q', '$http',  function ($root
   };
 
 }]);
-
 
 /*-----  End of Service = <%= cameledName %>  ------*/

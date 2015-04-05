@@ -12,6 +12,7 @@ var smacssGenerator = yeoman.generators.Base.extend({
         // note: arguments and options should be defined in the constructor.
         yeoman.generators.Base.apply(this, arguments);
 
+        // Options
         this.option('app-suffix', {
             desc: 'Allow a custom suffix to be added to the module name',
             type: String,
@@ -48,9 +49,11 @@ smacssGenerator.prototype.initializing = function initializing() {
 smacssGenerator.prototype.welcome = function welcome() {
     if (!this.options['skip-welcome-message']) {
         this.log(yosay('Yo! Welcome to SMACSS'));
-        this.log(chalk.yellow('┌──────────────────────────────────────────────────────────────┐'));
-        this.log(chalk.yellow('| Answer simple questions to kick start your project           |'));
-        this.log(chalk.yellow('└──────────────────────────────────────────────────────────────┘'));
+        this.log(
+          chalk.yellow('┌──────────────────────────────────────────────────────────────┐ \n' +
+                       '| Answer simple questions to kick start your project           | \n' +
+                       '└──────────────────────────────────────────────────────────────┘ ')
+        );
     }
 };
 
@@ -85,6 +88,11 @@ smacssGenerator.prototype.askAppType = function askAppType() {
 
         this.appName = this._.camelize(this._.slugify(this._.humanize(answers.appName)));
         this.appType = answers.appType;
+
+        // Underscore templating context to replace placeholders
+        smacssGenerator.context = {
+            site_name: this.appName,
+        };
 
         done();
     }.bind(this));
@@ -183,8 +191,11 @@ smacssGenerator.prototype.askAngularModules = function askAngularModules() {
 };
 
 smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
-    this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
-    this.log(chalk.yellow('Creating the project structure'));
+    this.log(
+      chalk.yellow('\n┌──────────────────────────────────────────────────────────────┐ \n' +
+                     '| Creating the project structure                               | \n' +
+                     '└──────────────────────────────────────────────────────────────┘ ')
+    );
 
     // Common Scaffolding for all projets
     this.mkdir(this.appName + '/app');
@@ -200,43 +211,34 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
     }
 };
 
-smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
-    // Underscore templating context to replace placeholders
-    smacssGenerator.context = {
-        site_name: this.appName,
-    };
+smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
+  // Replace folder name with appType variable
 
-    // HTML
-    if(this.appType === 'typeSimpleWebApp') {
-        this.template("simple-web-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
-    }
-    else if(this.appType === 'typeFullPackWebApp') {
-        this.template("full-pack-web-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
-    }
-    else if(this.appType === 'typeAngularApp') {
-        this.template("angular-app/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
-    }
+  this.template("_" + this.appType + "/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
 
-    // Partial File Include
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
-        this.template("partials/_header.html", this.appName + "/app/partials/_header.html", smacssGenerator.context);
-        this.template("partials/_footer.html", this.appName + "/app/partials/_footer.html", smacssGenerator.context);
-    }
+  // Partial File Include
+  if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+      this.template("partials/_header.html", this.appName + "/app/partials/_header.html", smacssGenerator.context);
+      this.template("partials/_footer.html", this.appName + "/app/partials/_footer.html", smacssGenerator.context);
+  }
+};
 
-    // CSS
-    this.copy("_master.css", this.appName + "/app/css/master.css");
+smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
+  this.copy("common/_master.css", this.appName + "/app/css/master.css");
 
-    // SMACSS - SCSS Structure
-    // TODO: Update structure based on ticket #7
-    this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
-    this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
-    this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
-    this.copy("scss/_reset.scss", this.appName + "/app/scss/reset.scss");
-    this.copy("scss/_variables.scss", this.appName + "/app/scss/variables.scss");
-    this.copy("scss/_mixins.scss", this.appName + "/app/scss/mixins.scss");
-    this.copy("scss/_module.scss", this.appName + "/app/scss/modules/module.scss");
-    this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
+  // SMACSS - SCSS Structure
+  // TODO: Update structure based on ticket #7
+  this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
+  this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
+  this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
+  this.copy("scss/_reset.scss", this.appName + "/app/scss/reset.scss");
+  this.copy("scss/_variables.scss", this.appName + "/app/scss/variables.scss");
+  this.copy("scss/_mixins.scss", this.appName + "/app/scss/mixins.scss");
+  this.copy("scss/_module.scss", this.appName + "/app/scss/modules/module.scss");
+  this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
+};
 
+smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
     if (this.appType === 'typeAngularApp') {
         this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
     }
@@ -245,22 +247,20 @@ smacssGenerator.prototype.copyMainFiles = function copyMainFiles() {
     }
 };
 
-smacssGenerator.prototype.projectfiles = function projectfiles() {
-    if(this.appType === 'typeSimpleWebApp') {
-        this.template("simple-web-app/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
-        this.template("simple-web-app/_package.json", this.appName + "/package.json", smacssGenerator.context);
-    }
-    else {
-        this.template("_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
-        this.template("_package.json", this.appName + "/package.json", smacssGenerator.context);
-        this.template("root/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
-    }
+smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
+  this.template("_" + this.appType + "/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
+  this.template("_" + this.appType + "/_package.json", this.appName + "/package.json", smacssGenerator.context);
+};
 
-    // Root Files
-    this.copy("root/_gitignore", this.appName + "/.gitignore");
-    this.copy("root/_gitattributes", this.appName + "/.gitattributes");
-    this.copy("root/_robots.txt", this.appName + "/robots.txt");
-    this.copy("root/_favicon.ico", this.appName + "/app/favicon.ico");
+smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
+  this.copy("common/_gitignore", this.appName + "/.gitignore");
+  this.copy("common/_gitattributes", this.appName + "/.gitattributes");
+  this.copy("common/_robots.txt", this.appName + "/robots.txt");
+  this.copy("common/_favicon.ico", this.appName + "/app/favicon.ico");
+
+  if(this.appType !== 'typeSimpleWebApp') {
+    this.template("common/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
+  }
 };
 
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
@@ -271,14 +271,9 @@ smacssGenerator.prototype.injectDependencies = function injectDependencies() {
             private: true,
             dependencies: {}
         };
-        this.copy('root/_bowerrc', this.appName + '/.bowerrc');
+        this.copy('common/_bowerrc', this.appName + '/.bowerrc');
 
-        if(this.appType === 'typeFullPackWebApp') {
-            this.template('root/_full_pack_bower.json', this.appName + '/bower.json');
-        }
-        else {
-            this.template('root/_angular_bower.json', this.appName + '/bower.json');
-        }
+        this.template("_" + this.appType + '/_bower.json', this.appName + '/bower.json');
     }
 };
 
@@ -301,9 +296,12 @@ smacssGenerator.prototype.install = function install() {
     }
 
     if (this.options['skip-install']) {
-        this.log(chalk.green('✔ Project structure created successfully!'));
-        this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
-        this.log(chalk.yellow('Follow the instructions below'));
+        this.log(
+          chalk.green('\n ✔  Project structure created successfully! \n\n') +
+          chalk.yellow('┌──────────────────────────────────────────────────────────────┐ \n' +
+                       '| Follow the instructions below                                | \n' +
+                       '└──────────────────────────────────────────────────────────────┘ ')
+        );
 
         var skipHelpMessage = function(appname, command) {
             console.log(
@@ -317,9 +315,12 @@ smacssGenerator.prototype.install = function install() {
         skipHelpMessage(this.appName, installContext.helpCommand);
     }
     else {
-        this.log(chalk.green('✔ Project structure created successfully!'));
-        this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
-        this.log(chalk.yellow('Installing Dependencies, please wait...'));
+        this.log(
+          chalk.green('\n ✔  Project structure created successfully! \n\n') +
+          chalk.yellow('┌──────────────────────────────────────────────────────────────┐ \n' +
+                       '| Installating Dependencies, Please wait...                    | \n' +
+                       '└──────────────────────────────────────────────────────────────┘ ')
+        );
 
         this.on('end', function () {
             this.installDependencies({
@@ -332,9 +333,12 @@ smacssGenerator.prototype.install = function install() {
         });
 
         this.on('dependenciesInstalled', function() {
-            this.log(chalk.green('✔ Dependencies installed successfully!'));
-            this.log(chalk.gray('────────────────────────────────────────────────────────────────'));
-            this.log(chalk.yellow('Please wait while we start the server...'));
+            this.log(
+              chalk.green('\n ✔  Dependencies installed successfully! \n\n') +
+              chalk.yellow('┌──────────────────────────────────────────────────────────────┐ \n' +
+                           '| Please wait while we start the server...                     | \n' +
+                           '└──────────────────────────────────────────────────────────────┘ \n')
+            );
 
             shell.cd(installContext.appPath);
             shell.exec('gulp'); // trigger the server using gulp command
