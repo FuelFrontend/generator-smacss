@@ -173,7 +173,7 @@ Your directory structure will look like this
 
 Terminal commands to speed up repetitive tasks you do in projects. Simple app idea is to maintain as minimal as possible; so quick commands won't work.
 
-######General - Applies to Full Pack and Angular
+#### General - Applies to Full Pack and Angular
 
 * **Clean** _Remove all files from your build folder_
 
@@ -187,7 +187,7 @@ Terminal commands to speed up repetitive tasks you do in projects. Simple app id
   gulp zip
   ```````
 
-######Angular App
+#### Angular App
 
 * **Controller** _Creates a controller in `app/js/controllers`_
 

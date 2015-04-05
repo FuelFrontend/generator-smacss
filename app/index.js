@@ -213,7 +213,7 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
 
 smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
   // Replace folder name with appType variable
-
+  this.copy("common/_404.html", this.appName + "/app/404.html");
   this.template("_" + this.appType + "/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
 
   // Partial File Include
