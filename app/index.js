@@ -249,7 +249,12 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
 };
 
 smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
-  this.template("_" + this.appType + "/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
+  if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+    this.template("common/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
+  }
+  else {
+    this.template("_typeSimpleWebApp/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
+  }
   this.template("_" + this.appType + "/_package.json", this.appName + "/package.json", smacssGenerator.context);
 };
 

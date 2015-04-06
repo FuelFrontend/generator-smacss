@@ -6,11 +6,9 @@
 [![Code Climate](https://codeclimate.com/github/FuelFrontend/generator-smacss/badges/gpa.svg)](https://codeclimate.com/github/FuelFrontend/generator-smacss)
 -->
 
-[Work In Progress] Perfectionist generator that scaffolds out different types of Frontend application
+Perfectionist generator that scaffolds out different types of Frontend application
 
 ![Generator Smacss](https://raw.githubusercontent.com/FuelFrontend/generator-smacss/master/smacss-in-action.png "Generator Smacss")
-
-![Join the chat at https://gitter.im/FuelFrontend/generator-smacss]()
 
 
 # Features

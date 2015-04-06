@@ -1,5 +1,10 @@
 # Release History
 
+**v0.2.1**
+- Improvements: Refactoring, Extracted Methods, Cleanup, Director structure update
+- Readme file improvements and Better Favicon
+- Included 404 Page
+
 **v0.2.0**
 - Two great and good to have features included
 - Completely automated dependency installation, trigger local server, open the app in browser
