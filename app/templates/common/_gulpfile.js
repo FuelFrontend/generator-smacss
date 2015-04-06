@@ -7,22 +7,16 @@ var gulp = require('gulp'),
     del = require('del'),
     open = require('open'),
     chalk = require('chalk'),
-    gulpIf = require('gulp-if'),
-    sass = require('gulp-sass'),
-    concat = require('gulp-concat'),
     browserSync = require('browser-sync'),
     runSequence = require('run-sequence'),
     jshintStylish = require('jshint-stylish'),
-    fileInclude = require('gulp-file-include'),
-    mainBowerFiles = require('main-bower-files'),
-    sourcemaps = require('gulp-sourcemaps'),
-    filter = require('gulp-filter'),
-    gulploadPlugins = require('gulp-load-plugins');
+    mainBowerFiles = require('main-bower-files');
 
-var plugins = gulploadPlugins();
+var plugins = require('gulp-load-plugins')(); // Gulp Plugins
 
+// File extension config
 var filterByExtension = function(extension){
-    return filter(function(file){
+    return plugins.filter(function(file){
         return file.path.match(new RegExp('.' + extension + '$'));
     });
 };
@@ -115,7 +109,7 @@ gulp.task('html', function () {
             prefix: '@@',
             basepath: '@file'
         }))
-        .pipe(gulpIf(production, plugins.minifyHtml(opts)))
+        .pipe(plugins.if(production, plugins.minifyHtml(opts)))
         .pipe(plugins.size())
         .pipe(gulp.dest(build.root));
 });
@@ -150,7 +144,7 @@ gulp.task('css', ['sass', 'fonts'], function () {
 
     console.log(update('\n--------- Running CSS tasks --------------------------------------------\n'));
     return gulp.src([src.css + '/**/*.css'])
-        .pipe(gulpIf(production, plugins.minifyCss()))
+        .pipe(plugins.if(production, plugins.minifyCss()))
         .pipe(plugins.concat('master.css'))
         .pipe(plugins.size())
         .pipe(gulp.dest(build.css));
@@ -167,7 +161,7 @@ gulp.task('scripts', function () {
         .pipe(plugins.jshint('.jshintrc'))
         .pipe(plugins.jshint.reporter(jshintStylish))
         .pipe(plugins.concat('application.js'))
-        .pipe(gulpIf(production, plugins.uglify()))
+        .pipe(plugins.if(production, plugins.uglify()))
         .pipe(plugins.size())
         .pipe(gulp.dest(build.js));
 });
@@ -236,19 +230,19 @@ gulp.task('bower', function() {
     return gulp.src(mainFiles)
         //For JS files
         .pipe(jsFilter)
-        .pipe(sourcemaps.init({loadMaps : true}))
-        .pipe(concat('bower.js'))
-        .pipe(gulpIf(production, plugins.uglify()))
-        .pipe(gulpIf(production, sourcemaps.write('./')))
+        .pipe(plugins.sourcemaps.init({loadMaps : true}))
+        .pipe(plugins.concat('bower.js'))
+        .pipe(plugins.if(production, plugins.uglify()))
+        .pipe(plugins.if(production, plugins.sourcemaps.write('./')))
         .pipe(gulp.dest(build.js))
         .pipe(jsFilter.restore())
 
          //For CSS files
         .pipe(filterByExtension('css'))
-        .pipe(sourcemaps.init({loadMaps : true}))
-        .pipe(concat('bower.css'))
-        .pipe(gulpIf(production, plugins.uglify()))
-        .pipe(gulpIf(production, sourcemaps.write('./')))
+        .pipe(plugins.sourcemaps.init({loadMaps : true}))
+        .pipe(plugins.concat('bower.css'))
+        .pipe(plugins.if(production, plugins.uglify()))
+        .pipe(plugins.if(production, plugins.sourcemaps.write('./')))
         .pipe(gulp.dest(build.css));
 });
 
@@ -305,7 +299,7 @@ gulp.task('clean', function () {
     console.log(update('\n--------- Clean:Build Folder ------------------------------------------\n'));
 
     del('build/', function (err) {
-    console.log(update('All are files deleted from the build folder'));
+        console.log(update('All are files deleted from the build folder'));
     });
 });
 
@@ -315,7 +309,7 @@ gulp.task('zip', function () {
 
     console.log(update('\n--------- Zipping Build Files ------------------------------------------\n'));
     return gulp.src([build.root + '/**/*'])
-        .pipe(plugins.zip('<%= site_name %> - ' + date + '.zip'))
+        .pipe(plugins.zip('angular - ' + date + '.zip'))
         .pipe(plugins.size())
         .pipe(gulp.dest('./zip/'));
 });
