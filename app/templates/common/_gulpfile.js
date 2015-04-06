@@ -309,7 +309,7 @@ gulp.task('zip', function () {
 
     console.log(update('\n--------- Zipping Build Files ------------------------------------------\n'));
     return gulp.src([build.root + '/**/*'])
-        .pipe(plugins.zip('angular - ' + date + '.zip'))
+        .pipe(plugins.zip('<%= site_name %> - ' + date + '.zip'))
         .pipe(plugins.size())
         .pipe(gulp.dest('./zip/'));
 });
