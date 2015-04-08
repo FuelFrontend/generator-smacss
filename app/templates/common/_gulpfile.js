@@ -7,16 +7,22 @@ var gulp = require('gulp'),
     del = require('del'),
     open = require('open'),
     chalk = require('chalk'),
+    gulpIf = require('gulp-if'),
+    sass = require('gulp-sass'),
+    concat = require('gulp-concat'),
     browserSync = require('browser-sync'),
     runSequence = require('run-sequence'),
     jshintStylish = require('jshint-stylish'),
-    mainBowerFiles = require('main-bower-files');
+    fileInclude = require('gulp-file-include'),
+    mainBowerFiles = require('main-bower-files'),
+    sourcemaps = require('gulp-sourcemaps'),
+    filter = require('gulp-filter'),
+    gulploadPlugins = require('gulp-load-plugins');
 
-var plugins = require('gulp-load-plugins')(); // Gulp Plugins
+var plugins = gulploadPlugins();
 
-// File extension config
 var filterByExtension = function(extension){
-    return plugins.filter(function(file){
+    return filter(function(file){
         return file.path.match(new RegExp('.' + extension + '$'));
     });
 };
@@ -109,7 +115,7 @@ gulp.task('html', function () {
             prefix: '@@',
             basepath: '@file'
         }))
-        .pipe(plugins.if(production, plugins.minifyHtml(opts)))
+        .pipe(gulpIf(production, plugins.minifyHtml(opts)))
         .pipe(plugins.size())
         .pipe(gulp.dest(build.root));
 });
@@ -120,7 +126,7 @@ gulp.task('html', function () {
 
 var callback = function (err) {
     console.log(error('\n--------- SASS file has error clear it to see changes, check the log below -------------\n'));
-    console.log(error(err));
+    console.log(err);
 };
 
 gulp.task('sass', function () {
@@ -140,11 +146,11 @@ gulp.task('fonts', function () {
         .pipe(gulp.dest(build.fonts));
 });
 
-gulp.task('css', ['sass', 'fonts'], function () {
+gulp.task('css', ['sass'], function () {
 
     console.log(update('\n--------- Running CSS tasks --------------------------------------------\n'));
     return gulp.src([src.css + '/**/*.css'])
-        .pipe(plugins.if(production, plugins.minifyCss()))
+        .pipe(gulpIf(production, plugins.minifyCss()))
         .pipe(plugins.concat('master.css'))
         .pipe(plugins.size())
         .pipe(gulp.dest(build.css));
@@ -161,7 +167,7 @@ gulp.task('scripts', function () {
         .pipe(plugins.jshint('.jshintrc'))
         .pipe(plugins.jshint.reporter(jshintStylish))
         .pipe(plugins.concat('application.js'))
-        .pipe(plugins.if(production, plugins.uglify()))
+        .pipe(gulpIf(production, plugins.uglify()))
         .pipe(plugins.size())
         .pipe(gulp.dest(build.js));
 });
@@ -192,7 +198,7 @@ gulp.task('watch', function () {
         SASS    = gulp.watch(['app/*.scss', 'app/scss/**/*.scss'], ['css']),
         FONTS   = gulp.watch(['app/fonts/*.*', 'app/fonts/**/*.*'], ['fonts']),
         IMG     = gulp.watch(['app/images/*.*', 'app/images/**/*.*'], ['img-min']),
-        BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['concat-bower']);
+        BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['bower']);
 
     var log = function (event) {
         if (event.type === 'deleted') {
@@ -230,19 +236,19 @@ gulp.task('bower', function() {
     return gulp.src(mainFiles)
         //For JS files
         .pipe(jsFilter)
-        .pipe(plugins.sourcemaps.init({loadMaps : true}))
-        .pipe(plugins.concat('bower.js'))
-        .pipe(plugins.if(production, plugins.uglify()))
-        .pipe(plugins.if(production, plugins.sourcemaps.write('./')))
+        .pipe(sourcemaps.init({loadMaps : true}))
+        .pipe(concat('bower.js'))
+        .pipe(gulpIf(production, plugins.uglify()))
+        .pipe(gulpIf(production, sourcemaps.write('./')))
         .pipe(gulp.dest(build.js))
         .pipe(jsFilter.restore())
 
          //For CSS files
         .pipe(filterByExtension('css'))
-        .pipe(plugins.sourcemaps.init({loadMaps : true}))
-        .pipe(plugins.concat('bower.css'))
-        .pipe(plugins.if(production, plugins.uglify()))
-        .pipe(plugins.if(production, plugins.sourcemaps.write('./')))
+        .pipe(sourcemaps.init({loadMaps : true}))
+        .pipe(concat('bower.css'))
+        .pipe(gulpIf(production, plugins.uglify()))
+        .pipe(gulpIf(production, sourcemaps.write('./')))
         .pipe(gulp.dest(build.css));
 });
 
@@ -269,14 +275,14 @@ gulp.task('browser-sync', function () {
 gulp.task('build', function () {
 
     console.log(update('\n--------- Build Development Mode  --------------------------------------\n'));
-    runSequence('html', 'scripts', 'css',  'bower', 'server', 'watch');
+    runSequence('html', 'scripts', 'css',  'bower', 'img-min', 'fonts', 'server', 'watch');
 });
 
 gulp.task('prod', function () {
 
     console.log(update('\n--------- Build Production Mode  ---------------------------------------\n'));
     production = true;
-    runSequence('html', 'scripts', 'css', 'bower', 'img-min', 'server', 'watch');
+    runSequence('html', 'scripts', 'css', 'bower', 'img-min', 'fonts', 'server', 'watch');
 });
 
 /*==========================================================
@@ -299,7 +305,7 @@ gulp.task('clean', function () {
     console.log(update('\n--------- Clean:Build Folder ------------------------------------------\n'));
 
     del('build/', function (err) {
-        console.log(update('All are files deleted from the build folder'));
+    console.log(update('All are files deleted from the build folder'));
     });
 });
 
@@ -309,7 +315,7 @@ gulp.task('zip', function () {
 
     console.log(update('\n--------- Zipping Build Files ------------------------------------------\n'));
     return gulp.src([build.root + '/**/*'])
-        .pipe(plugins.zip('<%= site_name %> - ' + date + '.zip'))
+        .pipe(plugins.zip('eruditus - ' + date + '.zip'))
         .pipe(plugins.size())
         .pipe(gulp.dest('./zip/'));
 });
