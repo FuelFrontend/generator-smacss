@@ -1,15 +1,10 @@
 # Generator for Frontend Projects
 
-[![Join the chat at https://gitter.im/FuelFrontend/generator-smacss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FuelFrontend/generator-smacss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-<!-- TODO: Resolve codeclimate issues and enable it
-[![Code Climate](https://codeclimate.com/github/FuelFrontend/generator-smacss/badges/gpa.svg)](https://codeclimate.com/github/FuelFrontend/generator-smacss)
--->
-
 Perfectionist generator that scaffolds out different types of Frontend application
 
-![Generator Smacss](https://raw.githubusercontent.com/FuelFrontend/generator-smacss/master/smacss-in-action.png "Generator Smacss")
+[![Join the chat at https://gitter.im/FuelFrontend/generator-smacss](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FuelFrontend/generator-smacss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Travis CI](https://api.travis-ci.org/FuelFrontend/generator-smacss.svg?branch=master)](https://travis-ci.org/FuelFrontend/generator-smacss) [![Code Climate](https://codeclimate.com/github/FuelFrontend/generator-smacss/badges/gpa.svg)](https://codeclimate.com/github/FuelFrontend/generator-smacss)
 
+![Generator Smacss](https://raw.githubusercontent.com/FuelFrontend/generator-smacss/master/smacss-in-action.png "Generator Smacss")
 
 # Features
 
@@ -247,5 +242,5 @@ Contribution would be of great help to create a solid generator for frontend pro
 
 **Active Contributers**
 
-[![Logesh Paul](https://avatars3.githubusercontent.com/u/41541?v=3&s=72)](http:/www.github.com/logeshpaul) [![Gokulakrishnan](https://avatars0.githubusercontent.com/u/2944237?v=3&s=72)](https://github.com/gokulkrishh) [![Sugan Krishnan](https://avatars1.githubusercontent.com/u/680120?v=3&s=72)](https://github.com/rgksugan)
+[![Logesh Paul](https://avatars3.githubusercontent.com/u/41541?v=3&s=72)](http:/www.github.com/logeshpaul) [![Gokulakrishnan](https://avatars0.githubusercontent.com/u/2944237?v=3&s=72)](https://github.com/gokulkrishh) [![Ritesh Babu](https://avatars3.githubusercontent.com/u/736660?v=3&s=72)](https://github.com/riteshbabu) [![Sugan Krishnan](https://avatars1.githubusercontent.com/u/680120?v=3&s=72)](https://github.com/rgksugan)
 
