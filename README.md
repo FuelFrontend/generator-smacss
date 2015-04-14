@@ -221,6 +221,21 @@ You can switch to production mode using the following command
 gulp prod
 ```````
 
+# Bower Components
+
+Tip: While installation additional bower components to your project, make sure your save your new component
+in your `bower.json` file by installing like below
+
+```````
+bower install <bower-component-name> --save
+```````
+
+So that generator will automatically include your new bower component to `bower.js` file for usage
+
+# Release Notes
+
+You can find the detailed release notes [here](https://github.com/FuelFrontend/generator-smacss/blob/master/release.md)
+
 <!-- TODO: Add documentaiton and enable this
 # Docs
 
