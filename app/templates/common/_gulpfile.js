@@ -4,6 +4,7 @@
  Define the variables of your dependencies in this section
 -----------------------------------------------------------*/
 var gulp = require('gulp'),
+    bower = require('bower'),
     del = require('del'),
     open = require('open'),
     chalk = require('chalk'),
@@ -17,9 +18,12 @@ var gulp = require('gulp'),
     mainBowerFiles = require('main-bower-files'),
     sourcemaps = require('gulp-sourcemaps'),
     filter = require('gulp-filter'),
+    underscore = require('underscore'),
+    underscoreStr = require('underscore.string'),
     gulploadPlugins = require('gulp-load-plugins');
 
 var plugins = gulploadPlugins();
+var exclude = [];
 
 var filterByExtension = function(extension){
     return filter(function(file){
@@ -198,7 +202,7 @@ gulp.task('watch', function () {
         SASS    = gulp.watch(['app/*.scss', 'app/scss/**/*.scss'], ['css']),
         FONTS   = gulp.watch(['app/fonts/*.*', 'app/fonts/**/*.*'], ['fonts']),
         IMG     = gulp.watch(['app/images/*.*', 'app/images/**/*.*'], ['img-min']),
-        BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['bower']);
+        BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['bundle-libraries']);
 
     var log = function (event) {
         if (event.type === 'deleted') {
@@ -223,34 +227,111 @@ gulp.task('watch', function () {
 /*==========================================================
  GULP: APP TASKS :: Bower file include
 ===========================================================*/
-gulp.task('bower', function() {
-    var mainFiles = mainBowerFiles();
+gulp.task('bower', function(cb){
+  bower.commands.install([], {save: true}, {})
+    .on('end', function(installed){
+        console.log(update('Bower installation completed'));
+      cb(); // notify gulp that this task is finished
+    });
+});
 
-    if(!mainFiles.length){
-        // No main files found. Skipping....
-        return;
+gulp.task('bundle-libraries', ['bower'], function(){
+  var bowerFile = require('./bower.json');
+  var bowerPackages = bowerFile.dependencies;
+  var bowerDir = './bower_components';
+  var packagesOrder = [];
+  var mainFiles = [];
+
+  // Function for adding package name into packagesOrder array in the right order
+  function addPackage(name){
+    // package info and dependencies
+    var info = require(bowerDir + '/' + name + '/bower.json');
+    var dependencies = info.dependencies;
+
+    // add dependencies by repeat the step
+    if(!!dependencies){
+      underscore.each(dependencies, function(value, key){
+        if(exclude.indexOf(key) === -1){
+          addPackage(key);
+        }
+      });
     }
 
-    var jsFilter = filterByExtension('js');
+    // and then add this package into the packagesOrder array if they are not exist yet
+    if(packagesOrder.indexOf(name) === -1){
+      packagesOrder.push(name);
+    }
+  }
 
-    return gulp.src(mainFiles)
-        //For JS files
-        .pipe(jsFilter)
-        .pipe(sourcemaps.init({loadMaps : true}))
-        .pipe(concat('bower.js'))
-        .pipe(gulpIf(production, plugins.uglify()))
-        .pipe(gulpIf(production, sourcemaps.write('./')))
-        .pipe(gulp.dest(build.js))
-        .pipe(jsFilter.restore())
+  // calculate the order of packages
+  underscore.each(bowerPackages, function(value, key){
+    if(exclude.indexOf(key) === -1){ // add to packagesOrder if it's not in exclude
+      addPackage(key);
+    }
+  });
 
-         //For CSS files
-        .pipe(filterByExtension('css'))
-        .pipe(sourcemaps.init({loadMaps : true}))
-        .pipe(concat('bower.css'))
-        .pipe(gulpIf(production, plugins.uglify()))
-        .pipe(gulpIf(production, sourcemaps.write('./')))
-        .pipe(gulp.dest(build.css));
+  // get the main files of packages base on the order
+  underscore.each(packagesOrder, function(bowerPackage){
+    var info = require(bowerDir + '/' + bowerPackage + '/bower.json');
+    var main = info.main;
+    var mainFile = main;
+
+    // get only the .js file if mainFile is an array
+    if(underscore.isArray(main)){
+      underscore.each(main, function(file){
+        if(underscoreStr.endsWith(file, '.js')){
+          mainFile = file;
+        }
+      });
+    }
+
+    // make the full path
+    mainFile = bowerDir + '/' + bowerPackage + '/' + mainFile;
+
+    // only add the main file if it's a js file
+    if(underscoreStr.endsWith(mainFile, '.js')){
+      mainFiles.push(mainFile);
+    }
+  });
+
+  // run the gulp stream
+  return gulp.src(mainFiles)
+    .pipe(sourcemaps.init({loadMaps : true}))
+    .pipe(plugins.concat('bower.js'))
+    .pipe(gulpIf(production, plugins.uglify()))
+    .pipe(gulpIf(production, sourcemaps.write('./')))
+    .pipe(gulp.dest(build.js));
 });
+
+// TODO:: Add CSS and IMAGES include in build and remove this task
+// gulp.task('bower-concat', function() {
+//     var mainFiles = mainBowerFiles();
+
+//     if(!mainFiles.length){
+//         // No main files found. Skipping....
+//         return;
+//     }
+
+//     var jsFilter = filterByExtension('js');
+
+//     return gulp.src(mainFiles)
+//         //For JS files
+//         .pipe(jsFilter)
+//         .pipe(sourcemaps.init({loadMaps : true}))
+//         .pipe(concat('bower.js'))
+//         .pipe(gulpIf(production, plugins.uglify()))
+//         .pipe(gulpIf(production, sourcemaps.write('./')))
+//         .pipe(gulp.dest(build.js))
+//         .pipe(jsFilter.restore())
+
+//          //For CSS files
+//         .pipe(filterByExtension('css'))
+//         .pipe(sourcemaps.init({loadMaps : true}))
+//         .pipe(concat('bower.css'))
+//         .pipe(gulpIf(production, plugins.uglify()))
+//         .pipe(gulpIf(production, sourcemaps.write('./')))
+//         .pipe(gulp.dest(build.css));
+// });
 
 /*==========================================================
  GULP: APP TASKS :: Browser sync to sync with browser
@@ -275,14 +356,14 @@ gulp.task('browser-sync', function () {
 gulp.task('build', function () {
 
     console.log(update('\n--------- Build Development Mode  --------------------------------------\n'));
-    runSequence('html', 'scripts', 'css',  'bower', 'img-min', 'fonts', 'server', 'watch');
+    runSequence('html', 'scripts', 'css',  'bundle-libraries', 'img-min', 'fonts', 'server', 'watch');
 });
 
 gulp.task('prod', function () {
 
     console.log(update('\n--------- Build Production Mode  ---------------------------------------\n'));
     production = true;
-    runSequence('html', 'scripts', 'css', 'bower', 'img-min', 'fonts', 'server', 'watch');
+    runSequence('html', 'scripts', 'css', 'bundle-libraries', 'img-min', 'fonts', 'server', 'watch');
 });
 
 /*==========================================================
