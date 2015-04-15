@@ -6,10 +6,8 @@ app.filter('<%= cameledName %>', function () {
 	'use strict';
 
 	return function (input) {
-
 		console.log('Filter == <%= cameledName %>');
 		return;
-
 	};
 });
 

@@ -3,9 +3,9 @@ Controller = <%= classedName %>Ctrl
 ==================================================================*/
 
 app.controller('<%= classedName %>Ctrl', ['$scope', function ($scope) {
-'use strict';
+  'use strict';
 
-	console.log('Controller ===  <%= classedName %>Ctrl');
+  console.log('Controller ===  <%= classedName %>Ctrl');
 }]);
 
 /*-----  End of Controller = <%= classedName %>Ctrl  ------*/
