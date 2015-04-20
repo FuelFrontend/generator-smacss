@@ -1,0 +1,4 @@
+{
+	"dbPath": "mongodb://localhost/<%= site_name %>",
+	"port": 8000
+}
