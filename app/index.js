@@ -203,7 +203,6 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
     );
 
     if (this.appType === 'typeRestifyApp') {
-      this.log( 'Restify App --------' );
       this.mkdir(this.appName + '/controllers');
       this.mkdir(this.appName + '/models');
       this.mkdir(this.appName + '/utils');
@@ -299,7 +298,6 @@ smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
 };
 
 smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
-  this.log( 'copying copyProjectfiles ------------' );
   this.copy("common/_gitignore", this.appName + "/.gitignore");
   this.copy("common/_gitattributes", this.appName + "/.gitattributes");
 
