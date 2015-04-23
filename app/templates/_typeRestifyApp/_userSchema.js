@@ -1,4 +1,4 @@
-// Model for the Student 
+// Model for the Student
 module.exports = (function userSchema () {
 
 	var mongoose = require('../db').mongoose;
@@ -12,6 +12,6 @@ module.exports = (function userSchema () {
 	var collectionName = 'user';
 	var userSchema = mongoose.Schema(schema);
 	var User = mongoose.model(collectionName, userSchema);
-	
+
 	return User;
 })();

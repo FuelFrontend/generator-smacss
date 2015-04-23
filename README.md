@@ -20,6 +20,7 @@ Perfectionist generator that scaffolds out different types of Frontend applicati
 - **Simple Web App** — Sometimes you just need a gulp server(localhost), scss compiler & browser-sync(live reload). Well that's exactly what this app is for.
 - **Full Pack Web App** - Thinking of creating a solid frontend base with proper structure, well optimization; choose this applicaton type which comes with power features.
 - **Angular App** - Angular app with basic configurations and quick commands for creating controllers, directives, services and filters. More to come!
+- **Restify App** - API developer? Want to create REST API services with mongodb, This app type got your back which scaffolds basic files like models, controller, routes, db & config.
 
 # Getting Started
 
@@ -167,6 +168,24 @@ Your directory structure will look like this
 └── .gitignore
 ````````
 
+**Restify App**
+
+````````
+├── controllers
+│   └── userController.js
+├── models
+│   └── userSchema.js
+├── route.js
+├── app.js
+├── config.json
+├── db.js
+├── node_modules
+├── package.json
+├── gulpfile.js
+├── .gitattributes
+└── .gitignore
+````````
+
 # Quick commands
 
 Terminal commands to speed up repetitive tasks you do in projects. Simple app idea is to maintain as minimal as possible; so quick commands won't work.
@@ -257,5 +276,5 @@ Contribution would be of great help to create a solid generator for frontend pro
 
 **Active Contributers**
 
-[![Logesh Paul](https://avatars3.githubusercontent.com/u/41541?v=3&s=72)](http:/www.github.com/logeshpaul) [![Gokulakrishnan](https://avatars0.githubusercontent.com/u/2944237?v=3&s=72)](https://github.com/gokulkrishh) [![Ritesh Babu](https://avatars3.githubusercontent.com/u/736660?v=3&s=72)](https://github.com/riteshbabu) [![Sugan Krishnan](https://avatars1.githubusercontent.com/u/680120?v=3&s=72)](https://github.com/rgksugan)
+[![Logesh Paul](https://avatars3.githubusercontent.com/u/41541?v=3&s=72)](http:/www.github.com/logeshpaul) [![Gokulakrishnan](https://avatars0.githubusercontent.com/u/2944237?v=3&s=72)](https://github.com/gokulkrishh) [![Thiyagarajan](https://avatars2.githubusercontent.com/u/9147343?v=3&s=72)](https://github.com/ThiyagarajanJ) [![Ritesh Babu](https://avatars3.githubusercontent.com/u/736660?v=3&s=72)](https://github.com/riteshbabu) [![Sugan Krishnan](https://avatars1.githubusercontent.com/u/680120?v=3&s=72)](https://github.com/rgksugan)
 

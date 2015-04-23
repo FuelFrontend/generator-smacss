@@ -1,5 +1,9 @@
 # Release History
 
+**v0.2.3**
+- New App Type - Restify! With generator-smacss you can create restify apps.
+- Code cleanup and improvements.
+
 **v0.2.2**
 
 - Bower Components - Auto check dependencies and concat in right order
