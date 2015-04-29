@@ -18,7 +18,11 @@ util.inherits(smacssGenerator, ScriptBase);
 
 // Function to create controller
 smacssGenerator.prototype.createControllerFiles = function createControllerFiles() {
-  this.log(chalk.yellow('Creating controller, please wait...... \n\n'));
+  this.log(
+    chalk.yellow('\n┌──────────────────────────────────────────────────────────────┐ \n' +
+                   '| Creating controller, please wait...                          | \n' +
+                   '└──────────────────────────────────────────────────────────────┘ ')
+  );
 
   this.generateSourceAndTest(
     '_controller', // controller template name
@@ -26,4 +30,5 @@ smacssGenerator.prototype.createControllerFiles = function createControllerFiles
     'controllers', //target dir
     this.options['skip-add'] || false
   );
+
 };

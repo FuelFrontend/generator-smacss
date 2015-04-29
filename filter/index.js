@@ -5,14 +5,17 @@ var util = require('util'),
 var ScriptBase = require('../script-base.js');
 
 var smacssGenerator = module.exports = function smacssGenerator() {
-    ScriptBase.apply(this, arguments);
+  ScriptBase.apply(this, arguments);
 };
 
 util.inherits(smacssGenerator, ScriptBase);
 
 smacssGenerator.prototype.createFilterFiles = function createFilterFiles() {
-
-  this.log(chalk.yellow('Creating filter, please wait...... \n'));
+  this.log(
+    chalk.yellow('\n┌──────────────────────────────────────────────────────────────┐ \n' +
+                   '| Creating filter, please wait...                              | \n' +
+                   '└──────────────────────────────────────────────────────────────┘ ')
+  );
 
   this.generateSourceAndTest(
     '_filter',
