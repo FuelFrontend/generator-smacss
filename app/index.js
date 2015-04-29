@@ -99,7 +99,7 @@ smacssGenerator.prototype.askAppType = function askAppType() {
         this.appName = this._.camelize(this._.slugify(this._.humanize(answers.appName)));
         this.appType = answers.appType;
 
-        console.log(this.appType);
+        //console.log(this.appType);
 
         // Underscore templating context to replace placeholders
         smacssGenerator.context = {
@@ -337,7 +337,7 @@ smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
   else {
     this.template("_typeSimpleWebApp/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
   }
-  
+
   this.template("_" + this.appType + "/_package.json", this.appName + "/package.json", smacssGenerator.context);
 };
 
