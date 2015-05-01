@@ -30,7 +30,10 @@
         "main-bower-files": "~2.5.0",
         "browser-sync": "~1.9.1",
         "run-sequence": "~1.0.2",
-        "jshint-stylish": "~1.0.0"
+        "jshint-stylish": "~1.0.0",
+        "bower": "~1.4.1",
+        "underscore": "~1.8.3",
+        "underscore.string": "3.0.3"
     },
     "engines": {
         "node": ">=0.10.0"

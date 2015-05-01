@@ -1,5 +1,19 @@
 # Release History
 
+**v0.2.3**
+- New App Type - Restify! With generator-smacss you can create restify apps.
+- Code cleanup and improvements.
+
+**v0.2.2**
+
+- Bower Components - Auto check dependencies and concat in right order
+- Test integrated for basic app scaffolding, more to come in next release
+- New CI: Hound to validate all pull request for lint, syntax, formatting etc.,
+- CI update: Travis now validates all pull request for `npm test`
+- Generator now uses `gulp-load-plugins` to load gulp plugins
+- Bug fixes and Improvements: zip sitename fix, bower concat fix & gitignore update
+- Documentation: Added Bower components tips and release notes
+
 **v0.2.1**
 - Improvements: Refactoring, Extracted Methods, Cleanup, Director structure update
 - Readme file improvements and Better Favicon

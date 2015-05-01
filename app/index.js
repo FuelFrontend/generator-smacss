@@ -81,6 +81,10 @@ smacssGenerator.prototype.askAppType = function askAppType() {
             name: 'Angular App',
             value: 'typeAngularApp',
             checked: false
+        },{
+            name: 'Restify App',
+            value: 'typeRestifyApp',
+            checked: false
         }],
         default: 1
     }];
@@ -198,21 +202,34 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
                      '└──────────────────────────────────────────────────────────────┘ ')
     );
 
-    // Common Scaffolding for all projets
-    this.mkdir(this.appName + '/app');
-    this.mkdir(this.appName + '/app/css');
-    this.mkdir(this.appName + '/app/scss');
-    this.mkdir(this.appName + '/app/js');
-    this.mkdir(this.appName + '/app/images');
-    this.mkdir(this.appName + '/app/fonts');
+    if (this.appType === 'typeRestifyApp') {
+      this.mkdir(this.appName + '/controllers');
+      this.mkdir(this.appName + '/models');
+      this.mkdir(this.appName + '/utils');
 
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
-        this.mkdir(this.appName + '/app/partials');
-        this.mkdir(this.appName + '/build');
+    } else {
+
+      // Common Scaffolding for all projets
+      this.mkdir(this.appName + '/app');
+      this.mkdir(this.appName + '/app/css');
+      this.mkdir(this.appName + '/app/scss');
+      this.mkdir(this.appName + '/app/js');
+      this.mkdir(this.appName + '/app/images');
+      this.mkdir(this.appName + '/app/fonts');
+
+      if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+          this.mkdir(this.appName + '/app/partials');
+          this.mkdir(this.appName + '/build');
+      }
     }
 };
 
 smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
+
+  if (this.appType == 'typeRestifyApp') {
+    return false;
+  }
+
   // Replace folder name with appType variable
   this.copy("common/_404.html", this.appName + "/app/404.html");
   this.template("_" + this.appType + "/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
@@ -225,6 +242,11 @@ smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
 };
 
 smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
+
+  if (this.appType == 'typeRestifyApp') {
+    return false;
+  }
+
   this.copy("common/_master.css", this.appName + "/app/css/master.css");
 
   // SMACSS - SCSS Structure
@@ -240,15 +262,32 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 };
 
 smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
-    if (this.appType === 'typeAngularApp') {
-        this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
-    }
-    else {
-        this.copy("js/_application.js", this.appName + "/app/js/application.js");
+
+    if (this.appType == 'typeRestifyApp') {
+      this.template("_typeRestifyApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
+      this.template("_typeRestifyApp/_routes.js", this.appName + "/routes.js", smacssGenerator.context );
+      this.template("_typeRestifyApp/_db.js", this.appName + "/db.js", smacssGenerator.context );
+    } else {
+
+      if (this.appType === 'typeAngularApp') {
+          this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
+      }
+      else {
+          this.copy("js/_application.js", this.appName + "/app/js/application.js");
+      }
     }
 };
 
 smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
+
+  if (this.appType == 'typeRestifyApp') {
+    this.template("_typeRestifyApp/_package.json", this.appName + "/package.json", smacssGenerator.context);
+    this.template("_typeRestifyApp/_config.json", this.appName + "/config.json", smacssGenerator.context);
+    this.template("_typeRestifyApp/_userSchema.js", this.appName + "/models/userSchema.js", smacssGenerator.context);
+    this.template("_typeRestifyApp/_userController.js", this.appName + "/controllers/userController.js", smacssGenerator.context);
+    return false;
+  }
+
   if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
     this.template("common/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
   }
@@ -261,6 +300,11 @@ smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
 smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
   this.copy("common/_gitignore", this.appName + "/.gitignore");
   this.copy("common/_gitattributes", this.appName + "/.gitattributes");
+
+  if (this.appType == 'typeRestifyApp') {
+    return false;
+  }
+
   this.copy("common/_robots.txt", this.appName + "/robots.txt");
   this.copy("common/_favicon.ico", this.appName + "/app/favicon.ico");
 
@@ -290,7 +334,7 @@ smacssGenerator.prototype.install = function install() {
     process.chdir(installContext.appPath); // activating app directory for installation
 
     // Assign context based on app types
-    if(this.appType === 'typeSimpleWebApp') {
+    if(this.appType === 'typeSimpleWebApp' || this.appType == 'typeRestifyApp') {
         installContext.helpCommand = 'npm install';
         installContext.includeNpm = true;
         installContext.includeBower = false;
@@ -347,7 +391,13 @@ smacssGenerator.prototype.install = function install() {
             );
 
             shell.cd(installContext.appPath);
-            shell.exec('gulp'); // trigger the server using gulp command
+
+            if (this.appType == 'typeRestifyApp') {
+              shell.exec('node app.js');
+              this.log(chalk.green('\n ✔  Please make sure your Database server is running! \n\n'));
+            } else {
+              shell.exec('gulp'); // trigger the server using gulp command
+            }
         });
     }
 };

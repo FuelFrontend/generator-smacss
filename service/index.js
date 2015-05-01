@@ -11,7 +11,11 @@ var smacssGenerator = module.exports = function smacssGenerator() {
 util.inherits(smacssGenerator, ScriptBase);
 
 smacssGenerator.prototype.createServiceFiles = function createServiceFiles() {
-	this.log(chalk.yellow('Creating service, please wait...... \n'));
+  this.log(
+    chalk.yellow('\n┌──────────────────────────────────────────────────────────────┐ \n' +
+                   '| Creating service, please wait...                             | \n' +
+                   '└──────────────────────────────────────────────────────────────┘ ')
+  );
 
   this.generateSourceAndTest(
     '_service',

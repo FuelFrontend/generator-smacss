@@ -3,7 +3,7 @@ Directive = <%= cameledName %>
 ==================================================================*/
 
 app.directive('<%= cameledName %>', ['$rootScope', function ($rootScope) {
-'use strict';
+  'use strict';
 
 	return {
 		restrict: 'A',
