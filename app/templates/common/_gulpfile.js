@@ -202,7 +202,8 @@ gulp.task('watch', function () {
         SASS    = gulp.watch(['app/*.scss', 'app/scss/**/*.scss'], ['css']),
         FONTS   = gulp.watch(['app/fonts/*.*', 'app/fonts/**/*.*'], ['fonts']),
         IMG     = gulp.watch(['app/images/*.*', 'app/images/**/*.*'], ['imgMin']),
-        BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['bower']);
+        BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['bundle-libraries']);
+
     var log = function (event) {
         if (event.type === 'deleted') {
             runSequence('clean');
@@ -355,14 +356,14 @@ gulp.task('browser-sync', function () {
 gulp.task('build', function () {
 
     console.log(update('\n--------- Build Development Mode  --------------------------------------\n'));
-    runSequence('html', 'scripts', 'css',  'bower', 'imgMin', 'fonts', 'server', 'watch');
+    runSequence('html', 'scripts', 'css',  'bundle-libraries', 'imgMin', 'fonts', 'server', 'watch');
 });
 
 gulp.task('prod', function () {
 
     console.log(update('\n--------- Build Production Mode  ---------------------------------------\n'));
     production = true;
-    runSequence('html', 'scripts', 'css', 'bower', 'imgMin', 'fonts', 'server', 'watch');
+    runSequence('html', 'scripts', 'css', 'bundle-libraries', 'imgMin', 'fonts', 'server', 'watch');
 
 });
 
