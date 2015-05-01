@@ -180,7 +180,7 @@ gulp.task('scripts', function () {
  GULP: APP TASKS :: Images minification
 ===========================================================*/
 
-gulp.task('img-min', function () {
+gulp.task('imgMin', function () {
 
     console.log(update('\n--------- Image Minification --------------------------------------------\n'));
     return gulp.src([src.images + '/*.*', src.images + '/**/*.*'])
@@ -201,7 +201,7 @@ gulp.task('watch', function () {
         CSS     = gulp.watch(['app/*.css', 'app/css/**/*.css'], ['css']),
         SASS    = gulp.watch(['app/*.scss', 'app/scss/**/*.scss'], ['css']),
         FONTS   = gulp.watch(['app/fonts/*.*', 'app/fonts/**/*.*'], ['fonts']),
-        IMG     = gulp.watch(['app/images/*.*', 'app/images/**/*.*'], ['img-min']),
+        IMG     = gulp.watch(['app/images/*.*', 'app/images/**/*.*'], ['imgMin']),
         BOWER   = gulp.watch(['bower_components/**/*.*', 'bower_components/**/**', 'bower.json'], ['bundle-libraries']);
 
     var log = function (event) {
@@ -356,14 +356,15 @@ gulp.task('browser-sync', function () {
 gulp.task('build', function () {
 
     console.log(update('\n--------- Build Development Mode  --------------------------------------\n'));
-    runSequence('html', 'scripts', 'css',  'bundle-libraries', 'img-min', 'fonts', 'server', 'watch');
+    runSequence('html', 'scripts', 'css',  'bundle-libraries', 'imgMin', 'fonts', 'server', 'watch');
 });
 
 gulp.task('prod', function () {
 
     console.log(update('\n--------- Build Production Mode  ---------------------------------------\n'));
     production = true;
-    runSequence('html', 'scripts', 'css', 'bundle-libraries', 'img-min', 'fonts', 'server', 'watch');
+    runSequence('html', 'scripts', 'css', 'bundle-libraries', 'imgMin', 'fonts', 'server', 'watch');
+
 });
 
 /*==========================================================
