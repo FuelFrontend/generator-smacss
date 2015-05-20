@@ -273,11 +273,16 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
   }
 
   if(this.appType === 'typeAdminWebApp') {
+    this.copy("_" + this.appType + "/_tables.html", this.appName + "/app/tables.html");
+    this.copy("_" + this.appType + "/_forms.html", this.appName + "/app/forms.html");
+    this.copy("_" + this.appType + "/_bootstrap-elements.html", this.appName + "/app/bootstrap-elements.html");
+    this.copy("_" + this.appType + "/_bootstrap-grid.html", this.appName + "/app/bootstrap-grid.html");
+    this.copy("_" + this.appType + "/_blank-page.html", this.appName + "/app/blank-page.html");
+
     this.copy("_" + this.appType + "/scss/_master.scss", this.appName + "/app/scss/master.scss");
     this.copy("_" + this.appType + "/scss/_admin.scss", this.appName + "/app/scss/admin.scss");
     this.copy("_" + this.appType + "/scss/_bootstrap.scss", this.appName + "/app/scss/bootstrap.scss");
     this.copy("_" + this.appType + "/scss/_font-awesome.scss", this.appName + "/app/scss/font-awesome.scss");
-    this.copy("_" + this.appType + "/scss/plugins/_morris.scss", this.appName + "/app/scss/plugins/morris.scss");
   }
 
 };
@@ -300,16 +305,6 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
     }
     else if (this.appType === 'typeAdminWebApp') {
       this.copy("_" + this.appType + "/js/bootstrap.js", this.appName + "/app/js/bootstrap.js");
-      this.copy("_" + this.appType + "/js/plugins/flot/excanvas.min.js", this.appName + "/app/js/plugins/flot/excanvas.min.js");
-      this.copy("_" + this.appType + "/js/plugins/flot/flot-data.js", this.appName + "/app/js/plugins/flot/flot-data.js");
-      this.copy("_" + this.appType + "/js/plugins/flot/jquery.flot.js", this.appName + "/app/js/plugins/flot/jquery.flot.js");
-      this.copy("_" + this.appType + "/js/plugins/flot/jquery.flot.pie.js", this.appName + "/app/js/plugins/flot/jquery.flot.pie.js");
-      this.copy("_" + this.appType + "/js/plugins/flot/jquery.flot.resize.js", this.appName + "/app/js/plugins/flot/jquery.flot.resize.js");
-      this.copy("_" + this.appType + "/js/plugins/flot/jquery.flot.tooltip.min.js", this.appName + "/app/js/plugins/flot/jquery.flot.tooltip.min.js");
-
-      this.copy("_" + this.appType + "/js/plugins/morris/morris-data.js", this.appName + "/app/js/plugins/morris/morris-data.js");
-      this.copy("_" + this.appType + "/js/plugins/morris/morris.js", this.appName + "/app/js/plugins/morris/morris.js");
-      this.copy("_" + this.appType + "/js/plugins/morris/raphael.min.js", this.appName + "/app/js/plugins/morris/raphael.min.js");
     }
     else if (this.appType == 'typeRestifyApp') {
       this.template("_typeRestifyApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
