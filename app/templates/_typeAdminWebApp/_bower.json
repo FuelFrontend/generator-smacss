@@ -1,0 +1,15 @@
+{
+  "name": "<%= appName %>",
+  "version": "0.0.1",
+  "dependencies": {
+    <% if (includeQuery) { %>
+    "jquery": "*"<% } if (includeModernizr) { %>,
+    "modernizr": "*" <% } %>
+  },
+  "devDependencies": {
+
+  },
+  "overrides": {
+
+  }
+}

@@ -85,6 +85,11 @@ smacssGenerator.prototype.askAppType = function askAppType() {
             name: 'Restify App',
             value: 'typeRestifyApp',
             checked: false
+        },{
+
+            name: 'Admin Web App',
+            value: 'typeAdminWebApp',
+            chceked: false
         }],
         default: 1
     }];
@@ -93,6 +98,8 @@ smacssGenerator.prototype.askAppType = function askAppType() {
 
         this.appName = this._.camelize(this._.slugify(this._.humanize(answers.appName)));
         this.appType = answers.appType;
+
+        //console.log(this.appType);
 
         // Underscore templating context to replace placeholders
         smacssGenerator.context = {
@@ -104,7 +111,7 @@ smacssGenerator.prototype.askAppType = function askAppType() {
 };
 
 smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === 'typeAdminWebApp') {
         var done = this.async();
         var prompts = [{
             name: 'appFeatures',
@@ -218,10 +225,13 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
       this.mkdir(this.appName + '/app/fonts');
 
       if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
-          this.mkdir(this.appName + '/app/partials');
+          if(this.appType !== 'typeAdminWebApp') {
+            this.mkdir(this.appName + '/app/partials');
+          }
           this.mkdir(this.appName + '/build');
       }
     }
+    
 };
 
 smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
@@ -251,30 +261,58 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 
   // SMACSS - SCSS Structure
   // TODO: Update structure based on ticket #7
-  this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
-  this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
-  this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
-  this.copy("scss/_reset.scss", this.appName + "/app/scss/reset.scss");
-  this.copy("scss/_variables.scss", this.appName + "/app/scss/variables.scss");
-  this.copy("scss/_mixins.scss", this.appName + "/app/scss/mixins.scss");
-  this.copy("scss/_module.scss", this.appName + "/app/scss/modules/module.scss");
-  this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
+  if(this.appType != "typeAdminWebApp") {
+    this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
+    this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
+    this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
+    this.copy("scss/_reset.scss", this.appName + "/app/scss/reset.scss");
+    this.copy("scss/_variables.scss", this.appName + "/app/scss/variables.scss");
+    this.copy("scss/_mixins.scss", this.appName + "/app/scss/mixins.scss");
+    this.copy("scss/_module.scss", this.appName + "/app/scss/modules/module.scss");
+    this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
+  }
+
+  if(this.appType === "typeAdminWebApp") {
+    this.copy("_" + this.appType + "/_tables.html", this.appName + "/app/tables.html");
+    this.copy("_" + this.appType + "/_forms.html", this.appName + "/app/forms.html");
+    this.copy("_" + this.appType + "/_bootstrap-elements.html", this.appName + "/app/bootstrap-elements.html");
+    this.copy("_" + this.appType + "/_bootstrap-grid.html", this.appName + "/app/bootstrap-grid.html");
+    this.copy("_" + this.appType + "/_blank-page.html", this.appName + "/app/blank-page.html");
+
+    this.copy("_" + this.appType + "/scss/_master.scss", this.appName + "/app/scss/master.scss");
+    this.copy("_" + this.appType + "/scss/_admin.scss", this.appName + "/app/scss/admin.scss");
+    this.copy("_" + this.appType + "/scss/_bootstrap.scss", this.appName + "/app/scss/bootstrap.scss");
+    this.copy("_" + this.appType + "/scss/_font-awesome.scss", this.appName + "/app/scss/font-awesome.scss");
+  }
+
 };
+
+//Copying fonts for Admin Web App
+smacssGenerator.prototype.copyFonts = function copyFonts() { 
+    if(this.appType === "typeAdminWebApp") { 
+        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.eot", this.appName + "/app/fonts/fontawesome-webfont.eot");
+        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.svg", this.appName + "/app/fonts/fontawesome-webfont.svg");
+        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.ttf", this.appName + "/app/fonts/fontawesome-webfont.ttf");
+        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.woff", this.appName + "/app/fonts/fontawesome-webfont.woff");
+        this.copy("_" + this.appType + "/fonts/FontAwesome.otf", this.appName + "/app/fonts/FontAwesome.otf");
+    }
+}
 
 smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
 
-    if (this.appType == 'typeRestifyApp') {
+    if (this.appType === 'typeAngularApp') {
+        this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
+    }
+    else if (this.appType === "typeAdminWebApp") {
+      this.copy("_" + this.appType + "/js/bootstrap.js", this.appName + "/app/js/bootstrap.js");
+    }
+    else if (this.appType == 'typeRestifyApp') {
       this.template("_typeRestifyApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
       this.template("_typeRestifyApp/_routes.js", this.appName + "/routes.js", smacssGenerator.context );
       this.template("_typeRestifyApp/_db.js", this.appName + "/db.js", smacssGenerator.context );
-    } else {
-
-      if (this.appType === 'typeAngularApp') {
-          this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
-      }
-      else {
-          this.copy("js/_application.js", this.appName + "/app/js/application.js");
-      }
+    } 
+    else {
+      this.copy("js/_application.js", this.appName + "/app/js/application.js");
     }
 };
 
@@ -288,12 +326,13 @@ smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
     return false;
   }
 
-  if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+  if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
     this.template("common/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
   }
   else {
     this.template("_typeSimpleWebApp/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
   }
+
   this.template("_" + this.appType + "/_package.json", this.appName + "/package.json", smacssGenerator.context);
 };
 
@@ -315,7 +354,7 @@ smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
 
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
     // Bower is supported only in full & angular app types
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
         var bower = {
             name: this.appName,
             private: true,
