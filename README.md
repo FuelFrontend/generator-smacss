@@ -150,5 +150,5 @@ Contribution would be of great help to create a solid generator for frontend pro
 
 **Active Contributers**
 
-[![Logesh Paul](https://avatars3.githubusercontent.com/u/41541?v=3&s=72)](http:/www.github.com/logeshpaul) [![Gokulakrishnan](https://avatars0.githubusercontent.com/u/2944237?v=3&s=72)](https://github.com/gokulkrishh) [![Thiyagarajan](https://avatars2.githubusercontent.com/u/9147343?v=3&s=72)](https://github.com/ThiyagarajanJ) [![Ritesh Babu](https://avatars3.githubusercontent.com/u/736660?v=3&s=72)](https://github.com/riteshbabu) [![Sugan Krishnan](https://avatars1.githubusercontent.com/u/680120?v=3&s=72)](https://github.com/rgksugan)
+[![Logesh Paul](https://avatars3.githubusercontent.com/u/41541?v=3&s=72)](http:/www.github.com/logeshpaul) [![Gokulakrishnan](https://avatars0.githubusercontent.com/u/2944237?v=3&s=72)](https://github.com/gokulkrishh) [![Thiyagarajan](https://avatars2.githubusercontent.com/u/9147343?v=3&s=72)](https://github.com/ThiyagarajanJ) [![Ritesh Babu](https://avatars3.githubusercontent.com/u/736660?v=3&s=72)](https://github.com/riteshbabu) [![Sugan Krishnan](https://avatars1.githubusercontent.com/u/680120?v=3&s=72)](https://github.com/rgksugan) [![Lubaib Gazir](https://avatars2.githubusercontent.com/u/6895882?v=3&s=72)](https://github.com/lubaibgazir)
 
