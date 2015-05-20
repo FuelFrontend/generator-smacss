@@ -1,5 +1,11 @@
 # Release History
 
+**v0.2.4**
+- Yet another New App Type - Admin Web App! With generator-smacss you can create bootstraped admin panels;
+  which comes with predefined dashboard, forms, tabular data, sidebar, notification bar for creating
+  admin apps faster
+- Added meta tag viewport to support responsive web.
+
 **v0.2.3**
 - New App Type - Restify! With generator-smacss you can create restify apps.
 - Code cleanup and improvements.

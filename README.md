@@ -21,6 +21,7 @@ Perfectionist generator that scaffolds out different types of Frontend applicati
 - **Full Pack Web App** - Thinking of creating a solid frontend base with proper structure, well optimization; choose this applicaton type which comes with power features.
 - **Angular App** - Angular app with basic configurations and quick commands for creating controllers, directives, services and filters. More to come!
 - **Restify App** - API developer? Want to create REST API services with mongodb, This app type got your back which scaffolds basic files like models, controller, routes, db & config.
+- **Admin Web App** - Create an Admin app with bootstrap integrated. Pages: Dashboard, Sidebar, Notfication, Forms, Tabular Data and Bootstrap Elements for quick use.
 
 # Getting Started
 
