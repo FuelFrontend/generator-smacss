@@ -261,7 +261,7 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 
   // SMACSS - SCSS Structure
   // TODO: Update structure based on ticket #7
-  if(this.appType != 'typeAdminWebApp') {
+  if(this.appType != "typeAdminWebApp") {
     this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
     this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
     this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
@@ -272,7 +272,7 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
     this.copy("scss/_page_landing.scss", this.appName + "/app/scss/pages/page-landing.scss");
   }
 
-  if(this.appType === 'typeAdminWebApp') {
+  if(this.appType === "typeAdminWebApp") {
     this.copy("_" + this.appType + "/_tables.html", this.appName + "/app/tables.html");
     this.copy("_" + this.appType + "/_forms.html", this.appName + "/app/forms.html");
     this.copy("_" + this.appType + "/_bootstrap-elements.html", this.appName + "/app/bootstrap-elements.html");
@@ -289,7 +289,7 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 
 //Copying fonts for Admin Web App
 smacssGenerator.prototype.copyFonts = function copyFonts() { 
-    if(this.appType === 'typeAdminWebApp') { 
+    if(this.appType === "typeAdminWebApp") { 
         this.copy("_" + this.appType + "/fonts/fontawesome-webfont.eot", this.appName + "/app/fonts/fontawesome-webfont.eot");
         this.copy("_" + this.appType + "/fonts/fontawesome-webfont.svg", this.appName + "/app/fonts/fontawesome-webfont.svg");
         this.copy("_" + this.appType + "/fonts/fontawesome-webfont.ttf", this.appName + "/app/fonts/fontawesome-webfont.ttf");
@@ -303,7 +303,7 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
     if (this.appType === 'typeAngularApp') {
         this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
     }
-    else if (this.appType === 'typeAdminWebApp') {
+    else if (this.appType === "typeAdminWebApp") {
       this.copy("_" + this.appType + "/js/bootstrap.js", this.appName + "/app/js/bootstrap.js");
     }
     else if (this.appType == 'typeRestifyApp') {
@@ -326,7 +326,7 @@ smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
     return false;
   }
 
-  if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === 'typeAdminWebApp') {
+  if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
     this.template("common/_gulpfile.js", this.appName + "/gulpfile.js", smacssGenerator.context);
   }
   else {
@@ -354,7 +354,7 @@ smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
 
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
     // Bower is supported only in full & angular app types
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === 'typeAdminWebApp') {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
         var bower = {
             name: this.appName,
             private: true,
