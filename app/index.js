@@ -329,6 +329,13 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
     }
 };
 
+smacssGenerator.prototype.copyTasksFile = function copyTasksFile() {
+    if (this.appType === 'typeSimpleWebApp') {
+      this.copy("tasks/_simple_browser_sync.js", this.appName + "/app/tasks/browser-sync.js");
+      this.copy("tasks/_simple_sass.js", this.appName + "/app/tasks/sass.js");
+    }
+};
+
 smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
   if (this.appType == 'typeRestifyApp') {
     this.template("_typeRestifyApp/_package.json", this.appName + "/package.json", smacssGenerator.context);

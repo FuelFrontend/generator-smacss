@@ -4,30 +4,14 @@
  Define the variables of your dependencies in this section
 -----------------------------------------------------------*/
 var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    concat = require('gulp-concat'),
-    browserSync = require('browser-sync');
+    requireDir = require('require-dir');
 
 /*-----------------------------------------------------------
- GULP : APP TASKS
+ GULP: TASKS
  Necessary gulp tasks required to run your application like
- magic. Feel free to add more tasks in this area
+ magic. Feel free to add more tasks inside tasks folder
 -----------------------------------------------------------*/
-gulp.task('sass', function () {
-    gulp.src(['./app/scss/master.scss'])
-        .pipe(sass({includePaths: ['scss']}))
-        .pipe(gulp.dest('./app/css'))
-        .pipe(concat('master.css'))
-        .pipe(gulp.dest('./app/css/'));
-});
-
-gulp.task('browser-sync', function() {
-    browserSync.init(["./app/*.html", "./app/js/*.js", "./app/css/*.css", "./app/images/*.*", "./app/fonts/*.*"], {
-        server: {
-            baseDir: "./app/"
-        }
-    });
-});
+var tasks = requireDir('./app/tasks');
 
 /*-----------------------------------------------------------
  GULP : WATCH TASKS
