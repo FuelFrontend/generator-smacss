@@ -5,7 +5,25 @@ var yeoman = require('yeoman-generator'),
     path = require('path'),
     yosay = require('yosay'),
     chalk = require('chalk'),
-    shell = require('shelljs');
+    shell = require('shelljs'),
+    updateNotifier = require('update-notifier'),
+    pkg = require('../package.json');
+
+// Checks for available update and returns an instance
+var notifier = updateNotifier({pkg: pkg});
+
+if(notifier.update) {
+  // var notifier = updateNotifier({
+  //   pkg: pkg,
+  //   updateCheckInterval: 1000 * 60 * 60 * 24 // 1 day
+  // });
+
+  // Notify using the built-in convenience method
+  notifier.notify();
+
+  // `notifier.update` contains some useful info about the update
+  console.log(notifier.update);
+}
 
 var smacssGenerator = yeoman.generators.Base.extend({
     constructor: function () {
