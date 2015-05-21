@@ -304,11 +304,11 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 // Copying fonts for Admin Web App
 smacssGenerator.prototype.copyFonts = function copyFonts() {
     if(this.appType === "typeAdminWebApp") {
-        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.eot", this.appName + "/app/fonts/fontawesome-webfont.eot");
-        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.svg", this.appName + "/app/fonts/fontawesome-webfont.svg");
-        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.ttf", this.appName + "/app/fonts/fontawesome-webfont.ttf");
-        this.copy("_" + this.appType + "/fonts/fontawesome-webfont.woff", this.appName + "/app/fonts/fontawesome-webfont.woff");
-        this.copy("_" + this.appType + "/fonts/FontAwesome.otf", this.appName + "/app/fonts/FontAwesome.otf");
+        this.copy("_" + this.appType + "/fonts/_fontawesome-webfont.eot", this.appName + "/app/fonts/fontawesome-webfont.eot");
+        this.copy("_" + this.appType + "/fonts/_fontawesome-webfont.svg", this.appName + "/app/fonts/fontawesome-webfont.svg");
+        this.copy("_" + this.appType + "/fonts/_fontawesome-webfont.ttf", this.appName + "/app/fonts/fontawesome-webfont.ttf");
+        this.copy("_" + this.appType + "/fonts/_fontawesome-webfont.woff", this.appName + "/app/fonts/fontawesome-webfont.woff");
+        this.copy("_" + this.appType + "/fonts/_FontAwesome.otf", this.appName + "/app/fonts/FontAwesome.otf");
     }
 }
 
@@ -317,7 +317,7 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
         this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
     }
     else if (this.appType === "typeAdminWebApp") {
-      this.copy("_" + this.appType + "/js/bootstrap.js", this.appName + "/app/js/bootstrap.js");
+      this.copy("_" + this.appType + "/js/_bootstrap.js", this.appName + "/app/js/lib/bootstrap.js");
     }
     else if (this.appType == 'typeRestifyApp') {
       this.template("_typeRestifyApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
