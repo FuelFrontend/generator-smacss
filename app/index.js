@@ -331,8 +331,23 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
 
 smacssGenerator.prototype.copyTasksFile = function copyTasksFile() {
     if (this.appType === 'typeSimpleWebApp') {
-      this.copy("tasks/_simple_browser_sync.js", this.appName + "/app/tasks/browser-sync.js");
-      this.copy("tasks/_simple_sass.js", this.appName + "/app/tasks/sass.js");
+      this.copy("tasks/simpleWebApp/_simple_browser_sync.js", this.appName + "/app/tasks/browser-sync.js");
+      this.copy("tasks/simpleWebApp/_simple_sass.js", this.appName + "/app/tasks/sass.js");
+    }
+    else if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
+      this.copy("tasks/_bower.js", this.appName + "/app/tasks/bower.js");
+      this.copy("tasks/_browser_sync.js", this.appName + "/app/tasks/browser-sync.js");
+      this.copy("tasks/_clean.js", this.appName + "/app/tasks/clean.js");
+      this.copy("tasks/_config.js", this.appName + "/app/tasks/config.js");
+      this.copy("tasks/_environment.js", this.appName + "/app/tasks/environment.js");
+      this.copy("tasks/_fonts.js", this.appName + "/app/tasks/fonts.js");
+      this.copy("tasks/_html.js", this.appName + "/app/tasks/html.js");
+      this.copy("tasks/_image.js", this.appName + "/app/tasks/image.js");
+      this.copy("tasks/_scripts.js", this.appName + "/app/tasks/scripts.js");
+      this.copy("tasks/_server.js", this.appName + "/app/tasks/server.js");
+      this.copy("tasks/_styles.js", this.appName + "/app/tasks/styles.js");
+      this.copy("tasks/_watch.js", this.appName + "/app/tasks/watch.js");
+      this.copy("tasks/_zip.js", this.appName + "/app/tasks/zip.js");
     }
 };
 
