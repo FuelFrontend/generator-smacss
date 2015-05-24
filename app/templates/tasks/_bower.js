@@ -83,7 +83,7 @@ gulp.task('bundle-libraries', ['bower'], function(){
     }
 
     // make the full path
-    mainFile = bowerDir + '/' + bowerPackage + '/' + mainFile;
+    mainFile = './bower_components' + '/' + bowerPackage + '/' + mainFile;
 
     // only add the main file if it's a js file
     if(underscoreStr.endsWith(mainFile, '.js')){
@@ -94,8 +94,8 @@ gulp.task('bundle-libraries', ['bower'], function(){
   // run the gulp stream
   return gulp.src(mainFiles)
     .pipe(sourcemaps.init({loadMaps : true}))
-    .pipe(plugins.concat('bower.js'))
-    .pipe(gulpIf(config.production, plugins.uglify()))
+      .pipe(plugins.concat('bower.js'))
+      .pipe(gulpIf(config.production, plugins.uglify()))
     .pipe(gulpIf(config.production, sourcemaps.write('./')))
     .pipe(gulp.dest(config.build.js));
 });
