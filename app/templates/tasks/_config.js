@@ -62,7 +62,7 @@ var config =  function() {
         warning : chalk.black.bold.bgYellow,
         update  : chalk.yellow.underline,
         success : chalk.green
-    }
+    };
 
     return {
         source: src,
@@ -73,6 +73,6 @@ var config =  function() {
         opts: opts,
         notify: notify
     };
-}
+};
 
 module.exports = config();

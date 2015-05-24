@@ -317,7 +317,9 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
         this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
     }
     else if (this.appType === "typeAdminWebApp") {
+      // TODO: Remove bootstrap JS from here and include from bower components
       this.copy("_" + this.appType + "/js/_bootstrap.js", this.appName + "/app/js/lib/bootstrap.js");
+      this.copy("js/_application.js", this.appName + "/app/js/application.js");
     }
     else if (this.appType == 'typeRestifyApp') {
       this.template("_typeRestifyApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
@@ -371,8 +373,8 @@ smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
 };
 
 smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
-  this.copy("common/_gitignore", this.appName + "/.gitignore");
-  this.copy("common/_gitattributes", this.appName + "/.gitattributes");
+  this.copy("dot-files/_gitignore", this.appName + "/.gitignore");
+  this.copy("dot-files/_gitattributes", this.appName + "/.gitattributes");
 
   if (this.appType == 'typeRestifyApp') {
     return false;
@@ -382,7 +384,8 @@ smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
   this.copy("common/_favicon.ico", this.appName + "/app/favicon.ico");
 
   if(this.appType !== 'typeSimpleWebApp') {
-    this.template("common/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
+    this.template("dot-files/_jshintrc", this.appName + "/.jshintrc", smacssGenerator.context);
+    this.template("dot-files/_jshintignore", this.appName + "/.jshintignore", smacssGenerator.context);
   }
 };
 
@@ -394,7 +397,7 @@ smacssGenerator.prototype.injectDependencies = function injectDependencies() {
             private: true,
             dependencies: {}
         };
-        this.copy('common/_bowerrc', this.appName + '/.bowerrc');
+        this.copy('dot-files/_bowerrc', this.appName + '/.bowerrc');
 
         this.template("_" + this.appType + '/_bower.json', this.appName + '/bower.json');
     }
