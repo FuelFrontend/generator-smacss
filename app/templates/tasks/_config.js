@@ -31,8 +31,11 @@ var config =  function() {
     var serverConfiguration = {
         host       : 'localhost',
         port       : 3000,
-        livereload : true,
-        open       : true
+        open       : true,
+        livereload : {
+            enable: true,
+            port: 35729
+        }
     };
 
     // Default production mode set to false

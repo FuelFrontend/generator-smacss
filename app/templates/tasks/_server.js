@@ -13,7 +13,7 @@ gulp.task('server', function () {
     portScanner.findAPortNotInUse(config.serverConfiguration.port, config.serverConfiguration.port + 10, '127.0.0.1', function(error, port) {
 
         config.serverConfiguration.port = port;
-        portScanner.findAPortNotInUse(config.serverConfiguration.port, config.serverConfiguration.livereload.port + 10, '127.0.0.1', function(error,   port) {
+        portScanner.findAPortNotInUse(config.serverConfiguration.livereload.port, config.serverConfiguration.livereload.port + 10, '127.0.0.1', function(error, port) {
 
                 config.serverConfiguration.livereload.port = port;
 
