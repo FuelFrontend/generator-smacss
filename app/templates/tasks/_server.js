@@ -6,9 +6,19 @@ var gulp = require('gulp'),
 
 var plugins = gulploadPlugins();
 var config = require('./config');
+var portScanner = require('portscanner');
 
 gulp.task('server', function () {
     console.log(config.notify.update('\n--------- Server started at http://localhost:'+ config.serverConfiguration.port +' ------------------------\n'));
-    return gulp.src('build')
-        .pipe(plugins.webserver(config.serverConfiguration));
+    portScanner.findAPortNotInUse(config.serverConfiguration.port, config.serverConfiguration.port + 10, '127.0.0.1', function(error, port) {
+
+        config.serverConfiguration.port = port;
+        portScanner.findAPortNotInUse(config.serverConfiguration.port, config.serverConfiguration.livereload.port + 10, '127.0.0.1', function(error,   port) {
+
+                config.serverConfiguration.livereload.port = port;
+
+                return gulp.src('build')
+                    .pipe(plugins.webserver(config.serverConfiguration));
+          });
+    });
 });
