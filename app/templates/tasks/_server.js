@@ -10,10 +10,12 @@ var portScanner = require('portscanner');
 
 gulp.task('server', function () {
     console.log(config.notify.update('\n--------- Server started at http://localhost:'+ config.serverConfiguration.port +' ------------------------\n'));
-    portScanner.findAPortNotInUse(config.serverConfiguration.port, config.serverConfiguration.port + 10, '127.0.0.1', function(error, port) {
+    var serverPort = config.serverConfiguration.port;
+    portScanner.findAPortNotInUse(serverPort, serverPort + 10, '127.0.0.1', function(error, port) {
 
         config.serverConfiguration.port = port;
-        portScanner.findAPortNotInUse(config.serverConfiguration.livereload.port, config.serverConfiguration.livereload.port + 10, '127.0.0.1', function(error, port) {
+        var lrPort = config.serverConfiguration.livereload.port;
+        portScanner.findAPortNotInUse(lrPort, lrPort + 10, '127.0.0.1', function(error, port) {
 
                 config.serverConfiguration.livereload.port = port;
 
