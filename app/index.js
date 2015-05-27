@@ -376,10 +376,20 @@ smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
   this.copy("dot-files/_gitignore", this.appName + "/.gitignore");
   this.copy("dot-files/_gitattributes", this.appName + "/.gitattributes");
 
-  if (this.appType == 'typeRestifyApp') {
+  if (this.appType === 'typeAngularApp') {
+    this.template("_typeAngularApp/_README.md", this.appName + "/README.md", smacssGenerator.context);
+  }
+  else if (this.appType === 'typeFullPackWebApp') {
+    this.template("_typeFullPackWebApp/_README.md", this.appName + "/README.md", smacssGenerator.context);
+  }
+  else if (this.appType === 'typeSimpleWebApp') {
+    this.template("_typeSimpleWebApp/_README.md", this.appName + "/README.md", smacssGenerator.context);
+  }
+  else if (this.appType === 'typeRestifyApp') {
     return false;
   }
 
+  this.copy("common/_editorconfig", this.appName + "/.editorconfig");
   this.copy("common/_robots.txt", this.appName + "/robots.txt");
   this.copy("common/_favicon.ico", this.appName + "/app/favicon.ico");
 
