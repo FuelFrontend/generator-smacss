@@ -33,9 +33,9 @@ gulp.task('bower', function(cb){
 });
 
 gulp.task('bundle-libraries', ['bower'], function(){
-  var bowerFile = require('../../bower.json');
+  var bowerFile = require('../bower.json');
   var bowerPackages = bowerFile.dependencies;
-  var bowerDir = '../../bower_components';
+  var bowerDir = '../bower_components';
   var packagesOrder = [];
   var mainFiles = [];
 
@@ -83,7 +83,7 @@ gulp.task('bundle-libraries', ['bower'], function(){
     }
 
     // make the full path
-    mainFile = './bower_components' + '/' + bowerPackage + '/' + mainFile;
+    mainFile = bowerDir + '/' + bowerPackage + '/' + mainFile;
 
     // only add the main file if it's a js file
     if(underscoreStr.endsWith(mainFile, '.js')){
