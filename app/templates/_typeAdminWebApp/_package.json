@@ -34,7 +34,8 @@
         "bower": "~1.4.1",
         "underscore": "~1.8.3",
         "underscore.string": "3.0.3",
-        "require-dir": "0.3.0"
+        "require-dir": "0.3.0",
+        "portscanner": "^1.0.0"
     },
     "engines": {
         "node": ">=0.10.0"
