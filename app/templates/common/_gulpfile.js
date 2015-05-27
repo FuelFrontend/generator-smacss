@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     gulploadPlugins = require('gulp-load-plugins'),
     requireDir = require('require-dir');
 
-var tasks = requireDir('./app/tasks');
+var tasks = requireDir('./tasks');
 
 var plugins = gulploadPlugins();
 

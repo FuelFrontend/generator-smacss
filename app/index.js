@@ -9,7 +9,7 @@ var yeoman = require('yeoman-generator'),
     updateNotifier = require('update-notifier'),
     pkg = require('../package.json');
 
-// Checks for available update and returns an instance
+// Smacss Updater - Checks for available update and returns an instance
 var notifier = updateNotifier({pkg: pkg});
 
 if(notifier.update) {
@@ -64,6 +64,7 @@ smacssGenerator.prototype.initializing = function initializing() {
     this.pkg = require('../package.json');
 };
 
+// Welcome Message with yeoman
 smacssGenerator.prototype.welcome = function welcome() {
     if (!this.options['skip-welcome-message']) {
         this.log(yosay('Yo! Welcome to SMACSS'));
@@ -76,6 +77,7 @@ smacssGenerator.prototype.welcome = function welcome() {
     }
 };
 
+// Prompt - Ask for the type of application
 smacssGenerator.prototype.askAppType = function askAppType() {
     var done = this.async();
 
@@ -125,6 +127,7 @@ smacssGenerator.prototype.askAppType = function askAppType() {
     }.bind(this));
 };
 
+// Prompt - Ask for the required plugins
 smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
     if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === 'typeAdminWebApp') {
         var done = this.async();
@@ -157,6 +160,7 @@ smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
     }
 };
 
+// Prompt - Ask for the required angular modules
 smacssGenerator.prototype.askAngularModules = function askAngularModules() {
     if(this.appType === 'typeAngularApp') {
         var done = this.async();
@@ -217,6 +221,7 @@ smacssGenerator.prototype.askAngularModules = function askAngularModules() {
     }
 };
 
+// Creating - App Directory structure
 smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
     this.log(
       chalk.yellow('\n┌──────────────────────────────────────────────────────────────┐ \n' +
@@ -248,9 +253,11 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
     }
 };
 
+// Copying - HTML files
 smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
 
-  if (this.appType == 'typeRestifyApp') {
+  // Restify app - Don't have create html files
+  if (this.appType === 'typeRestifyApp') {
     return false;
   }
 
@@ -263,8 +270,18 @@ smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
       this.template("partials/_header.html", this.appName + "/app/partials/_header.html", smacssGenerator.context);
       this.template("partials/_footer.html", this.appName + "/app/partials/_footer.html", smacssGenerator.context);
   }
+
+  // Files related to Aadmin Web App
+  if(this.appType === 'typeAdminWebApp') {
+    this.copy("_" + this.appType + "/_tables.html", this.appName + "/app/tables.html");
+    this.copy("_" + this.appType + "/_forms.html", this.appName + "/app/forms.html");
+    this.copy("_" + this.appType + "/_bootstrap-elements.html", this.appName + "/app/bootstrap-elements.html");
+    this.copy("_" + this.appType + "/_bootstrap-grid.html", this.appName + "/app/bootstrap-grid.html");
+    this.copy("_" + this.appType + "/_blank-page.html", this.appName + "/app/blank-page.html");
+  }
 };
 
+// Copying - CSS stylesheet files
 smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 
   if (this.appType == 'typeRestifyApp') {
@@ -287,12 +304,6 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
   }
 
   if(this.appType === "typeAdminWebApp") {
-    this.copy("_" + this.appType + "/_tables.html", this.appName + "/app/tables.html");
-    this.copy("_" + this.appType + "/_forms.html", this.appName + "/app/forms.html");
-    this.copy("_" + this.appType + "/_bootstrap-elements.html", this.appName + "/app/bootstrap-elements.html");
-    this.copy("_" + this.appType + "/_bootstrap-grid.html", this.appName + "/app/bootstrap-grid.html");
-    this.copy("_" + this.appType + "/_blank-page.html", this.appName + "/app/blank-page.html");
-
     this.copy("_" + this.appType + "/scss/_master.scss", this.appName + "/app/scss/master.scss");
     this.copy("_" + this.appType + "/scss/_admin.scss", this.appName + "/app/scss/admin.scss");
     this.copy("_" + this.appType + "/scss/_bootstrap.scss", this.appName + "/app/scss/bootstrap.scss");
@@ -301,7 +312,8 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 
 };
 
-// Copying fonts for Admin Web App
+// TODO: Replace with bower font-awesome plugin
+// Copy - Fonts for Admin Web App
 smacssGenerator.prototype.copyFonts = function copyFonts() {
     if(this.appType === "typeAdminWebApp") {
         this.copy("_" + this.appType + "/fonts/_fontawesome-webfont.eot", this.appName + "/app/fonts/fontawesome-webfont.eot");
@@ -312,6 +324,7 @@ smacssGenerator.prototype.copyFonts = function copyFonts() {
     }
 }
 
+// Copy - Javascript Files
 smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
     if (this.appType === 'typeAngularApp') {
         this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
@@ -331,28 +344,30 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
     }
 };
 
+// Copy - Gulp Task Files
 smacssGenerator.prototype.copyTasksFile = function copyTasksFile() {
     if (this.appType === 'typeSimpleWebApp') {
-      this.copy("tasks/simpleWebApp/_simple_browser_sync.js", this.appName + "/app/tasks/browser-sync.js");
-      this.copy("tasks/simpleWebApp/_simple_sass.js", this.appName + "/app/tasks/sass.js");
+      this.copy("tasks/simpleWebApp/_simple_browser_sync.js", this.appName + "/tasks/browser-sync.js");
+      this.copy("tasks/simpleWebApp/_simple_sass.js", this.appName + "/tasks/sass.js");
     }
     else if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
-      this.copy("tasks/_bower.js", this.appName + "/app/tasks/bower.js");
-      this.copy("tasks/_browser_sync.js", this.appName + "/app/tasks/browser-sync.js");
-      this.copy("tasks/_clean.js", this.appName + "/app/tasks/clean.js");
-      this.copy("tasks/_config.js", this.appName + "/app/tasks/config.js");
-      this.copy("tasks/_environment.js", this.appName + "/app/tasks/environment.js");
-      this.copy("tasks/_fonts.js", this.appName + "/app/tasks/fonts.js");
-      this.copy("tasks/_html.js", this.appName + "/app/tasks/html.js");
-      this.copy("tasks/_image.js", this.appName + "/app/tasks/image.js");
-      this.copy("tasks/_scripts.js", this.appName + "/app/tasks/scripts.js");
-      this.copy("tasks/_server.js", this.appName + "/app/tasks/server.js");
-      this.copy("tasks/_styles.js", this.appName + "/app/tasks/styles.js");
-      this.copy("tasks/_watch.js", this.appName + "/app/tasks/watch.js");
-      this.copy("tasks/_zip.js", this.appName + "/app/tasks/zip.js");
+      this.copy("tasks/_bower.js", this.appName + "/tasks/bower.js");
+      this.copy("tasks/_browser_sync.js", this.appName + "/tasks/browser-sync.js");
+      this.copy("tasks/_clean.js", this.appName + "/tasks/clean.js");
+      this.copy("tasks/_config.js", this.appName + "/tasks/config.js");
+      this.copy("tasks/_environment.js", this.appName + "/tasks/environment.js");
+      this.copy("tasks/_fonts.js", this.appName + "/tasks/fonts.js");
+      this.copy("tasks/_html.js", this.appName + "/tasks/html.js");
+      this.copy("tasks/_image.js", this.appName + "/tasks/image.js");
+      this.copy("tasks/_scripts.js", this.appName + "/tasks/scripts.js");
+      this.copy("tasks/_server.js", this.appName + "/tasks/server.js");
+      this.copy("tasks/_styles.js", this.appName + "/tasks/styles.js");
+      this.copy("tasks/_watch.js", this.appName + "/tasks/watch.js");
+      this.copy("tasks/_zip.js", this.appName + "/tasks/zip.js");
     }
 };
 
+// Copy - Dependency Files
 smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
   if (this.appType == 'typeRestifyApp') {
     this.template("_typeRestifyApp/_package.json", this.appName + "/package.json", smacssGenerator.context);
@@ -372,6 +387,7 @@ smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
   this.template("_" + this.appType + "/_package.json", this.appName + "/package.json", smacssGenerator.context);
 };
 
+// Copy - Project Files
 smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
   this.copy("dot-files/_gitignore", this.appName + "/.gitignore");
   this.copy("dot-files/_gitattributes", this.appName + "/.gitattributes");
@@ -399,6 +415,7 @@ smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
   }
 };
 
+// Bower Dependency Injection
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
     // Bower is supported only in full & angular app types
     if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
@@ -413,6 +430,7 @@ smacssGenerator.prototype.injectDependencies = function injectDependencies() {
     }
 };
 
+// NPM, Bower Dependency Installation & Trigger Server
 smacssGenerator.prototype.install = function install() {
     // Installation context object
     var installContext = {};

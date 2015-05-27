@@ -11,7 +11,7 @@ var gulp = require('gulp'),
  Necessary gulp tasks required to run your application like
  magic. Feel free to add more tasks inside tasks folder
 -----------------------------------------------------------*/
-var tasks = requireDir('./app/tasks');
+var tasks = requireDir('./tasks');
 
 /*-----------------------------------------------------------
  GULP : WATCH TASKS
