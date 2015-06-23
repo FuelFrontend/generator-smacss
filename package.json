@@ -25,7 +25,7 @@
   "bugs": "https://github.com/FuelFrontend/generator-smacss/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:FuelFrontend/generator-smacss.git"
+    "url": "git://github.com/FuelFrontend/generator-smacss.git"
   },
   "scripts": {
     "test": "mocha --reporter spec"
