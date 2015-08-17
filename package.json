@@ -1,6 +1,6 @@
 {
   "name": "generator-smacss",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Perfectionist Frontend Generator",
   "author": {
     "name": "Logesh Paul",
@@ -21,12 +21,18 @@
     "smacss",
     "web-generator"
   ],
-  "homepage": "https://github.com/FuelFrontend/generator-smacss",
-  "bugs": "https://github.com/FuelFrontend/generator-smacss/issues",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/FuelFrontend/generator-smacss.git"
-  },
+  "main": "app/index.js",
+  "files": [
+    "app",
+    "controller",
+    "directive",
+    "factory",
+    "filter",
+    "service",
+    "script-base.js",
+    "util.js"
+  ],
+  "repository": "FuelFrontend/generator-smacss",
   "scripts": {
     "test": "mocha --reporter spec"
   },
