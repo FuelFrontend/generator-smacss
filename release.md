@@ -1,5 +1,8 @@
 # Release History
 
+**v0.2.6**
+- Bug fixes - Angular quick commands, Generator not listed in yeoman site.
+
 **v0.2.5**
 - Modularized Gulp file - Ever thought that the `gulpfile.js` is growing too large, We heard your inner voice.
   Gulp file is modularized using `require-dir` plugin; you can find your gulp tasks in `app\tasks\` folder
