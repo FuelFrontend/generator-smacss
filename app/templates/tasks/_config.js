@@ -67,6 +67,9 @@ var config =  function() {
         success : chalk.green
     };
 
+    // CSS autoprefix config
+    var browserVersion = ['last 2 versions'];
+
     return {
         source: src,
         build: build,
@@ -74,7 +77,8 @@ var config =  function() {
         production: production,
         bowerConfiguration: bowerConfiguration,
         opts: opts,
-        notify: notify
+        notify: notify,
+        browserVersion: browserVersion
     };
 };
 

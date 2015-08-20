@@ -4,7 +4,8 @@
 var gulp = require('gulp'),
     config = require('./config'),
     gulpIf = require('gulp-if'),
-    gulploadPlugins = require('gulp-load-plugins');
+    gulploadPlugins = require('gulp-load-plugins'),
+    autoprefixer = require('gulp-autoprefixer');
 
 var plugins = gulploadPlugins();
 var config = require('./config');
@@ -27,6 +28,10 @@ gulp.task('styles', ['sass'], function () {
 
     console.log(config.notify.update('\n--------- Running CSS tasks --------------------------------------------\n'));
     return gulp.src([config.source.css + '/**/*.css'])
+        .pipe(autoprefixer({
+            browsers: config.browserVersion,
+            cascade: false
+        }))
         .pipe(gulpIf(config.production, plugins.minifyCss()))
         .pipe(plugins.concat('master.css'))
         .pipe(plugins.size())
