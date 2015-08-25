@@ -1,4 +1,4 @@
-# Release History
+# Release Notes
 
 **v0.2.6**
 - Bug fixes - Angular quick commands, Generator not listed in yeoman site.

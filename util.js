@@ -62,7 +62,7 @@ function appName(self) {
         }
     });
 
-    // if (counter === 0 || (typeof suffix === 'boolean' && suffix)) {  
+    // if (counter === 0 || (typeof suffix === 'boolean' && suffix)) {
     if (typeof suffix === 'boolean' && suffix) {
         suffix = 'App';
     }

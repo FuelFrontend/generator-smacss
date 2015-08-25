@@ -284,7 +284,7 @@ smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
 // Copying - CSS stylesheet files
 smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 
-  if (this.appType == 'typeRestifyApp') {
+  if (this.appType === 'typeRestifyApp') {
     return false;
   }
 
@@ -292,7 +292,7 @@ smacssGenerator.prototype.copyCSSFiles = function copyCSSFiles() {
 
   // SMACSS - SCSS Structure
   // TODO: Update structure based on ticket #7
-  if(this.appType != "typeAdminWebApp") {
+  if(this.appType !== "typeAdminWebApp") {
     this.copy("scss/_master.scss", this.appName + "/app/scss/master.scss");
     this.copy("scss/_base.scss", this.appName + "/app/scss/base.scss");
     this.copy("scss/_layout.scss", this.appName + "/app/scss/layout.scss");
@@ -322,7 +322,7 @@ smacssGenerator.prototype.copyFonts = function copyFonts() {
         this.copy("_" + this.appType + "/fonts/_fontawesome-webfont.woff", this.appName + "/app/fonts/fontawesome-webfont.woff");
         this.copy("_" + this.appType + "/fonts/_FontAwesome.otf", this.appName + "/app/fonts/FontAwesome.otf");
     }
-}
+};
 
 // Copy - Javascript Files
 smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
@@ -334,7 +334,7 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
       this.copy("_" + this.appType + "/js/_bootstrap.js", this.appName + "/app/js/lib/bootstrap.js");
       this.copy("js/_application.js", this.appName + "/app/js/application.js");
     }
-    else if (this.appType == 'typeRestifyApp') {
+    else if (this.appType === 'typeRestifyApp') {
       this.template("_typeRestifyApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
       this.template("_typeRestifyApp/_routes.js", this.appName + "/routes.js", smacssGenerator.context );
       this.template("_typeRestifyApp/_db.js", this.appName + "/db.js", smacssGenerator.context );
@@ -369,7 +369,7 @@ smacssGenerator.prototype.copyTasksFile = function copyTasksFile() {
 
 // Copy - Dependency Files
 smacssGenerator.prototype.copyDependencyFiles = function copyDependencyFiles() {
-  if (this.appType == 'typeRestifyApp') {
+  if (this.appType === 'typeRestifyApp') {
     this.template("_typeRestifyApp/_package.json", this.appName + "/package.json", smacssGenerator.context);
     this.template("_typeRestifyApp/_config.json", this.appName + "/config.json", smacssGenerator.context);
     this.template("_typeRestifyApp/_userSchema.js", this.appName + "/models/userSchema.js", smacssGenerator.context);
@@ -438,7 +438,7 @@ smacssGenerator.prototype.install = function install() {
     process.chdir(installContext.appPath); // activating app directory for installation
 
     // Assign context based on app types
-    if(this.appType === 'typeSimpleWebApp' || this.appType == 'typeRestifyApp') {
+    if(this.appType === 'typeSimpleWebApp' || this.appType === 'typeRestifyApp') {
         installContext.helpCommand = 'npm install';
         installContext.includeNpm = true;
         installContext.includeBower = false;
@@ -463,7 +463,7 @@ smacssGenerator.prototype.install = function install() {
               '\n1) Now '+ chalk.yellow.bold('cd '+ appname +'') + ' into your project folder' +
               '\n2) Install dependencies by typing '+ chalk.yellow.bold(command) +
               '\n3) Run the server using: ' + chalk.yellow.bold('gulp')
-            )
+            );
         };
 
         skipHelpMessage(this.appName, installContext.helpCommand);
@@ -496,7 +496,7 @@ smacssGenerator.prototype.install = function install() {
 
             shell.cd(installContext.appPath);
 
-            if (this.appType == 'typeRestifyApp') {
+            if (this.appType === 'typeRestifyApp') {
               shell.exec('node app.js');
               this.log(chalk.green('\n ✔  Please make sure your Database server is running! \n\n'));
             } else {

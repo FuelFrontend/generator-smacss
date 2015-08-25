@@ -23,7 +23,7 @@ npm install -g generator-smacss
 ```````
 
 **Clone the repo & cd into it**
- 
+
 
 ```````
 sudo npm install

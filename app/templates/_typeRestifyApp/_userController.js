@@ -22,6 +22,6 @@ function userController () {
 	};
 return this;
 
-};
+}
 
 module.exports = new userController();
