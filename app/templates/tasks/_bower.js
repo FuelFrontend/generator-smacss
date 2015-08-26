@@ -87,7 +87,7 @@ gulp.task('bundle-libraries', ['bower'], function(){
 
     // only add the main file if it's a js file
     if(underscoreStr.endsWith(mainFile, '.js')){
-      mainFiles.push(mainFile);
+      mainFiles.push(mainFile.split('../')[1]); //.split() to remove '../' to work properly
     }
   });
 
