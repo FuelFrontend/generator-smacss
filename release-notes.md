@@ -1,7 +1,11 @@
 # Release Notes
 
+**v0.2.7**
+- Bug fixes: Bower bundling tasks is not working
+- Improvements: Code climate fixes, end of new line added, extra fields include in `package.json`.
+
 **v0.2.6**
-- Bug fixes - Angular quick commands, Generator not listed in yeoman site.
+- Bug fixes: Angular quick commands, Generator not listed in yeoman site.
 
 **v0.2.5**
 - Modularized Gulp file - Ever thought that the `gulpfile.js` is growing too large, We heard your inner voice.
