@@ -12,9 +12,9 @@ footer {
 SMACSS: LAYOUT - HEADER
 -------------------------------------------------*/
 header {
-    border-top: 2px solid #e85151;
+    border-top: 2px solid $color-red;
     padding: 10px;
-    color: #e85151;
+    color: $color-red;
 
     .title {
       font-size: em(30); // em to px convertor
@@ -31,7 +31,7 @@ SMACSS: LAYOUT - SECTION
 -------------------------------------------------*/
 section {
   padding: 40px 20px;
-  color: #fff;
+  color: $color-white;
   font-size: em(70);
   font-weight: 300;
 }
@@ -40,17 +40,9 @@ section {
 SMACSS: LAYOUT - FOOTER
 -------------------------------------------------*/
 footer {
-  color: #5A5F62;
+  color: $color-gray;
   font-size: 11px;
   text-align: center;
   padding: 10px;
   width: 100%;
-
-  a {
-    color: #5A5F62;
-
-    &:hover {
-      color: #ced9e0;
-    }
-  }
 }

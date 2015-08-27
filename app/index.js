@@ -329,11 +329,6 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
     if (this.appType === 'typeAngularApp') {
         this.template("js/_angular_application.js", this.appName + "/app/js/application.js", smacssGenerator.context);
     }
-    else if (this.appType === "typeAdminWebApp") {
-      // TODO: Remove bootstrap JS from here and include from bower components
-      this.copy("_" + this.appType + "/js/_bootstrap.js", this.appName + "/app/js/lib/bootstrap.js");
-      this.copy("js/_application.js", this.appName + "/app/js/application.js");
-    }
     else if (this.appType === 'typeRestifyApp') {
       this.template("_typeRestifyApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
       this.template("_typeRestifyApp/_routes.js", this.appName + "/routes.js", smacssGenerator.context );

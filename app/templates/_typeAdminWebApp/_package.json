@@ -2,8 +2,8 @@
     "name": "<%= site_name %>",
     "version": "0.0.1",
     "description": "Application description goes here",
-    "licenses": "",
-    "repository": "",
+    "licenses": "enter your license type here",
+    "repository": "your repository url goes here",
     "devDependencies": {
         "gulp": "~3.8.10",
         "gulp-if": "~1.2.5",

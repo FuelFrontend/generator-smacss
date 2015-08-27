@@ -1,8 +1,8 @@
 {
 	"name": "<%= site_name %>",
 	"version": "0.1.0",
-	"licenses": "",
-	"repository": "",
+	"licenses": "enter your license type here",
+	"repository": "your repository url goes here",
 	"scripts": {
 		"start": "node app.js"
 	},
