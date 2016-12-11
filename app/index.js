@@ -248,7 +248,7 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
       this.mkdir(this.appName + '/app/images');
       this.mkdir(this.appName + '/app/fonts');
 
-      if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
+      if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === 'typeReactApp') {
           if(this.appType !== 'typeAdminWebApp') {
             this.mkdir(this.appName + '/app/partials');
           }
@@ -272,10 +272,12 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
     this.mkdir(this.appName + '/app/fonts');
 
     if(this.appType === 'typeReactApp') {
+      this.mkdir(this.appName + '/build');
+
       if(this.appType !== 'typeReactApp') {
         this.mkdir(this.appName + '/app/partials');
       }
-      this.mkdir(this.appName + '/build');
+
     }
 
   }

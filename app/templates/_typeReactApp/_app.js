@@ -8,10 +8,9 @@ var React    = window.React = require('react'), // assign it to winow for react 
 App = React.createClass({
   render: function () {
       return <div>
-          <Header/>
-          <div className="container content">
-              <Content/>
-          </div>
+      <div>
+             <h1>React Seed -- Hello World Program </h1>
+         </div>
       </div>;
   }
 });
