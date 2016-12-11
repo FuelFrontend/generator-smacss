@@ -366,9 +366,9 @@ smacssGenerator.prototype.copyJSFiles = function copyJSFiles() {
       this.copy("js/_application.js", this.appName + "/app/js/application.js");
     }
 
-  //if (this.appType === 'typeReactApp') {
-  //  this.template("_typeReactApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
-  //}
+  if (this.appType === 'typeReactApp') {
+   this.template("_typeReactApp/_app.js", this.appName + "/app.js", smacssGenerator.context );
+  }
 
 };
 
