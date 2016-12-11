@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "dependencies": {
     <% if (includeQuery) { %>
-    "jquery": "*"<% } if (includeModernizr) { %>,
-    "modernizr": "*" <% } %>
+    "jquery": "*"<% } if (includeBackbone) { %>,
+    "backbone": "*"<% } if (includeUnderscore) { %>,
+    "underscore": "*" <% } %>
   },
   "devDependencies": {
 

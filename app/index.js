@@ -128,32 +128,37 @@ smacssGenerator.prototype.askAppType = function askAppType() {
 };
 
 // Prompt - Ask for the required plugins
-smacssGenerator.prototype.askAppFeatures = function askAppFeatures() {
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === 'typeAdminWebApp') {
+smacssGenerator.prototype.askAppLibraries = function askAppLibraries() {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAdminWebApp') {
         var done = this.async();
         var prompts = [{
-            name: 'appFeatures',
-            message: 'How about some additional features',
+            name: 'appLibraries',
+            message: 'Select some libraries to include in your app/site',
             type: 'checkbox',
             choices:[{
                 name: ' jQuery',
                 value: 'includeQuery',
                 checked: true
             },{
-                name: ' Modernizr',
-                value: 'includeModernizr',
+                name: ' Backbone',
+                value: 'includeBackbone',
+                checked: false
+            },{
+                name: ' Underscore',
+                value: 'includeUnderscore',
                 checked: false
             }]
         }];
         this.prompt(prompts, function (answers) {
-            var appFeatures = answers.appFeatures;
+            var appLibraries = answers.appLibraries;
 
             var hasFeature = function (feat) {
-                return appFeatures.indexOf(feat) !== -1;
+                return appLibraries.indexOf(feat) !== -1;
             };
 
             this.includeQuery = hasFeature('includeQuery');
-            this.includeModernizr = hasFeature('includeModernizr');
+            this.includeBackbone = hasFeature('includeBackbone');
+            this.includeUnderscore = hasFeature('includeUnderscore');
 
             done();
         }.bind(this));

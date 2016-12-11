@@ -39,7 +39,7 @@ describe('Generator Smacss test', function () {
 
     helpers.mockPrompt(this.smacss, {
       appType: ['typeFullPackWebApp'],
-      appFeatures: ['includeQuery']
+      appLibraries: ['includeQuery']
     });
 
     this.smacss.run(function () {
