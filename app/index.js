@@ -259,8 +259,6 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
 
   if (this.appType === 'typeReactApp') {
     this.mkdir(this.appName + '/components');
-    this.mkdir(this.appName + '/containers');
-    this.mkdir(this.appName + '/actions');
 
 
   } else {
