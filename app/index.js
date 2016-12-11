@@ -129,7 +129,8 @@ smacssGenerator.prototype.askAppType = function askAppType() {
 
 // Prompt - Ask for the required plugins
 smacssGenerator.prototype.askAppLibraries = function askAppLibraries() {
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAdminWebApp') {
+    if(this.appType === 'typeFullPackWebApp' ||
+       this.appType === 'typeAdminWebApp') {
         var done = this.async();
         var prompts = [{
             name: 'appLibraries',
