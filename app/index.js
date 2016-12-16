@@ -26,205 +26,255 @@ if(notifier.update) {
 }
 
 var smacssGenerator = yeoman.generators.Base.extend({
-    constructor: function () {
-        // note: arguments and options should be defined in the constructor.
-        yeoman.generators.Base.apply(this, arguments);
+  constructor: function() {
+    // note: arguments and options should be defined in the constructor.
+    yeoman.generators.Base.apply(this, arguments);
 
-        // Options
-        this.option('app-suffix', {
-            desc: 'Allow a custom suffix to be added to the module name',
-            type: String,
-            required: 'false'
-        });
-        this.env.options['app-suffix'] = this.options['app-suffix'];
+    // Options
+    this.option('app-suffix', {
+      desc: 'Allow a custom suffix to be added to the module name',
+      type: String,
+      required: 'false'
+    });
+    this.env.options['app-suffix'] = this.options['app-suffix'];
 
-        this.option('skip-welcome-message', {
-            desc: 'Skips the welcome message',
-            type: Boolean
-        });
+    this.option('skip-welcome-message', {
+      desc: 'Skips the welcome message',
+      type: Boolean
+    });
 
-        this.option('skip-install', {
-            desc: 'Skips the installation of dependencies',
-            type: Boolean
-        });
+    this.option('skip-install', {
+      desc: 'Skips the installation of dependencies',
+      type: Boolean
+    });
 
-        this.option('skip-install-message', {
-            desc: 'Skips the message after the installation of dependencies',
-            type: Boolean
-        });
+    this.option('skip-install-message', {
+      desc: 'Skips the message after the installation of dependencies',
+      type: Boolean
+    });
 
-        // This method adds support for a `--coffee` flag
-        this.option('coffee');
-        // And you can then access it later on this way; e.g.
-        this.scriptSuffix = (this.options.coffee ? ".coffee": ".js");
-    },
+    // This method adds support for a `--coffee` flag
+    this.option('coffee');
+
+    // And you can then access it later on this way; e.g.
+    this.scriptSuffix = (this.options.coffee ? ".coffee": ".js");
+  },
 });
 
 smacssGenerator.prototype.initializing = function initializing() {
-    this.pkg = require('../package.json');
+  this.pkg = require('../package.json');
 };
 
 // Welcome Message with yeoman
 smacssGenerator.prototype.welcome = function welcome() {
-    if (!this.options['skip-welcome-message']) {
-        this.log(yosay('Yo! Welcome to SMACSS'));
-        this.log(
-          chalk.magenta("Your'e using the Perfectionist generator for Frontend\n") +
-          chalk.yellow('┌──────────────────────────────────────────────────────────────┐ \n' +
-                       '| Answer simple questions to kick start your project           | \n' +
-                       '└──────────────────────────────────────────────────────────────┘ ')
-        );
-    }
+  if (!this.options['skip-welcome-message']) {
+    this.log(yosay('Yo! Welcome to SMACSS'));
+    this.log(
+      chalk.magenta("One generator for all your Frontend Applications\n") +
+      chalk.yellow('┌──────────────────────────────────────────────────────────────┐ \n' +
+                   '| Answer simple questions to kick start your project           | \n' +
+                   '└──────────────────────────────────────────────────────────────┘ ')
+    );
+  }
 };
 
 // Prompt - Ask for the type of application
 smacssGenerator.prototype.askAppType = function askAppType() {
-    var done = this.async();
+  var done = this.async();
 
-    var prompts = [{
-        name: 'appName',
-        message: 'What would you like to name your app/site?',
-        default: process.cwd().split(path.sep).pop()
-        },{
-        name: 'appType',
-        message: 'Kind of app/site you are trying to build?',
-        type: 'list',
-        choices:[{
-            name: 'Simple Web App',
-            value: 'typeSimpleWebApp',
-            checked: false
-        },{
-            name: 'Full Pack Web App',
-            value: 'typeFullPackWebApp',
-            checked: false
-        },{
-            name: 'Angular App',
-            value: 'typeAngularApp',
-            checked: false
-        },{
-            name: 'Restify App',
-            value: 'typeRestifyApp',
-            checked: false
-        },{
-            name: 'Admin Web App',
-            value: 'typeAdminWebApp',
-            checked: false
-        }],
-        default: 1
-    }];
-    this.prompt(prompts, function (answers) {
-        var type = answers.type;
+  var prompts = [{
+    name: 'appName',
+    message: 'What would you like to name your app/site?',
+    default: process.cwd().split(path.sep).pop()
+    },{
+    name: 'appType',
+    message: 'Kind of app/site you are trying to build?',
+    type: 'list',
+    choices:[{
+      name: 'Simple Web App',
+      value: 'typeSimpleWebApp',
+      checked: true
+    },{
+      name: 'Full Pack Web App',
+      value: 'typeFullPackWebApp',
+      checked: false
+    },{
+      name: 'Angular App',
+      value: 'typeAngularApp',
+      checked: false
+    },{
+      name: 'React App',
+      value: 'typeReactApp',
+      checked: false
+    },{
+      name: 'Admin Web App',
+      value: 'typeAdminWebApp',
+      checked: false
+    },{
+      name: 'Restify App',
+      value: 'typeRestifyApp',
+      checked: false
+    }],
+    default: 1
+  }];
+  this.prompt(prompts, function (answers) {
+    var type = answers.type;
 
-        this.appName = this._.camelize(this._.slugify(this._.humanize(answers.appName)));
-        this.appType = answers.appType;
+    this.appName = this._.camelize(this._.slugify(this._.humanize(answers.appName)));
+    this.appType = answers.appType;
 
-        // Underscore templating context to replace placeholders
-        smacssGenerator.context = {
-            site_name: this.appName,
-        };
+    // Underscore templating context to replace placeholders
+    smacssGenerator.context = {
+      site_name: this.appName,
+    };
 
-        done();
-    }.bind(this));
+    done();
+  }.bind(this));
 };
 
 // Prompt - Ask for the required plugins
 smacssGenerator.prototype.askAppLibraries = function askAppLibraries() {
-    if(this.appType === 'typeFullPackWebApp' ||
-       this.appType === 'typeAdminWebApp') {
-        var done = this.async();
-        var prompts = [{
-            name: 'appLibraries',
-            message: 'Select some libraries to include in your app/site',
-            type: 'checkbox',
-            choices:[{
-                name: ' jQuery',
-                value: 'includeQuery',
-                checked: true
-            },{
-                name: ' Backbone',
-                value: 'includeBackbone',
-                checked: false
-            },{
-                name: ' Underscore',
-                value: 'includeUnderscore',
-                checked: false
-            }]
-        }];
-        this.prompt(prompts, function (answers) {
-            var appLibraries = answers.appLibraries;
+  if(this.appType === 'typeFullPackWebApp' ||
+     this.appType === 'typeAdminWebApp') {
+    var done = this.async();
+    var prompts = [{
+      name: 'appLibraries',
+      message: 'Select some libraries to include in your app/site',
+      type: 'checkbox',
+      choices:[{
+        name: ' jQuery',
+        value: 'includeQuery',
+        checked: true
+      },{
+        name: ' Backbone',
+        value: 'includeBackbone',
+        checked: false
+      },{
+        name: ' Underscore',
+        value: 'includeUnderscore',
+        checked: false
+      }]
+    }];
+    this.prompt(prompts, function (answers) {
+      var appLibraries = answers.appLibraries;
 
-            var hasFeature = function (feat) {
-                return appLibraries.indexOf(feat) !== -1;
-            };
+      var hasFeature = function (feat) {
+        return appLibraries.indexOf(feat) !== -1;
+      };
 
-            this.includeQuery = hasFeature('includeQuery');
-            this.includeBackbone = hasFeature('includeBackbone');
-            this.includeUnderscore = hasFeature('includeUnderscore');
+      this.includeQuery = hasFeature('includeQuery');
+      this.includeBackbone = hasFeature('includeBackbone');
+      this.includeUnderscore = hasFeature('includeUnderscore');
 
-            done();
-        }.bind(this));
-    }
+      done();
+    }.bind(this));
+  }
 };
 
-// Prompt - Ask for the required angular modules
+// Prompt - Ask for the required angular dependencies
 smacssGenerator.prototype.askAngularModules = function askAngularModules() {
-    if(this.appType === 'typeAngularApp') {
-        var done = this.async();
-        var prompts = [{
-            name: 'angularModules',
-            message: 'How about including some angular modules',
-            type: 'checkbox',
-            choices:[{
-                name: ' Angular Route',
-                value: 'includeRouteModule',
-                checked: true
-            },{
-                name: ' Angular Resource',
-                value: 'includeResourceModule',
-                checked: false
-            },{
-                name: ' Angular Sanitize',
-                value: 'includeSanitizeModule',
-                checked: false
-            },{
-                name: ' Angular Animate',
-                value: 'includeAnimateModule',
-                checked: false
-            }]
-        }];
-        this.prompt(prompts, function (answers) {
+  if(this.appType === 'typeAngularApp') {
+    var done = this.async();
+    var prompts = [{
+      name: 'angularModules',
+      message: 'How about including some angular modules',
+      type: 'checkbox',
+      choices:[{
+        name: ' Angular Route',
+        value: 'includeRouteModule',
+        checked: true
+      },{
+        name: ' Angular Resource',
+        value: 'includeResourceModule',
+        checked: false
+      },{
+        name: ' Angular Sanitize',
+        value: 'includeSanitizeModule',
+        checked: false
+      },{
+        name: ' Angular Animate',
+        value: 'includeAnimateModule',
+        checked: false
+      }]
+    }];
+    this.prompt(prompts, function (answers) {
 
-            var hasModule = function (mod) {
-                return answers.angularModules.indexOf(mod) !== -1;
-            };
+      var hasModule = function (mod) {
+        return answers.angularModules.indexOf(mod) !== -1;
+      };
 
-            this.includeRouteModule = hasModule('includeRouteModule');
-            this.includeResourceModule = hasModule('includeResourceModule');
-            this.includeSanitizeModule = hasModule('includeSanitizeModule');
-            this.includeAnimateModule = hasModule('includeAnimateModule');
+      this.includeRouteModule = hasModule('includeRouteModule');
+      this.includeResourceModule = hasModule('includeResourceModule');
+      this.includeSanitizeModule = hasModule('includeSanitizeModule');
+      this.includeAnimateModule = hasModule('includeAnimateModule');
 
-            var angMods = [];
+      var angMods = [];
 
-            if (this.includeRouteModule) {
-              angMods.push("'ngRoute'");
-            }
-            if (this.includeResourceModule) {
-              angMods.push("'ngResource'");
-            }
-            if (this.includeSanitizeModule) {
-              angMods.push("'ngSanitize'");
-            }
-            if (this.includeAnimateModule) {
-              angMods.push("'ngAnimate'");
-            }
+      if (this.includeRouteModule) {
+        angMods.push("'ngRoute'");
+      }
+      if (this.includeResourceModule) {
+        angMods.push("'ngResource'");
+      }
+      if (this.includeSanitizeModule) {
+        angMods.push("'ngSanitize'");
+      }
+      if (this.includeAnimateModule) {
+        angMods.push("'ngAnimate'");
+      }
 
-            if (angMods.length) {
-              this.env.options.angularDeps = '\n    ' + angMods.join(',\n    ') + '\n  ';
-            }
+      if (angMods.length) {
+        this.env.options.angularDeps = '\n    ' + angMods.join(',\n    ') + '\n  ';
+      }
 
-            done();
-        }.bind(this));
-    }
+      done();
+    }.bind(this));
+  }
+};
+
+// Prompt - Ask for the required react dependencies
+smacssGenerator.prototype.askReactDependencies = function askReactDependencies() {
+  if(this.appType === 'typeReactApp') {
+    var done = this.async();
+    var prompts = [{
+      name: 'ReactDependencies',
+      message: 'How about including some react dependencies',
+      type: 'checkbox',
+      choices:[{
+        name: ' React Route',
+        value: 'includeReactRoute',
+        checked: false
+      },{
+        name: ' React HTTP Service',
+        value: 'includeReactHTTPRequest',
+        checked: false
+      }]
+    }];
+    this.prompt(prompts, function (answers) {
+
+      var hasModule = function (mod) {
+        return answers.ReactDependencies.indexOf(mod) !== -1;
+      };
+
+      this.includeReactRoute = hasModule('includeReactRoute');
+      this.includeReactHTTPRequest = hasModule('includeReactHTTPRequest');
+
+      var reactMods = [];
+
+      if (this.includeReactRoute) {
+        reactMods.push("'react-router'");
+      }
+      if (this.includeResourceModule) {
+        reactMods.push("'react-http-request'");
+      }
+
+      if (angMods.length) {
+        this.env.options.reactDeps = '\n    ' + ReactMods.join(',\n    ') + '\n  ';
+      }
+
+      done();
+    }.bind(this));
+  }
 };
 
 // Creating - App Directory structure
