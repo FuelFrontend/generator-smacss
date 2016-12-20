@@ -1,0 +1,16 @@
+{
+  "name": "<%= appName %>",
+  "version": "0.0.1",
+  "dependencies": {
+    "react-bower": "*",
+    "react-dom": "*"<% if (includeReactRoute) { %>,
+    "react-router": "*"<% } if (includeReactHTTPRequest) { %>,
+    "react-http-request": "*"<% } %>
+  },
+  "devDependencies": {
+
+  },
+  "overrides": {
+
+  }
+}

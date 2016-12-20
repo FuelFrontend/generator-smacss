@@ -264,12 +264,12 @@ smacssGenerator.prototype.askReactDependencies = function askReactDependencies()
       if (this.includeReactRoute) {
         reactMods.push("'react-router'");
       }
-      if (this.includeResourceModule) {
+      if (this.includeReactHTTPRequest) {
         reactMods.push("'react-http-request'");
       }
 
-      if (angMods.length) {
-        this.env.options.reactDeps = '\n    ' + ReactMods.join(',\n    ') + '\n  ';
+      if (reactMods.length) {
+        this.env.options.reactDeps = '\n    ' + reactMods.join(',\n    ') + '\n  ';
       }
 
       done();
@@ -289,9 +289,8 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
       this.mkdir(this.appName + '/controllers');
       this.mkdir(this.appName + '/models');
       this.mkdir(this.appName + '/utils');
-
-    } else {
-
+    }
+    else {
       // Common Scaffolding for all projets
       this.mkdir(this.appName + '/app');
       this.mkdir(this.appName + '/app/css');
@@ -301,10 +300,13 @@ smacssGenerator.prototype.scaffoldFolders = function scaffoldFolders() {
       this.mkdir(this.appName + '/app/fonts');
 
       if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
-          if(this.appType !== 'typeAdminWebApp') {
-            this.mkdir(this.appName + '/app/partials');
-          }
-          this.mkdir(this.appName + '/build');
+        if(this.appType !== 'typeAdminWebApp' || this.appType === 'typeReactApp') {
+          this.mkdir(this.appName + '/app/partials');
+        }
+        if(this.appType === 'typeReactApp') {
+          this.mkdir(this.appName + '/app/components')
+        }
+        this.mkdir(this.appName + '/build');
       }
     }
 };
@@ -319,7 +321,11 @@ smacssGenerator.prototype.copyHTMLFiles = function copyHTMLFiles() {
 
   // Replace folder name with appType variable
   this.copy("common/_404.html", this.appName + "/app/404.html");
-  this.template("_" + this.appType + "/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
+  if(this.appType !== 'typeReactApp') {
+    this.template("_" + this.appType + "/_index.html", this.appName + "/app/index.html", smacssGenerator.context);
+  } else {
+    this.template("_" + this.appType + "/_index.jsx", this.appName + "/app/index.jsx", smacssGenerator.context);
+  }
 
   // Partial File Include
   if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp') {
@@ -401,7 +407,7 @@ smacssGenerator.prototype.copyTasksFile = function copyTasksFile() {
       this.copy("tasks/simpleWebApp/_simple_browser_sync.js", this.appName + "/tasks/browser-sync.js");
       this.copy("tasks/simpleWebApp/_simple_sass.js", this.appName + "/tasks/sass.js");
     }
-    else if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
+    else if(this.appType !== 'typeRestifyApp') {
       this.copy("tasks/_bower.js", this.appName + "/tasks/bower.js");
       this.copy("tasks/_browser_sync.js", this.appName + "/tasks/browser-sync.js");
       this.copy("tasks/_clean.js", this.appName + "/tasks/clean.js");
@@ -452,6 +458,9 @@ smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
   else if (this.appType === 'typeSimpleWebApp') {
     this.template("_typeSimpleWebApp/_README.md", this.appName + "/README.md", smacssGenerator.context);
   }
+  else if (this.appType === 'typeReactApp') {
+    this.template("_typeReactApp/_README.md", this.appName + "/README.md", smacssGenerator.context);
+  }
   else if (this.appType === 'typeRestifyApp') {
     return false;
   }
@@ -469,7 +478,7 @@ smacssGenerator.prototype.copyProjectfiles = function copyProjectfiles() {
 // Bower Dependency Injection
 smacssGenerator.prototype.injectDependencies = function injectDependencies() {
     // Bower is supported only in full & angular app types
-    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp") {
+    if(this.appType === 'typeFullPackWebApp' || this.appType === 'typeAngularApp' || this.appType === "typeAdminWebApp" || this.appType === "typeReactApp") {
         var bower = {
             name: this.appName,
             private: true,
